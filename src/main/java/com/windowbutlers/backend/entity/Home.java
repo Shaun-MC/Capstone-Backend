@@ -1,7 +1,5 @@
 package com.windowbutlers.backend.entity;
 
-// Removed duplicate import
-
 import jakarta.annotation.Nullable;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -14,36 +12,39 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.Data;
 import lombok.AllArgsConstructor;
-//import lombok.NoArgsConstructor;
 
-//@NoArgsConstructor
 @AllArgsConstructor
 @Data
 @Entity
-@Table(name = "client")
-public class Client {
+@Table(name = "home")
+public class Home {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @JsonProperty("first_name")
-    private String first_name;
+    @JsonProperty("notes")
+    private String notes;
 
-    @JsonProperty("last_name")
-    private String last_name;
-
-    @JsonProperty("email")
+    @JsonProperty("picture_directory_url")
     @Nullable
     @Column(unique=true)
-    private String email; 
+    private String picture_directory_url;
 
-    @JsonProperty("phone_number")
-    @Nullable
-    @Column(unique=true)
-    private String phone_number;
+    @JsonProperty("address_line_1")
+    private String address_line_1;
 
-    @JsonProperty("has_own_lights")
+    @JsonProperty("address_line_2")
     @Nullable
-    private Boolean has_own_lights;
+    private String address_line_2;
+
+    @JsonProperty("city")
+    private String city;
+
+    @JsonProperty("zip_code")
+    private String zip_code;
+
+    @JsonProperty("power_source_location")
+    @Nullable
+    private String power_source_location;
 }
