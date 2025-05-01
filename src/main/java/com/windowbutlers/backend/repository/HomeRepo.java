@@ -1,9 +1,6 @@
 package com.windowbutlers.backend.repository;
 
-import com.windowbutlers.backend.entity.Home;
+import com.windowbutlers.backend.entity.Client;
 import org.springframework.data.jpa.repository.JpaRepository;
-import java.util.Optional;
 
-public interface HomeRepo extends JpaRepository<Home, Integer>{
-    
-}
+public interface HomeRepo extends JpaRepository<Client, Integer>{}
