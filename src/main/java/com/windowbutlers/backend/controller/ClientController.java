@@ -4,16 +4,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import com.windowbutlers.backend.entity.Client;
 import com.windowbutlers.backend.service.ClientService;
 import java.util.List;
+
+// TODO:
+// 1. Add logging to the controller
+// 2. Make an input validation function
+// 3. Make the error messages more descriptive
 
 @RestController
 @RequestMapping("/api/client")
@@ -22,58 +27,91 @@ public class ClientController {
     @Autowired
     private ClientService clientService;
 
+    // Passes Happy Path testing - 5 / 1 / 2025
     @PostMapping("/create")
-    public ResponseEntity<Client> createClient(@RequestBody Client client) {
+    public ResponseEntity<?> createClient(@RequestBody Client client) {
 
         try {
             clientService.CreateClient(client);
             return ResponseEntity.status(HttpStatus.CREATED).body(client);
 
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
     }
 
-    @GetMapping("/getSingleClient/{first_name}/{last_name}/{email}/{phone_number}")
-    public ResponseEntity<Client> getSingleClient(@PathVariable String first_name, @PathVariable String last_name,
-            @PathVariable String email, @PathVariable String phone_number) {
+    // Passes Happy Path testing - 5 / 1 / 2025
+    @GetMapping("/getSingleClient/")
+    public ResponseEntity<?> getSingleClient(@RequestParam String first_name, @RequestParam String last_name, @RequestParam(required = false) String email,
+            @RequestParam(required = false) String phone_number) {
 
+        // Input validation
+        if ((first_name == null || first_name.isBlank()) || (last_name == null || last_name.isBlank())) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("'first_name' and 'last_name' cannot be null or blank.");
+        }
+
+        if ((email == null || email.isBlank()) && (phone_number == null || phone_number.isBlank())) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("At least one of 'email' or 'phone_number' must be provided.");
+        }
+
+        // Retrieve the client using the service
         try {
             Client client = clientService.GetClient(first_name, last_name, email, phone_number);
             return ResponseEntity.status(HttpStatus.OK).body(client);
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
     }
 
+    // Passes Happy Path testing - 5 / 1 / 2025
     @GetMapping("/getAllClients")
-    public ResponseEntity<List<Client>> getAllClients() {
+    public ResponseEntity<?> getAllClients() {
 
         try {
             List<Client> clients = clientService.GetAllClients();
             return ResponseEntity.status(HttpStatus.OK).body(clients);
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
     }
 
-    @PutMapping("update/{first_name}/{last_name}/{email}/{phone_number}")
-    public ResponseEntity<Client> updateClient(@RequestBody Client client, @PathVariable String first_name,
-            @PathVariable String last_name, @PathVariable String email,
-            @PathVariable String phone_number) {
+    // Passes Happy Path testing - 5 / 1 / 2025
+    @PutMapping("/update/")
+    public ResponseEntity<?> updateClient(@RequestBody Client client, @RequestParam String first_name, @RequestParam String last_name, @RequestParam(required = false) String email,
+            @RequestParam(required = false) String phone_number) {
+
+        // Body validation - make more robust, check individual fields exist, fine for now
+        if (client == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("JSON object cannot be null.");
+        }
+
+        if ((first_name == null || first_name.isBlank()) || (last_name == null || last_name.isBlank())) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("'first_name' and 'last_name' cannot be null or blank.");
+        }
+
+        if ((email == null || email.isBlank()) && (phone_number == null || phone_number.isBlank())) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("At least one of 'email' or 'phone_number' must be provided.");
+        }
 
         try {
             Client updated_client = clientService.UpdateClient(client, first_name, last_name, email, phone_number);
             return ResponseEntity.status(HttpStatus.OK).body(updated_client);
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
     }
 
-    @DeleteMapping("/delete/{first_name}/{last_name}/{email}/{phone_number}")
-    public ResponseEntity<String> deleteClient(@PathVariable String first_name, @PathVariable String last_name,
-            @PathVariable String email,
-            @PathVariable String phone_number) {
+    // Passes Happy Path testing - 5 / 1 / 2025
+    @DeleteMapping("/delete/")
+    public ResponseEntity<String> deleteClient(@RequestParam String first_name, @RequestParam String last_name, @RequestParam(required = false) String email,
+            @RequestParam(required = false) String phone_number) {
+
+        if ((first_name == null || first_name.isBlank()) || (last_name == null || last_name.isBlank())) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("'first_name' and 'last_name' cannot be null or blank.");
+        }
+        if ((email == null || email.isBlank()) && (phone_number == null || phone_number.isBlank())) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("At least one of 'email' or 'phone_number' must be provided.");
+        }
 
         try {
             clientService.DeleteClient(first_name, last_name, email, phone_number);
@@ -82,5 +120,4 @@ public class ClientController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error deleting client");
         }
     }
-
 }

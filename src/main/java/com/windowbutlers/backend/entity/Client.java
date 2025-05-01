@@ -4,28 +4,28 @@ package com.windowbutlers.backend.entity;
 
 import jakarta.annotation.Nullable;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.persistence.Column;
-
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import lombok.Data;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import java.util.UUID;
 
-@NoArgsConstructor
-@AllArgsConstructor
-@Data
 @Entity
 @Table(name = "client")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Client {
     
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(columnDefinition = "uuid", updatable = false, nullable = false)
+    private UUID id;
 
     @JsonProperty("first_name")
     private String first_name;
