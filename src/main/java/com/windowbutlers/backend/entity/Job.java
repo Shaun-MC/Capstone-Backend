@@ -6,14 +6,17 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import jakarta.persistence.Column;
 import java.sql.Date;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
-
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
+@Entity
+@Table(name = "job")
 public class Job {
 
     private enum job_title {
@@ -70,9 +73,11 @@ public class Job {
     private Date date_completed;
 
     @JsonProperty("labor_hours")
+    @Nullable
     private Integer labor_hours;
 
     @JsonProperty("notes")
+    @Nullable
     private String notes;
 
     @JsonProperty("difficulty")
