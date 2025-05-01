@@ -1,18 +1,18 @@
 package com.windowbutlers.backend.service;
-import com.windowbutlers.backend.entity.Client;
+import com.windowbutlers.backend.entity.Home;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
 public interface HomeService {
     
-    void CreateHomes(Client client);
+    void CreateHome(Home home);
 
-    Client GetHomes();
+    Home GetHome(String address_line1, String city, String zip_code);
 
-    List<Client> GetAllHomes();
+    List<Home> GetAllHomes();
 
-    Client UpdateHome();
+    Home UpdateHome(Home home, String address_line_1, String city, String zip_code);
 
-    void DeleteHome();
+    void DeleteHome(String address_line1, String city, String zip_code);
 }
