@@ -14,9 +14,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.Data;
 import lombok.AllArgsConstructor;
-//import lombok.NoArgsConstructor;
+import lombok.NoArgsConstructor;
 
-//@NoArgsConstructor
+@NoArgsConstructor
 @AllArgsConstructor
 @Data
 @Entity
