@@ -1,12 +1,14 @@
 package com.windowbutlers.backend.repository;
 
 import com.windowbutlers.backend.entity.Client;
+import org.springframework.stereotype.Repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import java.util.Optional;
 import java.util.UUID;
 
+@Repository
 public interface ClientRepo extends JpaRepository<Client, UUID> {
 
     // Retrieve a ClientID by the composite key
