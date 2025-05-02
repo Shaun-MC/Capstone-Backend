@@ -25,8 +25,7 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    // Define the parameters for the method so that email or phone_number can be
-    // null
+    // Define the parameters for the method so that email or phone_number can be null
     public Client GetClient(String first_name, String last_name, String email, String phone_number) {
 
         try {
