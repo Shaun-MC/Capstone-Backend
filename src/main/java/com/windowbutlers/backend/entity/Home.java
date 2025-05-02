@@ -1,13 +1,13 @@
 package com.windowbutlers.backend.entity;
 
-import jakarta.annotation.Nullable;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.persistence.Column;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -27,15 +27,15 @@ public class Home {
     private String notes;
 
     @JsonProperty("picture_directory_url")
-    @Nullable
-    @Column(unique=true)
+    @Column(nullable=true, unique=true)
     private String picture_directory_url;
 
     @JsonProperty("address_line_1")
+    @NotNull
     private String address_line_1;
 
     @JsonProperty("address_line_2")
-    @Nullable
+    @Column(nullable = true)
     private String address_line_2;
 
     @JsonProperty("city")
@@ -45,6 +45,6 @@ public class Home {
     private String zip_code;
 
     @JsonProperty("power_source_location")
-    @Nullable
+    @Column(nullable = true)
     private String power_source_location;
 }
