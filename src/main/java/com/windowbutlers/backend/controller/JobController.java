@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import com.windowbutlers.backend.enums.JobTitle;
+import com.windowbutlers.backend.enums.Rating;
 import com.windowbutlers.backend.entity.Job;
 import com.windowbutlers.backend.service.JobService;
 import com.windowbutlers.backend.entity.Home;
@@ -40,9 +42,9 @@ public class JobController {
     }
 
     @GetMapping("/getSingleJob/")
-    public ResponseEntity<?> getSingleJob(@RequestParam Integer home_id, @RequestParam String title, @RequestParam Date date_started) {
+    public ResponseEntity<?> getSingleJob(@RequestParam Integer home_id, @RequestParam JobTitle title, @RequestParam Date date_started) {
 
-        if (home_id == null || home_id <= 0 || title == null || title.isBlank() || date_started == null) {
+        if (home_id == null || home_id <= 0 || title == null || date_started == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Query parameters 'home_id', 'title', and 'date_started' cannot be null or blank.");
         }
 
@@ -66,10 +68,10 @@ public class JobController {
     }
 
     @PutMapping("update/job_completion/")
-    public ResponseEntity<?> updateJobCompletion(@RequestBody Job job, @RequestParam String address_line_1, @RequestParam String city, @RequestParam String zip_code, @RequestParam String title,
+    public ResponseEntity<?> updateJobCompletion(@RequestBody Job job, @RequestParam String address_line_1, @RequestParam String city, @RequestParam String zip_code, @RequestParam JobTitle title,
             @RequestParam Date date_started, @RequestParam Date date_completed, @RequestParam Integer labor_hours) {
 
-        if (address_line_1 == null || address_line_1.isBlank() || city == null || city.isBlank() || zip_code == null || zip_code.isBlank() || title == null || title.isBlank() || date_started == null
+        if (address_line_1 == null || address_line_1.isBlank() || city == null || city.isBlank() || zip_code == null || zip_code.isBlank() || title == null || date_started == null
                 || date_completed == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Query parameters 'address_line_1', 'city', 'zip_code', 'title', 'date_started', and 'date_completed' cannot be null or blank.");
         }
@@ -91,10 +93,10 @@ public class JobController {
     }
 
     @PutMapping("update/job_notes/")
-    public ResponseEntity<?> updateJobNotes(@RequestBody Job job, @RequestParam String address_line_1, @RequestParam String city, @RequestParam String zip_code, @RequestParam String title,
+    public ResponseEntity<?> updateJobNotes(@RequestBody Job job, @RequestParam String address_line_1, @RequestParam String city, @RequestParam String zip_code, @RequestParam JobTitle title,
             @RequestParam Date date_started, @RequestParam String notes) {
 
-        if (address_line_1 == null || address_line_1.isBlank() || city == null || city.isBlank() || zip_code == null || zip_code.isBlank() || title == null || title.isBlank()
+        if (address_line_1 == null || address_line_1.isBlank() || city == null || city.isBlank() || zip_code == null || zip_code.isBlank() || title == null
                 || date_started == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Query parameters 'address_line_1', 'city', 'zip_code', 'title', 'date_started', and 'notes' cannot be null or blank.");
         }
@@ -112,10 +114,10 @@ public class JobController {
     }
 
     @PutMapping("update/job_difficulty/")
-    public ResponseEntity<?> updateJobDifficulty(@RequestBody Job job, @RequestParam String address_line_1, @RequestParam String city, @RequestParam String zip_code, @RequestParam String title,
-            @RequestParam Date date_started, @RequestParam String difficulty) {
+    public ResponseEntity<?> updateJobDifficulty(@RequestBody Job job, @RequestParam String address_line_1, @RequestParam String city, @RequestParam String zip_code, @RequestParam JobTitle title,
+            @RequestParam Date date_started, @RequestParam Rating difficulty) {
 
-        if (address_line_1 == null || address_line_1.isBlank() || city == null || city.isBlank() || zip_code == null || zip_code.isBlank() || title == null || title.isBlank()
+        if (address_line_1 == null || address_line_1.isBlank() || city == null || city.isBlank() || zip_code == null || zip_code.isBlank() || title == null
                 || date_started == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Query parameters 'address_line_1', 'city', 'zip_code', 'title', 'date_started', and 'difficulty' cannot be null or blank.");
         }
@@ -133,10 +135,10 @@ public class JobController {
     }
 
     @DeleteMapping("/delete/")
-    public ResponseEntity<String> deleteJob(@RequestParam String address_line_1, @RequestParam String city, @RequestParam String zip_code, @RequestParam String title,
+    public ResponseEntity<String> deleteJob(@RequestParam String address_line_1, @RequestParam String city, @RequestParam String zip_code, @RequestParam JobTitle title,
             @RequestParam Date date_started) {
 
-        if (address_line_1 == null || address_line_1.isBlank() || city == null || city.isBlank() || zip_code == null || zip_code.isBlank() || title == null || title.isBlank()
+        if (address_line_1 == null || address_line_1.isBlank() || city == null || city.isBlank() || zip_code == null || zip_code.isBlank() || title == null
                 || date_started == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Query parameters 'address_line_1', 'city', 'zip_code', 'title', and 'date_started' cannot be null or blank.");
         }

@@ -1,5 +1,7 @@
 package com.windowbutlers.backend.service.implementation;
 
+import com.windowbutlers.backend.enums.JobTitle;
+import com.windowbutlers.backend.enums.Rating;
 import com.windowbutlers.backend.entity.Job;
 import com.windowbutlers.backend.service.JobService;
 import com.windowbutlers.backend.repository.JobRepo;
@@ -10,13 +12,12 @@ import java.sql.Date;
 
 @Component
 public class JobServiceImpl implements JobService {
-    
+
     @Autowired
     private JobRepo jobRepo;
 
-    private Integer GetJobID(Integer home_id, String title, Date date_started) {
-        return jobRepo.findByHomeIdAndTitleAndDateStarted(home_id, title, date_started)
-                .orElseThrow(() -> new RuntimeException("GetJobID: Indexing parameters not found in the database"));
+    private Integer GetJobID(Integer home_id, JobTitle title, Date date_started) {
+        return jobRepo.findByHomeIdAndTitleAndDateStarted(home_id, title, date_started).orElseThrow(() -> new RuntimeException("GetJobID: Indexing parameters not found in the database"));
     }
 
     @Override
@@ -25,7 +26,7 @@ public class JobServiceImpl implements JobService {
     }
 
     @Override
-    public Job GetJob(Integer home_id, String title, Date date_started) {
+    public Job GetJob(Integer home_id, JobTitle title, Date date_started) {
 
         try {
             Integer jobID = GetJobID(home_id, title, date_started);
@@ -42,9 +43,8 @@ public class JobServiceImpl implements JobService {
     }
 
     @Override
-    public void UpdateJobCompletion(Job job, Integer home_id, String title, Date date_started,
-            Date date_completed, Integer labor_hours) {
-        
+    public void UpdateJobCompletion(Job job, Integer home_id, JobTitle title, Date date_started, Date date_completed, Integer labor_hours) {
+
         try {
 
             Integer jobID = GetJobID(home_id, title, date_started);
@@ -62,8 +62,8 @@ public class JobServiceImpl implements JobService {
     }
 
     @Override
-    public void UpdateJobNotes(Job job, Integer home_id, String title, Date date_started, String notes) {
-        
+    public void UpdateJobNotes(Job job, Integer home_id, JobTitle title, Date date_started, String notes) {
+
         try {
 
             Integer jobID = GetJobID(home_id, title, date_started);
@@ -79,9 +79,8 @@ public class JobServiceImpl implements JobService {
     }
 
     @Override
-    public void UpdateJobDifficulty(Job job, Integer home_id, String title, Date date_started,
-            String difficulty) {
-        
+    public void UpdateJobDifficulty(Job job, Integer home_id, JobTitle title, Date date_started, Rating difficulty) {
+
         try {
 
             Integer jobID = GetJobID(home_id, title, date_started);
@@ -97,8 +96,8 @@ public class JobServiceImpl implements JobService {
     }
 
     @Override
-    public void DeleteJob(Integer home_id, String title, Date date_started) {
-        
+    public void DeleteJob(Integer home_id, JobTitle title, Date date_started) {
+
         try {
             Integer jobID = GetJobID(home_id, title, date_started);
             jobRepo.deleteById(jobID);
