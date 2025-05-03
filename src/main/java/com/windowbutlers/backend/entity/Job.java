@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
+import java.util.List;
 import java.sql.Date;
 
 @Entity
@@ -55,6 +56,12 @@ public class Job {
     @JoinColumn(name = "payment", referencedColumnName = "id")
     @Column(nullable = true)
     private Payment payment;
+
+    @OneToMany(mappedBy = "job", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ChristmasLighting> lights;
+
+    @OneToMany(mappedBy = "job", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<JobStyle> jobStyles;
 
     @Transient
     public boolean isPaid() {

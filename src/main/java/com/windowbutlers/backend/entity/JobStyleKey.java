@@ -5,35 +5,34 @@ import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import java.io.Serializable;
 import java.util.Objects;
-import java.util.UUID;
 
 @Embeddable
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ClientHomeKey implements Serializable {
-
-    @Column(name = "client_id", columnDefinition = "uuid")
+public class JobStyleKey implements Serializable {
+    
+    @Column(name = "job_id")
     @NotNull
-    private UUID client_id;
+    private Integer job_id;
 
-    @Column(name = "home_id")
+    @Column(name = "style_id")
     @NotNull
-    private Integer home_id;
+    private Integer style_id;
 
     // Not necessary to implement - don't want to run into issues w/ out them
     @Override
     public boolean equals(Object o) {
         if (this == o)
             return true;
-        if (!(o instanceof ClientHomeKey))
+        if (!(o instanceof JobStyleKey))
             return false;
-        ClientHomeKey that = (ClientHomeKey) o;
-        return Objects.equals(client_id, that.client_id) && Objects.equals(home_id, that.home_id);
+        JobStyleKey that = (JobStyleKey) o;
+        return Objects.equals(job_id, that.job_id) && Objects.equals(style_id, that.style_id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(client_id, home_id);
+        return Objects.hash(job_id, style_id);
     }
 }
