@@ -3,22 +3,9 @@ package com.windowbutlers.backend.entity;
 import com.windowbutlers.backend.enums.JobTitle;
 import com.windowbutlers.backend.enums.Rating;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
-import jakarta.persistence.Transient;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Column;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import lombok.Data;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import java.sql.Date;
 
 @Entity
@@ -69,7 +56,6 @@ public class Job {
     @Column(nullable = true)
     private Payment payment;
 
-    // TODO: Implement into API calls
     @Transient
     public boolean isPaid() {
         return this.payment != null;

@@ -1,11 +1,8 @@
 package com.windowbutlers.backend.entity;
 
-import jakarta.persistence.Embeddable;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import jakarta.persistence.Column;
-import lombok.Data;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import java.io.Serializable;
 import java.util.Objects;
 import java.util.UUID;
