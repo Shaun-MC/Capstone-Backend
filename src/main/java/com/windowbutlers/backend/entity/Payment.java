@@ -43,8 +43,7 @@ public class Payment {
     @OneToMany(mappedBy = "payment")
     private List<Job> jobs;
 
-    public boolean isFulfilled() {
+    public boolean isFullfilled() {
         return jobs != null && jobs.stream().allMatch(Job::isPaid);
     }
-
 }

@@ -9,11 +9,17 @@ import java.util.List;
 @Service
 public interface PaymentService {
 
-    void CreatePayment(Payment payment);
+    Payment CreatePayment(Payment payment);
 
-    Payment GetPayment(Integer home_id, Integer client_id);
+    Payment GetPayment(UUID id);
 
     List<Payment> GetAllPayments();
 
-    Payment UpdateCost(Payment payment, Integer home_id, UUID client_id, Double cost);
+    List<Payment> GetPaymentsByClientId(UUID client_id);
+
+    Payment UpdateCost(Payment payment, UUID id, Double cost);
+
+    boolean isPaymentFullfilled(UUID id);
+
+    void DeletePayment(UUID id);
 }
