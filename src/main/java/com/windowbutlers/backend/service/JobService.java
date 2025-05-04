@@ -12,7 +12,6 @@ public interface JobService {
     
     void CreateJob(Job job);
     
-    // Home data used to find the home_id
     Job GetJob(Integer home_id, JobTitle title, Date date_started);
 
     List<Job> GetAllJobs();
