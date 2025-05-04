@@ -61,7 +61,7 @@ public class Job {
     private List<ChristmasLighting> lights;
 
     @OneToMany(mappedBy = "job", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<JobStyle> jobStyles;
+    private List<Style> jobStyles;
 
     @Transient
     public boolean isPaid() {

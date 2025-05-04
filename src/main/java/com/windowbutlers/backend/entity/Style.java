@@ -1,22 +1,36 @@
 package com.windowbutlers.backend.entity;
 
-import com.windowbutlers.backend.enums.StyleLabel;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 @Entity
-@Table(name = "style")
+@Table(name = "job_style")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class Style {
 
-    // Unsure if the ID is necessary for a domain table
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    // This being unique makes it a domain table
-    @Column(name = "label", nullable = false, unique = true)
-    private StyleLabel label;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @NotNull
+    @JoinColumn(name = "job_id")
+    private Job job;
+
+    @JsonProperty("style_label")
+    @Enumerated(EnumType.STRING)
+    @NotNull
+    @Column(name = "style_label")
+    private Styles style_label;
+
+    // Only relevant for styles like "Windows" or "Trees"
+    @Column(name = "count_large", nullable = true)
+    private Integer count_large;
+
+    @Column(name = "count_small", nullable = true)
+    private Integer count_small;
 }
