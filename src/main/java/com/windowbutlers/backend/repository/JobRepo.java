@@ -1,11 +1,11 @@
 package com.windowbutlers.backend.repository;
 
 import com.windowbutlers.backend.enums.JobTitle;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
 import com.windowbutlers.backend.entity.Job;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 import java.sql.Date;
 import java.util.Optional;
 
