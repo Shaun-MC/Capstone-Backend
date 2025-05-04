@@ -31,6 +31,6 @@ public class ChristmasLighting {
     private LightColor color;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "job_id")
+    @JoinColumn(name = "job_id", nullable = true)
     private Job job;
 }
