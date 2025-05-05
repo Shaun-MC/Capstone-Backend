@@ -1,11 +1,11 @@
 package com.windowbutlers.backend.controller;
 
+import com.windowbutlers.backend.entity.ClientHomeAssociation;
+import com.windowbutlers.backend.service.ClientHomeAssociationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import com.windowbutlers.backend.entity.ClientHomeAssociation;
-import com.windowbutlers.backend.service.ClientHomeAssociationService;
 import java.util.List;
 import java.util.UUID;
 import java.util.Optional;
@@ -17,84 +17,46 @@ public class ClientHomeAssociationController {
     @Autowired
     private ClientHomeAssociationService clientHomeAssociationService;
 
-    @PostMapping("/create/")
-    public ResponseEntity<?> CreateAssociation(@RequestBody ClientHomeAssociation association) {
+    @PostMapping("/create")
+    public ResponseEntity<?> createAssociation(@RequestBody ClientHomeAssociation association) {
         
-        try {
-            clientHomeAssociationService.SaveAssociation(association);
-            return ResponseEntity.status(HttpStatus.CREATED).body(association);
-
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
-        }
+        clientHomeAssociationService.saveAssociation(association);
+        return ResponseEntity.status(HttpStatus.CREATED).body(association);
     }
 
-    @GetMapping("/homes/")
-    public ResponseEntity<?> GetHomesForClient(@RequestParam String clientId) {
-    
-        try {
-
-            if (clientId == null || clientId.isBlank() || UUID.fromString(clientId) == null) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("'clientId' cannot be null or blank.");
-            }
-
-            List<ClientHomeAssociation> homes = clientHomeAssociationService.GetHomesForClient(UUID.fromString(clientId));
-            return ResponseEntity.status(HttpStatus.OK).body(homes);
-
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
-        }
+    @GetMapping("/get/homes/{clientID}")
+    public ResponseEntity<?> getHomesForClient(@PathVariable String clientID) {
+        
+        List<ClientHomeAssociation> homes = clientHomeAssociationService.getHomesForClient(clientID);
+        return ResponseEntity.status(HttpStatus.OK).body(homes);
     }
 
-    @GetMapping("/clients/")
-    public ResponseEntity<?> GetClientsForHome(@RequestParam Integer homeId) {
-    
-        try {
-
-            if (homeId == null || homeId <= 0) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("'homeId' cannot be null or blank.");
-            }
-
-            List<ClientHomeAssociation> clients = clientHomeAssociationService.GetClientsForHome(homeId);
-            return ResponseEntity.status(HttpStatus.OK).body(clients);
-
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
-        }
+    @GetMapping("/get/clients/{homeID}")
+    public ResponseEntity<?> getClientsForHome(@PathVariable Integer homeID) {
+        
+        List<ClientHomeAssociation> clients = clientHomeAssociationService.getClientsForHome(homeID);
+        return ResponseEntity.status(HttpStatus.OK).body(clients);
     }
 
-    @GetMapping("/association/")
-    public ResponseEntity<?> GetAssociation(@RequestParam String clientId, @RequestParam Integer homeId) {
-    
-        try {
-
-            if (clientId == null || clientId.isBlank() || UUID.fromString(clientId) == null || homeId == null || homeId <= 0) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("'clientId' and 'homeId' cannot be null or blank.");
-            }
-
-            Optional<ClientHomeAssociation> association = clientHomeAssociationService.GetAssociation(UUID.fromString(clientId), homeId);
-            return ResponseEntity.status(HttpStatus.OK).body(association);
-
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
-        }
+    @GetMapping("/get/association/{clientID}/{homeID}")
+    public ResponseEntity<?> getAssociation(@PathVariable String clientID, @PathVariable Integer homeID) {
+        
+        String association = clientHomeAssociationService.getAssociation(clientID, homeID);
+        return ResponseEntity.status(HttpStatus.OK).body(association);
     }
 
-    @DeleteMapping("/delete/association/")
-    public ResponseEntity<?> DeleteAssociation(@RequestParam String clientId, @RequestParam Integer homeId) {
-    
-        try {
-
-            if (clientId == null || clientId.isBlank() || UUID.fromString(clientId) == null || homeId == null || homeId <= 0) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("'clientId' and 'homeId' cannot be null or blank.");
-            }
-
-            clientHomeAssociationService.DeleteAssociation(UUID.fromString(clientId), homeId);
-            return ResponseEntity.status(HttpStatus.OK).body("Association deleted successfully.");
-
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
-        }
+    // Get all the asscoiations for a home
+    @GetMapping("/get/allAssociationsForHome/{homeID}")
+    public ResponseEntity<?> getAllAssociationsForHome(@PathVariable Integer homeID) {
+        
+        List<String> associations = clientHomeAssociationService.getAllAssociationsForHome(homeID);
+        return ResponseEntity.status(HttpStatus.OK).body(associations);
     }
 
+    @DeleteMapping("/delete/association/{clientID}/{homeID}")
+    public ResponseEntity<?> deleteAssociation(@PathVariable String clientID, @PathVariable Integer homeID) {
+        
+        clientHomeAssociationService.deleteAssociation(clientID, homeID);
+        return ResponseEntity.status(HttpStatus.OK).body("Association %s deleted successfully.");
+    }
 }
