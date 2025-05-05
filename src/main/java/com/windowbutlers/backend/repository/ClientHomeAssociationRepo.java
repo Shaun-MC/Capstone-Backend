@@ -11,9 +11,9 @@ import java.util.List;
 @Repository
 public interface ClientHomeAssociationRepo extends JpaRepository<ClientHomeAssociation, ClientHomeKey> {
 
-    List<ClientHomeAssociation> findByClientId(UUID clientId);
+    List<ClientHomeAssociation> findByClientID(UUID clientID);
     
-    List<ClientHomeAssociation> findByHomeId(Integer homeId);
+    List<ClientHomeAssociation> findByHomeID(Integer homeID);
     
-    Optional<ClientHomeAssociation> findByClientIdAndHomeId(UUID clientId, Integer homeId);
+    Optional<ClientHomeAssociation> findByClientIDAndHomeID(UUID clientID, Integer homeID);
 }

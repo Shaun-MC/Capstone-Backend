@@ -13,8 +13,8 @@ public class HomeServiceImpl implements HomeService {
     @Autowired
     private HomeRepo homeRepo;
 
-    private Integer GetHomeID(String address_line_1, String city, String zip_code) {
-        return homeRepo.findByAddressLine1AndCityAndZipCode(address_line_1, city, zip_code).orElseThrow(() -> new RuntimeException("GetHomeID: Indexing parameters not found in the database"));
+    private Integer GetHomeID(String addressLine1, String city, String zipCode) {
+        return homeRepo.findByAddressLine1AndCityAndZipCode(addressLine1, city, zipCode).orElseThrow(() -> new RuntimeException("GetHomeID: Indexing parameters not found in the database"));
     }
 
     @Override
@@ -23,11 +23,11 @@ public class HomeServiceImpl implements HomeService {
     }
 
     @Override
-    public Home GetHome(String address_line_1, String city, String zip_code) {
+    public Home GetHome(String addressLine1, String city, String zipCode) {
 
         try {
 
-            Integer homeID = GetHomeID(address_line_1, city, zip_code);
+            Integer homeID = GetHomeID(addressLine1, city, zipCode);
 
             return homeRepo.findById(homeID).orElseThrow(() -> new RuntimeException("GetHome: Home not found in the database"));
         } catch (Exception e) {
@@ -41,23 +41,23 @@ public class HomeServiceImpl implements HomeService {
     }
 
     @Override
-    public Home UpdateHome(Home home, String address_line_1, String city, String zip_code) {
+    public Home UpdateHome(Home home, String addressLine1, String city, String zipCode) {
 
         try {
 
-            Integer homeID = GetHomeID(address_line_1, city, zip_code);
+            Integer homeID = GetHomeID(addressLine1, city, zipCode);
 
             // Retrieve the existing home from the database
             Home existingHome = homeRepo.findById(homeID).orElseThrow(() -> new RuntimeException("UpdateHome: Home not found in the database"));
 
             // Update the existing home with the new values
             existingHome.setNotes(home.getNotes());
-            existingHome.setPicture_directory_url(home.getPicture_directory_url());
-            existingHome.setAddress_line_1(home.getAddress_line_1());
-            existingHome.setAddress_line_2(home.getAddress_line_2());
+            existingHome.setPictureDirectoryURL(home.getPictureDirectoryURL());
+            existingHome.setAddressLine1(home.getAddressLine1());
+            existingHome.setAddressLine2(home.getAddressLine2());
             existingHome.setCity(home.getCity());
-            existingHome.setZip_code(home.getZip_code());
-            existingHome.setPower_source_location(home.getPower_source_location());
+            existingHome.setZipCode(home.getZipCode());
+            existingHome.setPowerSourceLocation(home.getPowerSourceLocation());
 
             return homeRepo.save(existingHome);
         } catch (Exception e) {
@@ -66,10 +66,10 @@ public class HomeServiceImpl implements HomeService {
     }
 
     @Override
-    public void DeleteHome(String address_line_1, String city, String zip_code) {
+    public void DeleteHome(String addressLine1, String city, String zipCode) {
 
         try {
-            Integer homeID = GetHomeID(address_line_1, city, zip_code);
+            Integer homeID = GetHomeID(addressLine1, city, zipCode);
             homeRepo.deleteById(homeID);
         } catch (Exception e) {
             throw new RuntimeException("DeleteClient: Client not found");

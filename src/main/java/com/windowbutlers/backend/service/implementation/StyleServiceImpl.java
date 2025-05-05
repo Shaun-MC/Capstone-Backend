@@ -40,22 +40,22 @@ public class StyleServiceImpl implements StyleService {
         }
     }
 
-    public Style UpdateLargeCount(Style jobStyle, Integer large_count) {
+    public Style UpdateLargeCount(Style jobStyle, Integer large) {
 
         try {
             Style existingJobStyle = styleRepo.findById(jobStyle.getId()).orElseThrow(() -> new RuntimeException("UpdateLargeCount: Job style not found in the database"));
-            existingJobStyle.setCount_large(large_count);
+            existingJobStyle.setLarge(large);
             return styleRepo.save(existingJobStyle);
         } catch (Exception e) {
             throw new RuntimeException("UpdateLargeCount: Error updating large count: " + e.getMessage());
         }
     }
 
-    public Style UpdateSmallCount(Style jobStyle, Integer medium_count) {
+    public Style UpdateSmallCount(Style jobStyle, Integer small) {
 
         try {
             Style existingJobStyle = styleRepo.findById(jobStyle.getId()).orElseThrow(() -> new RuntimeException("UpdateSmallCount: Job style not found in the database"));
-            existingJobStyle.setCount_small(medium_count);
+            existingJobStyle.setSmall(small);
             return styleRepo.save(existingJobStyle);
         } catch (Exception e) {
             throw new RuntimeException("UpdateSmallCount: Error updating small count: " + e.getMessage());

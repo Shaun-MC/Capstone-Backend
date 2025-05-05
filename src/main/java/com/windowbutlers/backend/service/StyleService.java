@@ -9,13 +9,13 @@ public interface StyleService {
     
     Style CreateJobStyle(Style jobStyle);
 
-    Style GetJobStyle(Integer id);
+    Style GetJobStyle(Integer ID);
 
     List<Style> GetAllJobStyles();
 
-    Style UpdateLargeCount(Style jobStyle, Integer large_count);
+    Style UpdateLargeCount(Style jobStyle, Integer large);
 
-    Style UpdateSmallCount(Style jobStyle, Integer medium_count);
+    Style UpdateSmallCount(Style jobStyle, Integer small);
 
-    void DeleteJobStyle(Integer id);
+    void DeleteJobStyle(Integer ID);
 }

@@ -14,8 +14,8 @@ public class ClientServiceImpl implements ClientService {
     @Autowired
     private ClientRepo clientRepo;
 
-    private UUID GetClientID(String first_name, String last_name, String email, String phone_number) {
-        return clientRepo.findByFirstNameAndLastNameAndOptionalEmailAndPhoneNumber(first_name, last_name, email, phone_number)
+    private UUID GetClientID(String firstName, String lastName, String email, String phoneNumber) {
+        return clientRepo.findByFirstNameAndLastNameAndOptionalEmailAndPhoneNumber(firstName, lastName, email, phoneNumber)
                 .orElseThrow(() -> new RuntimeException("GetClientID: Indexing parameters not found in the database"));
     }
 
@@ -25,11 +25,11 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    // Define the parameters for the method so that email or phone_number can be null
-    public Client GetClient(String first_name, String last_name, String email, String phone_number) {
+    // Define the parameters for the method so that email or phoneNumber can be null
+    public Client GetClient(String firstName, String lastName, String email, String phoneNumber) {
 
         try {
-            UUID clientID = GetClientID(first_name, last_name, email, phone_number);
+            UUID clientID = GetClientID(firstName, lastName, email, phoneNumber);
 
             return clientRepo.findById(clientID).orElseThrow(() -> new RuntimeException("GetClient: Client not found in the database"));
         } catch (Exception e) {
@@ -43,20 +43,20 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public Client UpdateClient(Client client, String first_name, String last_name, String email, String phone_number) {
+    public Client UpdateClient(Client client, String firstName, String lastName, String email, String phoneNumber) {
 
         try {
 
-            UUID clientID = GetClientID(first_name, last_name, email, phone_number);
+            UUID clientID = GetClientID(firstName, lastName, email, phoneNumber);
 
             // Retrieve the existing client from the database
             Client existingClient = clientRepo.findById(clientID).orElseThrow(() -> new RuntimeException("UpdateClient: Client not found in the database"));
 
-            existingClient.setFirst_name(client.getFirst_name());
-            existingClient.setLast_name(client.getLast_name());
+            existingClient.setFirstName(client.getFirstName());
+            existingClient.setLastName(client.getLastName());
             existingClient.setEmail(client.getEmail());
-            existingClient.setPhone_number(client.getPhone_number());
-            existingClient.setHas_own_lights(client.getHas_own_lights());
+            existingClient.setPhoneNumber(client.getPhoneNumber());
+            existingClient.setHasOwnLights(client.getHasOwnLights());
 
             return clientRepo.save(existingClient);
         } catch (Exception e) {
@@ -65,10 +65,10 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public void DeleteClient(String first_name, String last_name, String email, String phone_number) {
+    public void DeleteClient(String firstName, String lastName, String email, String phoneNumber) {
 
         try {
-            UUID clientID = GetClientID(first_name, last_name, email, phone_number);
+            UUID clientID = GetClientID(firstName, lastName, email, phoneNumber);
             clientRepo.deleteById(clientID);
         } catch (Exception e) {
             throw new RuntimeException("DeleteClient: Client not found");

@@ -19,24 +19,24 @@ public class Job {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @NotNull
-    private Integer id;
+    private Integer ID;
 
     @JsonProperty("title")
     @Enumerated(EnumType.STRING)
     @NotNull
     private JobTitle title;
 
-    @JsonProperty("date_started")
+    @JsonProperty("dateStarted")
     @NotNull
-    private Date date_started;
+    private Date dateStarted;
 
-    @JsonProperty("date_completed")
+    @JsonProperty("dateCompleted")
     @Column(nullable = true)
-    private Date date_completed;
+    private Date dateCompleted;
 
-    @JsonProperty("labor_hours")
+    @JsonProperty("laborHours")
     @Column(nullable = true)
-    private Integer labor_hours;
+    private Integer laborHours;
 
     @JsonProperty("notes")
     @Column(nullable = true)
@@ -58,7 +58,7 @@ public class Job {
     private Payment payment;
 
     @OneToMany(mappedBy = "job", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ChristmasLighting> lights;
+    private List<ChristmasLights> lights;
 
     @OneToMany(mappedBy = "job", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Style> jobStyles;

@@ -19,25 +19,25 @@ public class Home {
     @JsonProperty("notes")
     private String notes;
 
-    @JsonProperty("picture_directory_url")
+    @JsonProperty("pictureDirectoryURL")
     @Column(nullable=true, unique=true)
-    private String picture_directory_url;
+    private String pictureDirectoryURL;
 
-    @JsonProperty("address_line_1")
+    @JsonProperty("addressLine1")
     @NotNull
-    private String address_line_1;
+    private String addressLine1;
 
-    @JsonProperty("address_line_2")
+    @JsonProperty("addressLine2")
     @Column(nullable = true)
-    private String address_line_2;
+    private String addressLine2;
 
     @JsonProperty("city")
     private String city;
 
-    @JsonProperty("zip_code")
-    private String zip_code;
+    @JsonProperty("zipCode")
+    private String zipCode;
 
-    @JsonProperty("power_source_location")
+    @JsonProperty("powerSourceLocation")
     @Column(nullable = true)
-    private String power_source_location;
+    private String powerSourceLocation;
 }

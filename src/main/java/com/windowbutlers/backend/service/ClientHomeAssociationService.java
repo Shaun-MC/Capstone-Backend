@@ -11,11 +11,11 @@ public interface ClientHomeAssociationService {
 
     ClientHomeAssociation SaveAssociation(ClientHomeAssociation association);
 
-    List<ClientHomeAssociation> GetHomesForClient(UUID clientId);
+    List<ClientHomeAssociation> GetHomesForClient(UUID clientID);
 
-    List<ClientHomeAssociation> GetClientsForHome(Integer homeId);
+    List<ClientHomeAssociation> GetClientsForHome(Integer homeID);
 
-    Optional<ClientHomeAssociation> GetAssociation(UUID clientId, Integer homeId);
+    Optional<ClientHomeAssociation> GetAssociation(UUID clientID, Integer homeID);
 
-    void DeleteAssociation(UUID clientId, Integer homeId);
+    void DeleteAssociation(UUID clientID, Integer homeID);
 }

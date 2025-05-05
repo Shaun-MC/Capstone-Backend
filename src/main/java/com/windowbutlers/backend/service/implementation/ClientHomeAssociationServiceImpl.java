@@ -25,36 +25,36 @@ public class ClientHomeAssociationServiceImpl implements ClientHomeAssociationSe
     }
 
     @Override
-    public List<ClientHomeAssociation> GetHomesForClient(UUID clientId) {
+    public List<ClientHomeAssociation> GetHomesForClient(UUID clientID) {
         try {
-            return repo.findByClientId(clientId);
+            return repo.findByClientID(clientID);
         } catch (Exception e) {
             throw new RuntimeException("GetHomesForClient: Error retrieving homes for client: " + e.getMessage());
         }
     }
 
     @Override
-    public List<ClientHomeAssociation> GetClientsForHome(Integer homeId) {
+    public List<ClientHomeAssociation> GetClientsForHome(Integer homeID) {
         try {
-            return repo.findByHomeId(homeId);
+            return repo.findByHomeID(homeID);
         } catch (Exception e) {
             throw new RuntimeException("GetClientsForHome: Error retrieving clients for home: " + e.getMessage());
         }
     }
 
     @Override
-    public Optional<ClientHomeAssociation> GetAssociation(UUID clientId, Integer homeId) {
+    public Optional<ClientHomeAssociation> GetAssociation(UUID clientID, Integer homeID) {
         try {
-            return repo.findByClientIdAndHomeId(clientId, homeId);
+            return repo.findByClientIDAndHomeID(clientID, homeID);
         } catch (Exception e) {
             throw new RuntimeException("GetAssociation: Error retrieving association: " + e.getMessage());
         }
     }
 
     @Override
-    public void DeleteAssociation(UUID clientId, Integer homeId) {
+    public void DeleteAssociation(UUID clientID, Integer homeID) {
         try {
-            Optional<ClientHomeAssociation> association = GetAssociation(clientId, homeId);
+            Optional<ClientHomeAssociation> association = GetAssociation(clientID, homeID);
             if (association.isPresent()) {
                 repo.delete(association.get());
             } else {

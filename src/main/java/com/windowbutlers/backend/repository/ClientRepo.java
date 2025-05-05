@@ -13,7 +13,7 @@ public interface ClientRepo extends JpaRepository<Client, UUID> {
 
     // Retrieve a ClientID by the composite key
     // Only accepts if the phone_number or email is also correct - TODO
-    @Query("SELECT c.id FROM Client c WHERE c.first_name = :firstName AND c.last_name = :lastName AND (:email IS NULL OR c.email = :email) AND (:phoneNumber IS NULL OR c.phone_number = :phoneNumber)")
+    @Query("SELECT c.id FROM Client c WHERE c.firstName = :firstName AND c.lastName = :lastName AND (:email IS NULL OR c.email = :email) AND (:phoneNumber IS NULL OR c.phoneNumber = :phoneNumber)")
     Optional<UUID> findByFirstNameAndLastNameAndOptionalEmailAndPhoneNumber(
         @Param("firstName") String firstName,
         @Param("lastName") String lastName,

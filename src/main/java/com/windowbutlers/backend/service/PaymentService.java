@@ -10,15 +10,15 @@ public interface PaymentService {
 
     Payment CreatePayment(Payment payment);
 
-    Payment GetPayment(UUID id);
+    Payment GetPayment(UUID ID);
 
     List<Payment> GetAllPayments();
 
-    List<Payment> GetPaymentsByClientId(UUID client_id);
+    List<Payment> GetPaymentsByClientID(UUID clientID);
 
-    Payment UpdateCost(Payment payment, UUID id, Double cost);
+    Payment UpdateCost(Payment payment, UUID ID, Double cost);
 
-    boolean isPaymentFullfilled(UUID id);
+    boolean isPaymentFullfilled(UUID ID);
 
-    void DeletePayment(UUID id);
+    void DeletePayment(UUID ID);
 }

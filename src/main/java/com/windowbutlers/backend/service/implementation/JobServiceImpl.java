@@ -16,8 +16,8 @@ public class JobServiceImpl implements JobService {
     @Autowired
     private JobRepo jobRepo;
 
-    private Integer GetJobID(Integer home_id, JobTitle title, Date date_started) {
-        return jobRepo.findByHomeIdAndTitleAndDateStarted(home_id, title, date_started).orElseThrow(() -> new RuntimeException("GetJobID: Indexing parameters not found in the database"));
+    private Integer GetJobID(Integer homeID, JobTitle title, Date dateStarted) {
+        return jobRepo.findByHomeIdAndTitleAndDateStarted(homeID, title, dateStarted).orElseThrow(() -> new RuntimeException("GetJobID: Indexing parameters not found in the database"));
     }
 
     @Override
@@ -26,10 +26,10 @@ public class JobServiceImpl implements JobService {
     }
 
     @Override
-    public Job GetJob(Integer home_id, JobTitle title, Date date_started) {
+    public Job GetJob(Integer homeID, JobTitle title, Date dateStarted) {
 
         try {
-            Integer jobID = GetJobID(home_id, title, date_started);
+            Integer jobID = GetJobID(homeID, title, dateStarted);
 
             return jobRepo.findById(jobID).orElseThrow(() -> new RuntimeException("GetJob: Job not found in the database"));
         } catch (Exception e) {
@@ -43,17 +43,17 @@ public class JobServiceImpl implements JobService {
     }
 
     @Override
-    public void UpdateJobCompletion(Job job, Integer home_id, JobTitle title, Date date_started, Date date_completed, Integer labor_hours) {
+    public void UpdateJobCompletion(Job job, Integer homeID, JobTitle title, Date dateStarted, Date dateCompleted, Integer laborHours) {
 
         try {
 
-            Integer jobID = GetJobID(home_id, title, date_started);
+            Integer jobID = GetJobID(homeID, title, dateStarted);
 
             // Retrieve the existing job from the database
             Job existingJob = jobRepo.findById(jobID).orElseThrow(() -> new RuntimeException("UpdateJobCompletion: Job not found in the database"));
 
-            existingJob.setDate_completed(date_completed);
-            existingJob.setLabor_hours(labor_hours);
+            existingJob.setDateCompleted(dateCompleted);
+            existingJob.setLaborHours(laborHours);
 
             jobRepo.save(existingJob);
         } catch (Exception e) {
@@ -62,11 +62,11 @@ public class JobServiceImpl implements JobService {
     }
 
     @Override
-    public void UpdateJobNotes(Job job, Integer home_id, JobTitle title, Date date_started, String notes) {
+    public void UpdateJobNotes(Job job, Integer homeID, JobTitle title, Date dateStarted, String notes) {
 
         try {
 
-            Integer jobID = GetJobID(home_id, title, date_started);
+            Integer jobID = GetJobID(homeID, title, dateStarted);
 
             Job existingJob = jobRepo.findById(jobID).orElseThrow(() -> new RuntimeException("UpdateJobNotes: Job not found in the database"));
 
@@ -79,11 +79,11 @@ public class JobServiceImpl implements JobService {
     }
 
     @Override
-    public void UpdateJobDifficulty(Job job, Integer home_id, JobTitle title, Date date_started, Rating difficulty) {
+    public void UpdateJobDifficulty(Job job, Integer homeID, JobTitle title, Date dateStarted, Rating difficulty) {
 
         try {
 
-            Integer jobID = GetJobID(home_id, title, date_started);
+            Integer jobID = GetJobID(homeID, title, dateStarted);
 
             Job existingJob = jobRepo.findById(jobID).orElseThrow(() -> new RuntimeException("UpdateJobDifficulty: Job not found in the database"));
 
@@ -96,10 +96,10 @@ public class JobServiceImpl implements JobService {
     }
 
     @Override
-    public void DeleteJob(Integer home_id, JobTitle title, Date date_started) {
+    public void DeleteJob(Integer homeID, JobTitle title, Date dateStarted) {
 
         try {
-            Integer jobID = GetJobID(home_id, title, date_started);
+            Integer jobID = GetJobID(homeID, title, dateStarted);
             jobRepo.deleteById(jobID);
         } catch (Exception e) {
             throw new RuntimeException("DeleteJob: Job not found");

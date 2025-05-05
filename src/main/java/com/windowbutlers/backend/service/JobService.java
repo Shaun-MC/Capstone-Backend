@@ -12,15 +12,15 @@ public interface JobService {
     
     void CreateJob(Job job);
     
-    Job GetJob(Integer home_id, JobTitle title, Date date_started);
+    Job GetJob(Integer homeID, JobTitle title, Date dateStarted);
 
     List<Job> GetAllJobs();
     
-    void UpdateJobCompletion(Job job, Integer home_id, JobTitle title, Date date_started, Date date_completed, Integer labor_hours);
+    void UpdateJobCompletion(Job job, Integer homeID, JobTitle title, Date dateStarted, Date date_completed, Integer labor_hours);
     
-    void UpdateJobNotes(Job job, Integer home_id, JobTitle title, Date date_started, String notes);
+    void UpdateJobNotes(Job job, Integer homeID, JobTitle title, Date dateStarted, String notes);
     
-    void UpdateJobDifficulty(Job job, Integer home_id, JobTitle title, Date date_started, Rating difficulty);
+    void UpdateJobDifficulty(Job job, Integer homeID, JobTitle title, Date dateStarted, Rating difficulty);
 
-    void DeleteJob(Integer home_id, JobTitle title, Date date_started);
+    void DeleteJob(Integer homeID, JobTitle title, Date dateStarted);
 }

@@ -17,15 +17,15 @@ public class Client {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(columnDefinition = "uuid", updatable = false, nullable = false)
-    private UUID id;
+    private UUID ID;
 
-    @JsonProperty("first_name")
+    @JsonProperty("firstName")
     @NotNull
-    private String first_name;
+    private String firstName;
 
-    @JsonProperty("last_name")
+    @JsonProperty("lastName")
     @NotNull
-    private String last_name;
+    private String lastName;
 
     @JsonProperty("email")
     @Column(nullable=true, unique=true)
@@ -33,11 +33,11 @@ public class Client {
 
     @JsonProperty("phone_number")
     @Column(nullable=true, unique=true)
-    private String phone_number;
+    private String phoneNumber;
 
-    @JsonProperty("has_own_lights")
+    @JsonProperty("hasOwnLights")
     @Column(nullable=true)
-    private Boolean has_own_lights;
+    private Boolean hasOwnLights;
 
     @OneToMany(mappedBy = "client", fetch = FetchType.LAZY)
     @Column(nullable=true)

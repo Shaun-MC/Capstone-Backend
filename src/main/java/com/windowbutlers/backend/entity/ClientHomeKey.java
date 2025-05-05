@@ -13,13 +13,13 @@ import java.util.UUID;
 @AllArgsConstructor
 public class ClientHomeKey implements Serializable {
 
-    @Column(name = "client_id", columnDefinition = "uuid")
+    @Column(name = "clientID", columnDefinition = "uuid")
     @NotNull
-    private UUID client_id;
+    private UUID clientID;
 
-    @Column(name = "home_id")
+    @Column(name = "homeID")
     @NotNull
-    private Integer home_id;
+    private Integer homeID;
 
     // Not necessary to implement - don't want to run into issues w/ out them
     @Override
@@ -29,11 +29,11 @@ public class ClientHomeKey implements Serializable {
         if (!(o instanceof ClientHomeKey))
             return false;
         ClientHomeKey that = (ClientHomeKey) o;
-        return Objects.equals(client_id, that.client_id) && Objects.equals(home_id, that.home_id);
+        return Objects.equals(clientID, that.clientID) && Objects.equals(homeID, that.homeID);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(client_id, home_id);
+        return Objects.hash(clientID, homeID);
     }
 }

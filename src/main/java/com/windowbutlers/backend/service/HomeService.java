@@ -9,11 +9,11 @@ public interface HomeService {
     
     void CreateHome(Home home);
 
-    Home GetHome(String address_line1, String city, String zip_code);
+    Home GetHome(String addressLine1, String city, String zipCode);
 
     List<Home> GetAllHomes();
 
-    Home UpdateHome(Home home, String address_line_1, String city, String zip_code);
+    Home UpdateHome(Home home, String address_line_1, String city, String zipCode);
 
-    void DeleteHome(String address_line1, String city, String zip_code);
+    void DeleteHome(String addressLine1, String city, String zipCode);
 }

@@ -9,11 +9,11 @@ public interface ClientService {
     
     void CreateClient(Client client);
 
-    Client GetClient(String first_name, String last_name, String email, String phone_number);
+    Client GetClient(String firstName, String lastName, String email, String phoneNumber);
 
     List<Client> GetAllClients();
 
-    Client UpdateClient(Client client, String first_name, String last_name, String email, String phone_number);
+    Client UpdateClient(Client client, String firstName, String lastName, String email, String phoneNumber);
 
-    void DeleteClient(String first_name, String last_name, String email, String phone_number);
+    void DeleteClient(String firstName, String lastName, String email, String phoneNumber);
 }

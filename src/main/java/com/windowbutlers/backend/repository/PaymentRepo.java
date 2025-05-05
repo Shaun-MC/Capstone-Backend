@@ -11,8 +11,8 @@ import java.util.UUID;
 @Repository
 public interface PaymentRepo extends JpaRepository<Payment, UUID> {
     
-    @Query("SELECT p FROM Payment p WHERE p.client.id = :clientId")
-    List<Payment> findByClientId(@Param("clientId") UUID clientId);
+    @Query("SELECT p FROM Payment p WHERE p.client.id = :clientID")
+    List<Payment> findByClientId(@Param("clientId") UUID clientID);
 }
 
 

@@ -40,10 +40,10 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
-    public List<Payment> GetPaymentsByClientId(UUID client_id) {
+    public List<Payment> GetPaymentsByClientId(UUID clientID) {
         
         try {
-            return paymentRepo.findByClientId(client_id);
+            return paymentRepo.findByClientId(clientID);
         } catch (Exception e) {
             throw new RuntimeException("GetPaymentsByClientId: Error retrieving payments for client: " + e.getMessage());
         }

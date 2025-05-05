@@ -17,14 +17,14 @@ public class ClientHomeAssociation {
     private ClientHomeKey id;
 
     @ManyToOne
-    @MapsId("clientId")
-    @JoinColumn(name = "client_id")
+    @MapsId("clientID")
+    @JoinColumn(name = "clientID")
     @NotNull
     private Client client;
 
     @ManyToOne
-    @MapsId("homeId")
-    @JoinColumn(name = "home_id")
+    @MapsId("homeID")
+    @JoinColumn(name = "homeID")
     @NotNull
     private Home home;
 

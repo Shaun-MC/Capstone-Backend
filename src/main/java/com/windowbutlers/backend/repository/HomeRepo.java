@@ -10,10 +10,10 @@ import java.util.Optional;
 @Repository
 public interface HomeRepo extends JpaRepository<Home, Integer>{
 
-    @Query("SELECT h.id FROM Home h WHERE h.address_line_1 = :address_line_1 AND h.city = :city AND h.zip_code = :zip_code")
+    @Query("SELECT h.id FROM Home h WHERE h.addressLine1 = :addressLine1 AND h.city = :city AND h.zipCode = :zipCode")
     Optional<Integer> findByAddressLine1AndCityAndZipCode(
-        @Param("address_line_1") String address_line_1,
+        @Param("addressLine1") String addressLine1,
         @Param("city") String city,
-        @Param("zip_code") String zip_code
+        @Param("zipCode") String zipCode
     );
 }

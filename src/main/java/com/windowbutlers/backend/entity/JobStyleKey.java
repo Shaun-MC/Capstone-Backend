@@ -12,13 +12,13 @@ import java.util.Objects;
 @AllArgsConstructor
 public class JobStyleKey implements Serializable {
     
-    @Column(name = "job_id")
+    @Column(name = "jobID")
     @NotNull
-    private Integer job_id;
+    private Integer jobID;
 
-    @Column(name = "style_id")
+    @Column(name = "styleID")
     @NotNull
-    private Integer style_id;
+    private Integer styleID;
 
     // Not necessary to implement - don't want to run into issues w/ out them
     @Override
@@ -28,11 +28,11 @@ public class JobStyleKey implements Serializable {
         if (!(o instanceof JobStyleKey))
             return false;
         JobStyleKey that = (JobStyleKey) o;
-        return Objects.equals(job_id, that.job_id) && Objects.equals(style_id, that.style_id);
+        return Objects.equals(jobID, that.jobID) && Objects.equals(styleID, that.styleID);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(job_id, style_id);
+        return Objects.hash(jobID, styleID);
     }
 }

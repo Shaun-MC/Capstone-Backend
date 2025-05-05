@@ -13,10 +13,10 @@ import java.util.Optional;
 public interface JobRepo extends JpaRepository<Job, Integer> {
     
     // Doesn't require a join table
-    @Query("SELECT j.id FROM Job j WHERE j.home.id = :home_id AND j.title = :title AND j.date_started = :date_started")
+    @Query("SELECT j.id FROM Job j WHERE j.home.id = :homeID AND j.title = :title AND j.dateStarted = :dateStarted")
     Optional<Integer> findByHomeIdAndTitleAndDateStarted(
-        @Param("home_id") Integer home_id,
+        @Param("homeID") Integer homeID,
         @Param("title") JobTitle title,
-        @Param("date_started") Date date_started
+        @Param("dateStarted") Date dateStarted
     );
 }

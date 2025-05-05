@@ -17,7 +17,7 @@ public class Payment {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(columnDefinition = "uuid", updatable = false, nullable = false)
-    private UUID id;
+    private UUID ID;
 
     // Foreign key to the job table
     @ManyToOne(optional = false, fetch = FetchType.LAZY)

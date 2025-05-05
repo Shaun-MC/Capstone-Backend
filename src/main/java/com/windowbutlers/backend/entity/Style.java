@@ -14,23 +14,23 @@ public class Style {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Integer ID;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @NotNull
-    @JoinColumn(name = "job_id")
+    @JoinColumn(name = "jobID")
     private Job job;
 
-    @JsonProperty("style_label")
+    @JsonProperty("styleLabel")
     @Enumerated(EnumType.STRING)
     @NotNull
-    @Column(name = "style_label")
-    private Styles style_label;
+    @Column(name = "styleLabel")
+    private Styles styleLabel;
 
     // Only relevant for styles like "Windows" or "Trees"
-    @Column(name = "count_large", nullable = true)
-    private Integer count_large;
+    @Column(name = "large", nullable = true)
+    private Integer large;
 
-    @Column(name = "count_small", nullable = true)
-    private Integer count_small;
+    @Column(name = "small", nullable = true)
+    private Integer small;
 }
