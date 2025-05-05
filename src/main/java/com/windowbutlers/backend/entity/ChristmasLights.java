@@ -8,29 +8,29 @@ import lombok.*;
 import java.util.UUID;
 
 @Entity
-@Table(name = "christmas_lighting")
+@Table(name = "christmas_lights")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ChristmasLighting {
+public class ChristmasLights {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(columnDefinition = "uuid", updatable = false, nullable = false)
-    private UUID id;
+    private UUID ID;
 
-    @JsonProperty("storage_location")
+    @JsonProperty("storageLocation")
     @NotNull
-    private String storage_location;
+    private String storageLocation;
 
-    @JsonProperty("in_use")
+    @JsonProperty("inUse")
     @NotNull
-    private Boolean in_use;
+    private Boolean inUse;
 
     @Enumerated(EnumType.STRING)
     private LightColor color;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "job_id", nullable = true)
+    @JoinColumn(name = "jobID", nullable = true)
     private Job job;
 }
