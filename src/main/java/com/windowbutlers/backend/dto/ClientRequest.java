@@ -18,14 +18,14 @@ public class ClientRequest {
     private String lastName;
 
     @Email(message = "Email must be valid")
-    @Size(min = 2, max = 255, message = "Last name must be between 2 and 255 characters")
+    @Size(min = 2, max = 100, message = "Email must be between 2 and 255 characters")
     private String email;
 
     @Pattern(
-        regexp = "^[+]?[0-9\\-\\s]*$",
+        regexp = "^\\d{3}-\\d{3}-\\d{4}$",
         message = "Phone number must be valid"
     )
-    @Size(min = 2, max = 255, message = "Last name must be between 2 and 255 characters")
+    @Size(min = 12, max = 12, message = "Phone number must 12 characters. EX: '123-456-7890'")
     private String phoneNumber;
 
     private Boolean hasOwnLights;
