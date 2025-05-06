@@ -3,80 +3,71 @@ package com.windowbutlers.backend.service.implementation;
 import com.windowbutlers.backend.entity.Payment;
 import com.windowbutlers.backend.service.PaymentService;
 import com.windowbutlers.backend.repository.PaymentRepo;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.windowbutlers.backend.dto.PaymentRequest;
+import com.windowbutlers.backend.exceptions.DataNotFoundException;
+import com.windowbutlers.backend.validation.ValidUUID;
 import org.springframework.stereotype.Component;
+import jakarta.validation.Valid;
 import java.util.List;
 import java.util.UUID;
 
 @Component
 public class PaymentServiceImpl implements PaymentService {
-    
-    @Autowired
-    private PaymentRepo paymentRepo;
 
-    @Override
-    public Payment CreatePayment(Payment payment) {
-        
-        try {
-            return paymentRepo.save(payment);
-        } catch (Exception e) {
-            throw new RuntimeException("CreatePayment: Error creating payment: " + e.getMessage());
-        }
+    private final PaymentRepo paymentRepo;
+
+    public PaymentServiceImpl(PaymentRepo paymentRepo) {
+        this.paymentRepo = paymentRepo;
     }
 
     @Override
-    public Payment GetPayment(UUID id) {
-        
-        try {
-            return paymentRepo.findById(id).orElseThrow(() -> new RuntimeException("GetPayment: Payment not found in the database"));
-        } catch (Exception e) {
-            throw new RuntimeException("GetPayment: Error retrieving payment: " + e.getMessage());
-        }
+    public String createPayment(@Valid PaymentRequest request) {
+
+        Payment payment = new Payment();
+
+        payment.setClientID(request.getClientID());
+        payment.setCost(request.getCost());
+
+        paymentRepo.save(payment);
+
+        return payment.getID().toString();
     }
 
     @Override
-    public List<Payment> GetAllPayments() {
+    public Payment getPayment(@ValidUUID String ID) {
+
+        return paymentRepo.findById(UUID.fromString(ID)).orElseThrow(() -> new DataNotFoundException("GetPayment: Payment not found in the database"));
+    }
+
+    @Override
+    public List<Payment> getAllPayments() {
         return paymentRepo.findAll();
     }
 
     @Override
-    public List<Payment> GetPaymentsByClientId(UUID clientID) {
+    public List<Payment> getPaymentsByClientID(@ValidUUID String clientID) {
+
+        return paymentRepo.findByClientId(UUID.fromString(clientID));
+    }
+
+    @Override
+    public void updateCost(@ValidUUID String ID, Double cost){
+
+        Payment existingPayment = paymentRepo.findById(UUID.fromString(ID)).orElseThrow(() -> new DataNotFoundException("UpdateCost: Payment not found in the database"));
+        existingPayment.setCost(cost);
+        paymentRepo.save(existingPayment);
+    }
+
+    @Override
+    public boolean isPaymentFullfilled(@ValidUUID String ID) {
         
-        try {
-            return paymentRepo.findByClientId(clientID);
-        } catch (Exception e) {
-            throw new RuntimeException("GetPaymentsByClientId: Error retrieving payments for client: " + e.getMessage());
-        }
+        Payment payment = paymentRepo.findById(UUID.fromString(ID)).orElseThrow(() -> new DataNotFoundException("isPaymentFullfilled: Payment not found in the database"));
+        return payment.isFullfilled();
     }
 
     @Override
-    public Payment UpdateCost(Payment payment, UUID id, Double cost){
-
-        try {
-            Payment existingPayment = paymentRepo.findById(id).orElseThrow(() -> new RuntimeException("UpdateCost: Payment not found in the database"));
-            existingPayment.setCost(cost);
-            return paymentRepo.save(existingPayment);
-        } catch (Exception e) {
-            throw new RuntimeException("UpdateCost: Error updating cost: " + e.getMessage());
-        }
-    }
-
-    @Override
-    public boolean isPaymentFullfilled(UUID id) {
-        try {
-            Payment payment = paymentRepo.findById(id).orElseThrow(() -> new RuntimeException("isPaymentFullfilled: Payment not found in the database"));
-            return payment.isFullfilled();
-        } catch (Exception e) {
-            throw new RuntimeException("isPaymentFullfilled: Error checking payment status: " + e.getMessage());
-        }
-    }
-
-    @Override
-    public void DeletePayment(UUID id) {
-        try {
-            paymentRepo.deleteById(id);
-        } catch (Exception e) {
-            throw new RuntimeException("DeletePayment: Error deleting payment: " + e.getMessage());
-        }
+    public void deletePayment(@ValidUUID String ID) {
+        
+        paymentRepo.deleteById(UUID.fromString(ID));
     }
 }
