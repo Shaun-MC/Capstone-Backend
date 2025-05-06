@@ -5,7 +5,6 @@ import com.windowbutlers.backend.service.HomeService;
 import com.windowbutlers.backend.repository.HomeRepo;
 import com.windowbutlers.backend.dto.HomeRequest;
 import com.windowbutlers.backend.validation.ValidIntegerID;
-import com.windowbutlers.backend.validation.ValidUUID;
 import com.windowbutlers.backend.exceptions.DataNotFoundException;
 import org.springframework.stereotype.Component;
 import jakarta.validation.Valid;
