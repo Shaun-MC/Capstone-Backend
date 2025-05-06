@@ -63,7 +63,6 @@ public class ClientController {
     public ResponseEntity<String> deleteClient(@PathVariable String ID) {
 
         clientService.deleteClient(ID);
-
         return ResponseEntity.status(HttpStatus.OK).body(String.format("Deleted Client with ID %s", ID));
     }
 }
