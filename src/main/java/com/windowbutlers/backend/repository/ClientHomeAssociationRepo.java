@@ -4,7 +4,7 @@ import com.windowbutlers.backend.entity.ClientHomeAssociation;
 import com.windowbutlers.backend.entity.ClientHomeKey;
 import org.springframework.stereotype.Repository;
 import org.springframework.data.jpa.repository.JpaRepository;
-import java.util.Optional;
+import org.springframework.data.jpa.repository.Query;
 import java.util.UUID;
 import java.util.List;
 
@@ -15,5 +15,8 @@ public interface ClientHomeAssociationRepo extends JpaRepository<ClientHomeAssoc
     
     List<ClientHomeAssociation> findByHomeID(Integer homeID);
     
-    Optional<ClientHomeAssociation> findByClientIDAndHomeID(UUID clientID, Integer homeID);
+    String findByClientIDAndHomeID(UUID clientID, Integer homeID);
+
+    @Query("SELECT cha.relation FROM ClientHomeAssociation cha WHERE cha.homeID = :homeID")
+    List<String> findAssociationsByHomeID(Integer homeID);
 }

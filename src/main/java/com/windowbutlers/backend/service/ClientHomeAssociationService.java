@@ -1,21 +1,27 @@
 package com.windowbutlers.backend.service;
 
+import com.windowbutlers.backend.dto.ClientHomeAssociationRequest;
 import com.windowbutlers.backend.entity.ClientHomeAssociation;
+import com.windowbutlers.backend.validation.ValidIntegerID;
+import com.windowbutlers.backend.validation.ValidUUID;
 import org.springframework.stereotype.Service;
+import jakarta.validation.Valid;
 import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
 
 @Service
 public interface ClientHomeAssociationService {
 
-    ClientHomeAssociation SaveAssociation(ClientHomeAssociation association);
+    String createAssociation(@Valid ClientHomeAssociationRequest association);
 
-    List<ClientHomeAssociation> GetHomesForClient(UUID clientID);
+    List<ClientHomeAssociation> getHomesForClient(@ValidUUID String clientID);
 
-    List<ClientHomeAssociation> GetClientsForHome(Integer homeID);
+    List<ClientHomeAssociation> getClientsForHome(@ValidIntegerID Integer homeID);
 
-    Optional<ClientHomeAssociation> GetAssociation(UUID clientID, Integer homeID);
+    String getAssociation(@ValidUUID String clientID, @ValidIntegerID Integer homeID);
 
-    void DeleteAssociation(UUID clientID, Integer homeID);
+    List<String> getAllAssociationsForHome(@ValidIntegerID Integer homeID);
+
+    void updateAssociation(@ValidUUID String clientID, @ValidIntegerID Integer homeID, String relation);
+
+    void deleteAssociation(@ValidUUID String clientID, @ValidIntegerID Integer homeID);
 }
