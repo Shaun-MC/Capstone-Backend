@@ -14,7 +14,7 @@ public class Home {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Integer ID;
 
     @JsonProperty("notes")
     private String notes;
