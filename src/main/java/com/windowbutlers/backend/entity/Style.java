@@ -21,11 +21,11 @@ public class Style {
     @JoinColumn(name = "jobID")
     private Job job;
 
-    @JsonProperty("styleLabel")
+    @JsonProperty("label")
     @Enumerated(EnumType.STRING)
     @NotNull
-    @Column(name = "styleLabel")
-    private Styles styleLabel;
+    @Column(name = "label")
+    private Styles label;
 
     // Only relevant for styles like "Windows" or "Trees"
     @Column(name = "large", nullable = true)

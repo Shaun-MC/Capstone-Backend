@@ -3,71 +3,60 @@ package com.windowbutlers.backend.service.implementation;
 import com.windowbutlers.backend.entity.Style;
 import com.windowbutlers.backend.service.StyleService;
 import com.windowbutlers.backend.repository.StyleRepo;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.windowbutlers.backend.dto.StyleRequest;
+import com.windowbutlers.backend.validation.ValidIntegerID;
+import com.windowbutlers.backend.exceptions.DataNotFoundException;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
 public class StyleServiceImpl implements StyleService {
 
-    @Autowired
-    private StyleRepo styleRepo;
+    private final StyleRepo styleRepo;
 
-    public Style CreateJobStyle(Style jobStyle) {
-
-        try {
-            return styleRepo.save(jobStyle);
-        } catch (Exception e) {
-            throw new RuntimeException("CreateChristmasLighting: Error creating Christmas lighting: " + e.getMessage());
-        }
+    public StyleServiceImpl(StyleRepo styleRepo) {
+        this.styleRepo = styleRepo;
     }
 
-    public Style GetJobStyle(Integer id) {
+    public Integer createStyle(@Valid StyleRequest request) {
 
-        try {
-            return styleRepo.findById(id).orElseThrow(() -> new RuntimeException("GetJobStyle: Job style not found in the database"));
-        } catch (Exception e) {
-            throw new RuntimeException("GetJobStyle: Error retrieving job style: " + e.getMessage());
-        }
+        Style style = new Style();
+        style.setJob(request.getJobID());
+        style.setLabel(request.getLabel());
+        style.setLarge(request.getLarge());
+        style.setSmall(request.getSmall());
+        
+        styleRepo.save(style);
+        return style.getID();
     }
 
-    public List<Style> GetAllJobStyles() {
-
-        try {
-            return styleRepo.findAll();
-        } catch (Exception e) {
-            throw new RuntimeException("GetAllJobStyles: Error retrieving all job styles: " + e.getMessage());
-        }
+    public Style getStyle(@ValidIntegerID Integer ID) {
+        
+        return styleRepo.findById(ID).orElseThrow(() -> new DataNotFoundException("GetJobStyle: Job style ID not found in the database"));
     }
 
-    public Style UpdateLargeCount(Style jobStyle, Integer large) {
-
-        try {
-            Style existingJobStyle = styleRepo.findById(jobStyle.getId()).orElseThrow(() -> new RuntimeException("UpdateLargeCount: Job style not found in the database"));
-            existingJobStyle.setLarge(large);
-            return styleRepo.save(existingJobStyle);
-        } catch (Exception e) {
-            throw new RuntimeException("UpdateLargeCount: Error updating large count: " + e.getMessage());
-        }
+    public String getStyleLabel(@ValidIntegerID Integer ID) {
+        
+        return styleRepo.findById(ID).orElseThrow(() -> new DataNotFoundException("GetJobStyleLabel: Job style ID not found in the database")).getLabel();
     }
 
-    public Style UpdateSmallCount(Style jobStyle, Integer small) {
+    public List<Style> getAllStyles() {
 
-        try {
-            Style existingJobStyle = styleRepo.findById(jobStyle.getId()).orElseThrow(() -> new RuntimeException("UpdateSmallCount: Job style not found in the database"));
-            existingJobStyle.setSmall(small);
-            return styleRepo.save(existingJobStyle);
-        } catch (Exception e) {
-            throw new RuntimeException("UpdateSmallCount: Error updating small count: " + e.getMessage());
-        }
+        return styleRepo.findAll();
     }
 
-    public void DeleteJobStyle(Integer id) {
+    public void updateCounts(@ValidIntegerID Integer ID, Integer large, Integer small) {
 
-        try {
-            styleRepo.deleteById(id);
-        } catch (Exception e) {
-            throw new RuntimeException("DeleteJobStyle: Error deleting job style: " + e.getMessage());
-        }
+        Style existingJobStyle = styleRepo.findById(ID).orElseThrow(() -> new RuntimeException("UpdateLargeCount: Job style not found in the database"));
+        existingJobStyle.setLarge(large);
+        existingJobStyle.setSmall(small);
+
+        styleRepo.save(existingJobStyle);
+    }
+
+    public void deleteJobStyle(@ValidIntegerID Integer id) {
+
+        styleRepo.deleteById(id);
     }
 }

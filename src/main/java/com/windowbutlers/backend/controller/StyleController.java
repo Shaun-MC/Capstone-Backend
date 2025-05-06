@@ -1,9 +1,8 @@
 package com.windowbutlers.backend.controller;
 
-import com.windowbutlers.backend.BackendApplication;
 import com.windowbutlers.backend.entity.Style;
 import com.windowbutlers.backend.service.StyleService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.windowbutlers.backend.dto.StyleRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,23 +12,33 @@ import java.util.List;
 @RequestMapping("/api/style")
 public class StyleController {;
     
-    @Autowired
-    private StyleService styleService;
+    private final StyleService styleService;
+
+    public StyleController(StyleService styleService) {
+        this.styleService = styleService;
+    }
 
     // Passes Happy Path testing:
     @PostMapping("/create")
-    public ResponseEntity<?> createStyle(@RequestBody Style style) {
+    public ResponseEntity<?> createStyle(@RequestBody StyleRequest style) {
 
-        styleService.createStyle(style);
-        return ResponseEntity.status(HttpStatus.CREATED).body(style);
+        Integer ID = styleService.createStyle(style);
+        return ResponseEntity.status(HttpStatus.CREATED).body(String.format("Successfully created a new style (%d)", ID));
     }
 
     // Passes Happy Path testing:
     @GetMapping("/get/singleStyle/{id}")
-    public ResponseEntity<?> getSingleStyle(@PathVariable String ID) {
+    public ResponseEntity<?> getSingleStyle(@PathVariable Integer ID) {
 
         Style style = styleService.getStyle(ID);
         return ResponseEntity.status(HttpStatus.OK).body(style);
+    }
+
+    @GetMapping("/get/styleLabel/{id}")
+    public ResponseEntity<?> getStyleLabel(@PathVariable Integer ID) {
+
+        String styleLabel = styleService.getStyleLabel(ID);
+        return ResponseEntity.status(HttpStatus.OK).body(styleLabel);
     }
 
     // Passes Happy Path testing:
@@ -40,16 +49,17 @@ public class StyleController {;
         return ResponseEntity.status(HttpStatus.OK).body(styles);
     }
 
+    // Technically states that nothing needs to be updateed
     @PutMapping("/update/counts/{id}")
-    public ResponseEntity<?> updateStyleCounts(@PathVariable String ID, @RequestParam(required = false) Integer large, @RequestParam(required = false) Integer small) {
+    public ResponseEntity<?> updateStyleCounts(@PathVariable Integer ID, @RequestParam(required = false) Integer large, @RequestParam(required = false) Integer small) {
 
-        styleService.updateStyleCounts(ID, large, small);
+        styleService.updateCounts(ID, large, small);
         return ResponseEntity.status(HttpStatus.OK).body(String.format("Updated Style Large and Small Counts for %s to %s and %s", ID, large, small));
     }
 
     // Passes Happy Path testing:
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<String> deleteStyle(@PathVariable String ID) {
+    public ResponseEntity<String> deleteStyle(@PathVariable Integer ID) {
 
         styleService.deleteStyle(ID);
         return ResponseEntity.status(HttpStatus.OK).body(String.format("Deleted Style with ID: %s", ID));

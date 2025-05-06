@@ -2,20 +2,23 @@ package com.windowbutlers.backend.service;
 
 import com.windowbutlers.backend.entity.Style;
 import org.springframework.stereotype.Service;
+import com.windowbutlers.backend.dto.StyleRequest;
+import com.windowbutlers.backend.validation.ValidIntegerID;
+import jakarta.validation.Valid;
 import java.util.List;
 
 @Service
 public interface StyleService {
     
-    Style CreateJobStyle(Style jobStyle);
+    Integer createStyle(@Valid StyleRequest style);
 
-    Style GetJobStyle(Integer ID);
+    Style getStyle(@ValidIntegerID Integer ID);
 
-    List<Style> GetAllJobStyles();
+    String getStyleLabel(@ValidIntegerID Integer ID);
 
-    Style UpdateLargeCount(Style jobStyle, Integer large);
+    List<Style> getAllStyles();
 
-    Style UpdateSmallCount(Style jobStyle, Integer small);
+    void updateCounts(@ValidIntegerID Integer ID, Integer large, Integer small);
 
-    void DeleteJobStyle(Integer ID);
+    void deleteStyle(@ValidIntegerID Integer ID);
 }
