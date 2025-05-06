@@ -1,26 +1,29 @@
 package com.windowbutlers.backend.service;
 
-import com.windowbutlers.backend.enums.JobTitle;
-import com.windowbutlers.backend.enums.Rating;
 import com.windowbutlers.backend.entity.Job;
+import com.windowbutlers.backend.dto.JobRequest;
+import com.windowbutlers.backend.validation.ValidIntegerID;
 import org.springframework.stereotype.Service;
+import jakarta.validation.Valid;
 import java.sql.Date;
 import java.util.List;
 
 @Service
 public interface JobService {
     
-    void CreateJob(Job job);
+    Integer createJob(@Valid JobRequest job);
     
-    Job GetJob(Integer homeID, JobTitle title, Date dateStarted);
+    Job getJob(@ValidIntegerID Integer ID);
 
-    List<Job> GetAllJobs();
+    List<Job> getAllJobs();
     
-    void UpdateJobCompletion(Job job, Integer homeID, JobTitle title, Date dateStarted, Date date_completed, Integer labor_hours);
+    //TODO @ValidDate
+    void updateJobCompletion(@ValidIntegerID Integer ID, Date dateCompleted);
     
-    void UpdateJobNotes(Job job, Integer homeID, JobTitle title, Date dateStarted, String notes);
+    void updateJobNotes(@ValidIntegerID Integer ID, String jobNotes);
     
-    void UpdateJobDifficulty(Job job, Integer homeID, JobTitle title, Date dateStarted, Rating difficulty);
+    //TODO @ValidRating
+    void updateJobDifficulty(@ValidIntegerID Integer ID, String difficulty);
 
-    void DeleteJob(Integer homeID, JobTitle title, Date dateStarted);
+    void deleteJob(@ValidIntegerID Integer ID);
 }
