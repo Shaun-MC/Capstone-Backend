@@ -3,76 +3,62 @@ package com.windowbutlers.backend.service.implementation;
 import com.windowbutlers.backend.entity.Home;
 import com.windowbutlers.backend.service.HomeService;
 import com.windowbutlers.backend.repository.HomeRepo;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.windowbutlers.backend.dto.HomeRequest;
+import com.windowbutlers.backend.validation.ValidIntegerID;
+import com.windowbutlers.backend.validation.ValidUUID;
+import com.windowbutlers.backend.exceptions.DataNotFoundException;
 import org.springframework.stereotype.Component;
+import jakarta.validation.Valid;
 import java.util.List;
 
 @Component
 public class HomeServiceImpl implements HomeService {
 
-    @Autowired
-    private HomeRepo homeRepo;
+    private final HomeRepo homeRepo;
 
-    private Integer GetHomeID(String addressLine1, String city, String zipCode) {
-        return homeRepo.findByAddressLine1AndCityAndZipCode(addressLine1, city, zipCode).orElseThrow(() -> new RuntimeException("GetHomeID: Indexing parameters not found in the database"));
+    public HomeServiceImpl(HomeRepo homeRepo) {
+        this.homeRepo = homeRepo;
     }
 
     @Override
-    public void CreateHome(Home home) {
+    public Integer createHome(@Valid HomeRequest req) {
+        
+        Home home = new Home();
+
+        home.setNotes(req.getNotes());
+        home.setPictureDirectoryURL(req.getPictureDirectoryURL());
+        home.setAddressLine1(req.getAddressLine1());
+        home.setAddressLine2(req.getAddressLine2());
+        home.setCity(req.getCity());
+        home.setZipCode(req.getZipCode());
+        home.setPowerSourceLocation(req.getPowerSourceLocation());
+
         homeRepo.save(home);
+        return home.getID();
     }
 
     @Override
-    public Home GetHome(String addressLine1, String city, String zipCode) {
+    public Home getHome(@ValidIntegerID Integer homeID) {
 
-        try {
-
-            Integer homeID = GetHomeID(addressLine1, city, zipCode);
-
-            return homeRepo.findById(homeID).orElseThrow(() -> new RuntimeException("GetHome: Home not found in the database"));
-        } catch (Exception e) {
-            throw new RuntimeException(e.getMessage());
-        }
+        return homeRepo.findById(homeID).orElseThrow(() -> new DataNotFoundException("GetHome: Home ID not found in the database"));
     }
 
     @Override
-    public List<Home> GetAllHomes() {
+    public List<Home> getAllHomes() {
         return homeRepo.findAll();
     }
 
     @Override
-    public Home UpdateHome(Home home, String addressLine1, String city, String zipCode) {
+    public void updatePowerSourceLocation(@ValidIntegerID Integer homeID, String powerSourceLocation) {
 
-        try {
-
-            Integer homeID = GetHomeID(addressLine1, city, zipCode);
-
-            // Retrieve the existing home from the database
-            Home existingHome = homeRepo.findById(homeID).orElseThrow(() -> new RuntimeException("UpdateHome: Home not found in the database"));
-
-            // Update the existing home with the new values
-            existingHome.setNotes(home.getNotes());
-            existingHome.setPictureDirectoryURL(home.getPictureDirectoryURL());
-            existingHome.setAddressLine1(home.getAddressLine1());
-            existingHome.setAddressLine2(home.getAddressLine2());
-            existingHome.setCity(home.getCity());
-            existingHome.setZipCode(home.getZipCode());
-            existingHome.setPowerSourceLocation(home.getPowerSourceLocation());
-
-            return homeRepo.save(existingHome);
-        } catch (Exception e) {
-            throw new RuntimeException(e.getMessage());
-        }
+        Home home = homeRepo.findById(homeID).orElseThrow(() -> new DataNotFoundException("UpdatePowerSourceLocation: Home ID not found in the database"));
+        home.setPowerSourceLocation(powerSourceLocation);
+        homeRepo.save(home);
     }
 
     @Override
-    public void DeleteHome(String addressLine1, String city, String zipCode) {
+    public void deleteHome(@ValidIntegerID Integer homeID) {
 
-        try {
-            Integer homeID = GetHomeID(addressLine1, city, zipCode);
-            homeRepo.deleteById(homeID);
-        } catch (Exception e) {
-            throw new RuntimeException("DeleteClient: Client not found");
-        }
+        homeRepo.deleteById(homeID);
     }
 }

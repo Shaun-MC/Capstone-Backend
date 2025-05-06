@@ -2,7 +2,7 @@ package com.windowbutlers.backend.controller;
 
 import com.windowbutlers.backend.entity.Home;
 import com.windowbutlers.backend.service.HomeService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.windowbutlers.backend.dto.HomeRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,20 +11,24 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/home")
 public class HomeController {
-    @Autowired
-    private HomeService homeService;
+
+    private final HomeService homeService;
+
+    public HomeController(HomeService homeService) {
+        this.homeService = homeService;
+    }
 
     // Passes Happy Path testing:
     @PostMapping("/create")
-    public ResponseEntity<?> createHome(@RequestBody Home home) {
+    public ResponseEntity<?> createHome(@RequestBody HomeRequest home) {
         
-        homeService.createHome(home);
-        return ResponseEntity.status(HttpStatus.CREATED).body(home);
+        Integer ID = homeService.createHome(home);
+        return ResponseEntity.status(HttpStatus.CREATED).body(String.format("Successfully created a new home (%d)", ID));
     }
 
     // Passes Happy Path testing:
     @GetMapping("/get/singleHome/{id}")
-    public ResponseEntity<?> getSingleHome(@PathVariable String ID) {
+    public ResponseEntity<?> getSingleHome(@PathVariable Integer ID) {
 
         Home home = homeService.getHome(ID);
         return ResponseEntity.status(HttpStatus.OK).body(home);
@@ -40,7 +44,7 @@ public class HomeController {
 
     // Passes Happy Path testing
     @PutMapping("/update/powerSourceLocation/{id}")
-    public ResponseEntity<?> updatePowerSourceLocation(@PathVariable String ID, @RequestBody String powerSourceLocation) {
+    public ResponseEntity<?> updatePowerSourceLocation(@PathVariable Integer ID, @RequestBody String powerSourceLocation) {
         
         homeService.updatePowerSourceLocation(ID, powerSourceLocation);
         return ResponseEntity.status(HttpStatus.OK).body(String.format("Updated Power Source Location for %s to %s", ID, powerSourceLocation));
@@ -48,7 +52,7 @@ public class HomeController {
 
     // Passes Happy Path testing
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<String> deleteHome(@PathVariable String ID) {
+    public ResponseEntity<String> deleteHome(@PathVariable Integer ID) {
 
         homeService.deleteHome(ID);
         return ResponseEntity.status(HttpStatus.OK).body(String.format("Deleted Home with ID: %s", ID));

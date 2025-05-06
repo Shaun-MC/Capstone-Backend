@@ -1,19 +1,22 @@
 package com.windowbutlers.backend.service;
 
 import com.windowbutlers.backend.entity.Home;
+import com.windowbutlers.backend.dto.HomeRequest;
+import com.windowbutlers.backend.validation.ValidIntegerID;
 import org.springframework.stereotype.Service;
+import jakarta.validation.Valid;
 import java.util.List;
 
 @Service
 public interface HomeService {
     
-    void CreateHome(Home home);
+    Integer createHome(@Valid HomeRequest home);
 
-    Home GetHome(String addressLine1, String city, String zipCode);
+    Home getHome(@ValidIntegerID Integer ID);
 
-    List<Home> GetAllHomes();
+    List<Home> getAllHomes();
 
-    Home UpdateHome(Home home, String address_line_1, String city, String zipCode);
+    void updatePowerSourceLocation(@ValidIntegerID Integer ID, String powerSourceLocation);
 
-    void DeleteHome(String addressLine1, String city, String zipCode);
+    void deleteHome(@ValidIntegerID Integer ID);
 }
