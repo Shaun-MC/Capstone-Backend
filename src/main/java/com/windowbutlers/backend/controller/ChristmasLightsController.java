@@ -22,8 +22,8 @@ public class ChristmasLightsController {
     @PostMapping("/create")
     public ResponseEntity<?> createChristmasLights(@RequestBody ChristmasLightsRequest cl) {
 
-        String id = clService.createChristmasLights(cl);
-        return ResponseEntity.status(HttpStatus.CREATED).body("Successfully created a new Christmas light (%s)".formatted(id));
+        String ID = clService.createChristmasLights(cl);
+        return ResponseEntity.status(HttpStatus.CREATED).body(String.format("Successfully created a new Christmas light (%s)", ID));
     }
 
     // Passes Happy Path testing:
