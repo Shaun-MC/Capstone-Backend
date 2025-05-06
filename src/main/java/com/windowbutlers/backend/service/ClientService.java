@@ -1,19 +1,24 @@
 package com.windowbutlers.backend.service;
 
 import com.windowbutlers.backend.entity.Client;
+import com.windowbutlers.backend.dto.ClientRequest;
+import com.windowbutlers.backend.validation.*;
 import org.springframework.stereotype.Service;
+import jakarta.validation.Valid;
 import java.util.List;
 
 @Service
 public interface ClientService {
     
-    void CreateClient(Client client);
+    String createClient(@Valid ClientRequest client);
 
-    Client GetClient(String firstName, String lastName, String email, String phoneNumber);
+    Client getClient(@ValidUUID String ID);
 
-    List<Client> GetAllClients();
+    List<Client> getAllClients();
 
-    Client UpdateClient(Client client, String firstName, String lastName, String email, String phoneNumber);
+    void updateEmail(@ValidUUID String ID, @ValidEmail String email);
 
-    void DeleteClient(String firstName, String lastName, String email, String phoneNumber);
+    void updatePhoneNumber(@ValidUUID String ID, @ValidPhoneNumber String phoneNumber);
+
+    void deleteClient(@ValidUUID String ID);
 }

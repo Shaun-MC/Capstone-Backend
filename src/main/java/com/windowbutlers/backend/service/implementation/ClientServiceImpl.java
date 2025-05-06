@@ -1,77 +1,72 @@
 package com.windowbutlers.backend.service.implementation;
 
 import com.windowbutlers.backend.entity.Client;
+import com.windowbutlers.backend.dto.ClientRequest;
 import com.windowbutlers.backend.service.ClientService;
 import com.windowbutlers.backend.repository.ClientRepo;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.windowbutlers.backend.validation.*;
 import org.springframework.stereotype.Component;
+import org.springframework.validation.annotation.Validated;
+import com.windowbutlers.backend.exceptions.DataNotFoundException;
+import jakarta.validation.Valid;
 import java.util.List;
 import java.util.UUID;
 
 @Component
+@Validated
 public class ClientServiceImpl implements ClientService {
 
-    @Autowired
-    private ClientRepo clientRepo;
+    private final ClientRepo clientRepo;
 
-    private UUID GetClientID(String firstName, String lastName, String email, String phoneNumber) {
-        return clientRepo.findByFirstNameAndLastNameAndOptionalEmailAndPhoneNumber(firstName, lastName, email, phoneNumber)
-                .orElseThrow(() -> new RuntimeException("GetClientID: Indexing parameters not found in the database"));
+    public ClientServiceImpl(ClientRepo clientRepo) {
+        this.clientRepo = clientRepo;
     }
 
     @Override
-    public void CreateClient(Client client) {
+    public String createClient(@Valid ClientRequest request) {
+        
+        Client client = new Client();
+        client.setFirstName(request.getFirstName());
+        client.setLastName(request.getLastName());
+        client.setEmail(request.getEmail());
+        client.setPhoneNumber(request.getPhoneNumber());
+        client.setHasOwnLights(request.getHasOwnLights());
+
         clientRepo.save(client);
+
+        return client.getID().toString();
     }
 
     @Override
-    // Define the parameters for the method so that email or phoneNumber can be null
-    public Client GetClient(String firstName, String lastName, String email, String phoneNumber) {
-
-        try {
-            UUID clientID = GetClientID(firstName, lastName, email, phoneNumber);
-
-            return clientRepo.findById(clientID).orElseThrow(() -> new RuntimeException("GetClient: Client not found in the database"));
-        } catch (Exception e) {
-            throw new RuntimeException(e.getMessage());
-        }
+    public Client getClient(@ValidUUID String ID) {
+        
+        return clientRepo.findById(UUID.fromString(ID)).orElseThrow(() -> new DataNotFoundException("GetClient: Client ID not found in the database"));
     }
 
     @Override
-    public List<Client> GetAllClients() {
+    public List<Client> getAllClients() {
         return clientRepo.findAll();
     }
 
     @Override
-    public Client UpdateClient(Client client, String firstName, String lastName, String email, String phoneNumber) {
-
-        try {
-
-            UUID clientID = GetClientID(firstName, lastName, email, phoneNumber);
-
-            // Retrieve the existing client from the database
-            Client existingClient = clientRepo.findById(clientID).orElseThrow(() -> new RuntimeException("UpdateClient: Client not found in the database"));
-
-            existingClient.setFirstName(client.getFirstName());
-            existingClient.setLastName(client.getLastName());
-            existingClient.setEmail(client.getEmail());
-            existingClient.setPhoneNumber(client.getPhoneNumber());
-            existingClient.setHasOwnLights(client.getHasOwnLights());
-
-            return clientRepo.save(existingClient);
-        } catch (Exception e) {
-            throw new RuntimeException(e.getMessage());
-        }
+    public void updateEmail(@ValidUUID String ID, @ValidEmail String email) {
+        
+        Client client = clientRepo.findById(UUID.fromString(ID)).orElseThrow(() -> new DataNotFoundException("UpdateEmail: Client ID not found in the database"));
+        client.setEmail(email);
+        clientRepo.save(client);
     }
 
     @Override
-    public void DeleteClient(String firstName, String lastName, String email, String phoneNumber) {
+    public void updatePhoneNumber(@ValidUUID String ID, @ValidPhoneNumber String phoneNumber) {
+        
+        Client client = clientRepo.findById(UUID.fromString(ID)).orElseThrow(() -> new RuntimeException("UpdatePhoneNumber: Client ID not found in the database"));
+        client.setPhoneNumber(phoneNumber);
+        clientRepo.save(client);
+    }
 
-        try {
-            UUID clientID = GetClientID(firstName, lastName, email, phoneNumber);
-            clientRepo.deleteById(clientID);
-        } catch (Exception e) {
-            throw new RuntimeException("DeleteClient: Client not found");
-        }
+    @Override
+    public void deleteClient(String ID) {
+
+        clientRepo.deleteById(UUID.fromString(ID));
     }
 }

@@ -1,8 +1,8 @@
 package com.windowbutlers.backend.controller;
 
 import com.windowbutlers.backend.entity.Client;
+import com.windowbutlers.backend.dto.ClientRequest;
 import com.windowbutlers.backend.service.ClientService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,18 +12,21 @@ import java.util.List;
 @RequestMapping("/api/client")
 public class ClientController {
 
-    @Autowired
-    private ClientService clientService;
+    private final ClientService clientService;
+
+    public ClientController(ClientService clientService) {
+        this.clientService = clientService;
+    }
 
     // Passes Happy Path testing:
     @PostMapping("/create")
-    public ResponseEntity<?> createClient(@RequestBody Client client) {
+    public ResponseEntity<?> createClient(@RequestBody ClientRequest client) {
 
-        clientService.createClient(client);
-        return ResponseEntity.status(HttpStatus.CREATED).body(client);
+        String id = clientService.createClient(client);
+        return ResponseEntity.status(HttpStatus.CREATED).body("Sucessfully created a new client (%s)".formatted(id));
     }
 
-    // Passes Happy Path testing: 
+    // Passes Happy Path testing:
     @GetMapping("/get/singleClient/{id}")
     public ResponseEntity<?> getSingleClient(@PathVariable String ID) {
 
