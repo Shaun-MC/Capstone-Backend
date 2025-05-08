@@ -10,15 +10,15 @@ import lombok.Data;
 public class ClientRequest {
 
     @NotBlank(message = "First name is required")
-    @Size(min = 2, max = 255, message = "First name must be between 2 and 255 characters")
+    @Size(min = 2, max = 20, message = "First name must be between 2 and 20 characters")
     private String firstName;
 
     @NotBlank(message = "Last name is required")
-    @Size(min = 2, max = 255, message = "Last name must be between 2 and 255 characters")
+    @Size(min = 2, max = 30, message = "Last name must be between 2 and 30 characters")
     private String lastName;
 
     @Email(message = "Email must be valid")
-    @Size(min = 2, max = 100, message = "Email must be between 2 and 255 characters")
+    @Size(min = 2, max = 100, message = "Email must be between 2 and 100 characters")
     private String email;
 
     @Pattern(

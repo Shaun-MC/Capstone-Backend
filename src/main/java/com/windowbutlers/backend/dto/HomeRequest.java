@@ -10,7 +10,6 @@ public class HomeRequest {
     @Size(max = 255, message = "Notes must be less then 255 characters")
     private String notes;
 
-    @Size(max = 255, message = "Picture directory URL must be less then 255 characters")
     private String pictureDirectoryURL;
 
     @NotBlank(message = "Address line 1 is required")
@@ -28,6 +27,6 @@ public class HomeRequest {
     @Size(max = 10, message = "Zip code must be less then 10 characters")
     private String zipCode;
 
-    @Size(max = 255, message = "Power source location must be less then 255 characters")
+    @Size(max = 100, message = "Power source location must be less then 255 characters")
     private String powerSourceLocation;
 }

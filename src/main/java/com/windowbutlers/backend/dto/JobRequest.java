@@ -1,7 +1,7 @@
 package com.windowbutlers.backend.dto;
 
-import com.windowbutlers.backend.enums.JobTitle;
-import com.windowbutlers.backend.enums.Rating;
+import com.windowbutlers.backend.enums.JobTitles;
+import com.windowbutlers.backend.enums.JobRatings;
 import com.windowbutlers.backend.validation.ValidEnum;
 import jakarta.validation.constraints.*;
 import lombok.Data;
@@ -11,12 +11,8 @@ import java.sql.Date;
 public class JobRequest {
     
     @NotBlank(message = "Job name is required")
-    @ValidEnum(enumClass = JobTitle.class)
-    private String jobName;
-
-    @NotBlank(message = "Job description is required")
-    @Size(min = 2, max = 255, message = "Job description must be between 2 and 255 characters")
-    private String jobDescription;
+    @ValidEnum(enumClass = JobTitles.class)
+    private JobTitles title;
 
     // Idrk
     @NotBlank(message = "Job date is required")
@@ -40,6 +36,9 @@ public class JobRequest {
     private String notes;
 
     @NotBlank(message = "Job difficulty is required")
-    @ValidEnum(enumClass = Rating.class)
-    private String jobDifficulty;
+    @ValidEnum(enumClass = JobRatings.class)
+    private JobRatings difficulty;
+
+    @NotBlank(message = "Home id is required")
+    private String homeID;
 }
