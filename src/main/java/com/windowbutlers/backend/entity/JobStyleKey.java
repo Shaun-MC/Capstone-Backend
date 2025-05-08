@@ -12,11 +12,11 @@ import java.util.Objects;
 @AllArgsConstructor
 public class JobStyleKey implements Serializable {
     
-    @Column(name = "jobID")
+    @Column(name = "job_id")
     @NotNull
     private Integer jobID;
 
-    @Column(name = "styleID")
+    @Column(name = "style_id")
     @NotNull
     private Integer styleID;
 

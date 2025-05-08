@@ -1,6 +1,6 @@
 package com.windowbutlers.backend.controller;
 
-import com.windowbutlers.backend.entity.Client;
+import com.windowbutlers.backend.entity.Clients;
 import com.windowbutlers.backend.dto.ClientRequest;
 import com.windowbutlers.backend.service.ClientService;
 import org.springframework.http.HttpStatus;
@@ -30,7 +30,7 @@ public class ClientController {
     @GetMapping("/get/singleClient/{id}")
     public ResponseEntity<?> getSingleClient(@PathVariable String ID) {
 
-        Client client = clientService.getClient(ID);
+        Clients client = clientService.getClient(ID);
         return ResponseEntity.status(HttpStatus.OK).body(client);
     }
 
@@ -38,7 +38,7 @@ public class ClientController {
     @GetMapping("/get/allClients")
     public ResponseEntity<?> getAllClients() {
 
-        List<Client> clients = clientService.getAllClients();
+        List<Clients> clients = clientService.getAllClients();
         return ResponseEntity.status(HttpStatus.OK).body(clients);
     }
 

@@ -1,6 +1,6 @@
 package com.windowbutlers.backend.enums;
 
-public enum LightColor {
+public enum LightColors {
     
     COOL_WHITE("Cool White"),
     WARM_WHITE("Warm White"),
@@ -12,7 +12,7 @@ public enum LightColor {
     
     private final String color;
 
-    LightColor(String color) {
+    LightColors(String color) {
         this.color = color;
     }
 

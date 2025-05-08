@@ -13,13 +13,13 @@ import java.util.UUID;
 @AllArgsConstructor
 public class ClientHomeKey implements Serializable {
 
-    @Column(name = "clientID", columnDefinition = "uuid")
+    @Column(name = "client_id", columnDefinition = "uuid", nullable = false)
     @NotNull
     private UUID clientID;
 
-    @Column(name = "homeID")
+    @Column(name = "home_id", columnDefinition = "uuid", nullable = false)
     @NotNull
-    private Integer homeID;
+    private UUID homeID;
 
     // Not necessary to implement - don't want to run into issues w/ out them
     @Override

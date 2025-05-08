@@ -12,17 +12,17 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Payment {
+public class Payments {
     
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(columnDefinition = "uuid", updatable = false, nullable = false)
-    private UUID ID;
+    private UUID id;
 
     // Foreign key to the job table
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    @JoinColumn(name = "client", referencedColumnName = "client")
-    private Client client;
+    @JoinColumn(name = "clients", referencedColumnName = "id")
+    private Clients client;
 
     @JsonProperty("cost")
     @NotNull
@@ -30,9 +30,9 @@ public class Payment {
     private Double cost;
 
     @OneToMany(mappedBy = "payment")
-    private List<Job> jobs;
+    private List<Jobs> jobs;
 
     public boolean isFullfilled() {
-        return jobs != null && jobs.stream().allMatch(Job::isPaid);
+        return jobs != null && jobs.stream().allMatch(Jobs::isPaid);
     }
 }

@@ -8,38 +8,40 @@ import java.util.UUID;
 import java.util.List;
 
 @Entity
-@Table(name = "client")
+@Table(name = "clients")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Client {
+public class Clients {
     
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(columnDefinition = "uuid", updatable = false, nullable = false)
-    private UUID ID;
+    private UUID id;
 
     @JsonProperty("firstName")
     @NotNull
+    @Column(name="first_name", nullable=false)
     private String firstName;
 
     @JsonProperty("lastName")
     @NotNull
+    @Column(name="last_name", nullable=false)
     private String lastName;
 
     @JsonProperty("email")
-    @Column(nullable=true, unique=true)
+    @Column(name="email", nullable=true, unique=true)
     private String email; 
 
     @JsonProperty("phone_number")
-    @Column(nullable=true, unique=true)
+    @Column(name="phone_number", nullable=true, unique=true)
     private String phoneNumber;
 
     @JsonProperty("hasOwnLights")
-    @Column(nullable=true)
+    @Column(name="has_own_lights", nullable=true)
     private Boolean hasOwnLights;
 
     @OneToMany(mappedBy = "client", fetch = FetchType.LAZY)
     @Column(nullable=true)
-    private List<Payment> payments;
+    private List<Payments> payments;
 }

@@ -1,6 +1,6 @@
 package com.windowbutlers.backend.enums;
 
-public enum StyleLabel {
+public enum StyleLabels {
     
     FRONT("Front"),
     BACK("Back"),
@@ -19,7 +19,7 @@ public enum StyleLabel {
 
     private final String label;
 
-    StyleLabel(String label) {
+    StyleLabels(String label) {
         this.label = label;
     }
 

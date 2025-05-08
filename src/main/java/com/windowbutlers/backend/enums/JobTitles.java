@@ -1,6 +1,6 @@
 package com.windowbutlers.backend.enums;
 
-public enum JobTitle{
+public enum JobTitles{
     WINDOW_CLEANING("Window Cleaning"),
     GUTTER_CLEANING("Gutter Cleaning"),
     ROOF_CLEANING("Roof Cleaning"),
@@ -9,7 +9,7 @@ public enum JobTitle{
 
     private final String title;
 
-    JobTitle(String title) {
+    JobTitles(String title) {
         this.title = title;
     }
 

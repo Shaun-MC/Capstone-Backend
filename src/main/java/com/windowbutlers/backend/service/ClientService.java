@@ -1,6 +1,6 @@
 package com.windowbutlers.backend.service;
 
-import com.windowbutlers.backend.entity.Client;
+import com.windowbutlers.backend.entity.Clients;
 import com.windowbutlers.backend.dto.ClientRequest;
 import com.windowbutlers.backend.validation.*;
 import org.springframework.stereotype.Service;
@@ -12,9 +12,9 @@ public interface ClientService {
     
     String createClient(@Valid ClientRequest client);
 
-    Client getClient(@ValidUUID String ID);
+    Clients getClient(@ValidUUID String ID);
 
-    List<Client> getAllClients();
+    List<Clients> getAllClients();
 
     void updateEmail(@ValidUUID String ID, @ValidEmail String email);
 

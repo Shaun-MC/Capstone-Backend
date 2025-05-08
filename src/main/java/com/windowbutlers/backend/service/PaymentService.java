@@ -1,7 +1,7 @@
 package com.windowbutlers.backend.service;
 
 import com.windowbutlers.backend.dto.PaymentRequest;
-import com.windowbutlers.backend.entity.Payment;
+import com.windowbutlers.backend.entity.Payments;
 import com.windowbutlers.backend.validation.ValidUUID;
 import org.springframework.stereotype.Service;
 import jakarta.validation.Valid;
@@ -12,11 +12,11 @@ public interface PaymentService {
 
     String createPayment(@Valid PaymentRequest payment);
 
-    Payment getPayment(@ValidUUID String ID);
+    Payments getPayment(@ValidUUID String ID);
 
-    List<Payment> getAllPayments();
+    List<Payments> getAllPayments();
 
-    List<Payment> getPaymentsByClientID(@ValidUUID String clientID);
+    List<Payments> getPaymentsByClientID(@ValidUUID String clientID);
 
     void updateCost(@ValidUUID String ID, Double cost);
 

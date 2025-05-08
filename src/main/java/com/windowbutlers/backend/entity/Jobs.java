@@ -1,41 +1,45 @@
 package com.windowbutlers.backend.entity;
 
-import com.windowbutlers.backend.enums.JobTitle;
-import com.windowbutlers.backend.enums.Rating;
+import com.windowbutlers.backend.enums.JobTitles;
+import com.windowbutlers.backend.enums.JobRatings;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import java.util.List;
 import java.sql.Date;
+import java.util.UUID;
 
 @Entity
-@Table(name = "job")
+@Table(name = "jobs")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Job {
+public class Jobs {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(columnDefinition = "uuid", name="id", updatable = false, nullable = false)
     @NotNull
-    private Integer ID;
+    private UUID id;
 
     @JsonProperty("title")
     @Enumerated(EnumType.STRING)
     @NotNull
-    private JobTitle title;
+    @Column(nullable = false)
+    private JobTitles title;
 
     @JsonProperty("dateStarted")
     @NotNull
+    @Column(name="date_started", nullable = false)
     private Date dateStarted;
 
     @JsonProperty("dateCompleted")
-    @Column(nullable = true)
+    @Column(name="date_completed", nullable = true)
     private Date dateCompleted;
 
     @JsonProperty("laborHours")
-    @Column(nullable = true)
+    @Column(name="labor_hours", nullable = true)
     private Integer laborHours;
 
     @JsonProperty("notes")
@@ -44,24 +48,27 @@ public class Job {
 
     @JsonProperty("difficulty")
     @Enumerated(EnumType.STRING)
-    private Rating difficulty;
+    @NotNull
+    @Column(nullable=false)
+    private JobRatings difficulty;
 
     // Foreign key to the home table
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    @JoinColumn(name = "home", referencedColumnName = "id")
-    private Home home;
+    @NotNull
+    @JoinColumn(name = "home", referencedColumnName = "id", nullable = false)
+    private Homes home;
 
     // Foreign key to the payment table
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "payment", referencedColumnName = "id")
     @Column(nullable = true)
-    private Payment payment;
+    private Payments payment; // Ehh
 
     @OneToMany(mappedBy = "job", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ChristmasLights> lights;
 
     @OneToMany(mappedBy = "job", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Style> jobStyles;
+    private List<Styles> jobStyles;
 
     @Transient
     public boolean isPaid() {

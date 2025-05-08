@@ -1,6 +1,6 @@
 package com.windowbutlers.backend.service;
 
-import com.windowbutlers.backend.entity.Home;
+import com.windowbutlers.backend.entity.Homes;
 import com.windowbutlers.backend.dto.HomeRequest;
 import com.windowbutlers.backend.validation.ValidIntegerID;
 import org.springframework.stereotype.Service;
@@ -10,13 +10,13 @@ import java.util.List;
 @Service
 public interface HomeService {
     
-    Integer createHome(@Valid HomeRequest home);
+    String createHome(@Valid HomeRequest home);
 
-    Home getHome(@ValidIntegerID Integer ID);
+    Homes getHome(@ValidIntegerID String ID);
 
-    List<Home> getAllHomes();
+    List<Homes> getAllHomes();
 
-    void updatePowerSourceLocation(@ValidIntegerID Integer ID, String powerSourceLocation);
+    void updatePowerSourceLocation(@ValidIntegerID String ID, String powerSourceLocation);
 
-    void deleteHome(@ValidIntegerID Integer ID);
+    void deleteHome(@ValidIntegerID String ID);
 }

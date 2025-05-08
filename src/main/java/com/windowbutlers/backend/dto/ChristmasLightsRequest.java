@@ -1,6 +1,6 @@
 package com.windowbutlers.backend.dto;
 
-import com.windowbutlers.backend.enums.LightColor;
+import com.windowbutlers.backend.enums.LightColors;
 import com.windowbutlers.backend.validation.ValidEnum;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -17,6 +17,6 @@ public class ChristmasLightsRequest {
     private Boolean inUse; 
 
     @NotBlank(message = "Color is required")
-    @ValidEnum(enumClass = LightColor.class)
+    @ValidEnum(enumClass = LightColors.class)
     private String color;
 }

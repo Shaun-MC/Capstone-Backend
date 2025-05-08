@@ -1,6 +1,6 @@
 package com.windowbutlers.backend.service;
 
-import com.windowbutlers.backend.entity.Style;
+import com.windowbutlers.backend.entity.Styles;
 import org.springframework.stereotype.Service;
 import com.windowbutlers.backend.dto.StyleRequest;
 import com.windowbutlers.backend.validation.ValidIntegerID;
@@ -12,11 +12,11 @@ public interface StyleService {
     
     Integer createStyle(@Valid StyleRequest style);
 
-    Style getStyle(@ValidIntegerID Integer ID);
+    Styles getStyle(@ValidIntegerID Integer ID);
 
     String getStyleLabel(@ValidIntegerID Integer ID);
 
-    List<Style> getAllStyles();
+    List<Styles> getAllStyles();
 
     void updateCounts(@ValidIntegerID Integer ID, Integer large, Integer small);
 

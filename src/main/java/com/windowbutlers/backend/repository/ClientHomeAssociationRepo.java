@@ -13,10 +13,10 @@ public interface ClientHomeAssociationRepo extends JpaRepository<ClientHomeAssoc
 
     List<ClientHomeAssociation> findByClientID(UUID clientID);
     
-    List<ClientHomeAssociation> findByHomeID(Integer homeID);
+    List<ClientHomeAssociation> findByHomeID(UUID homeID);
     
-    String findByClientIDAndHomeID(UUID clientID, Integer homeID);
+    String findByClientIDAndHomeID(UUID clientID, UUID homeID);
 
     @Query("SELECT cha.relation FROM ClientHomeAssociation cha WHERE cha.homeID = :homeID")
-    List<String> findAssociationsByHomeID(Integer homeID);
+    List<String> findAssociationsByHomeID(UUID homeID);
 }

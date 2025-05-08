@@ -1,6 +1,6 @@
 package com.windowbutlers.backend.controller;
 
-import com.windowbutlers.backend.entity.Payment;
+import com.windowbutlers.backend.entity.Payments;
 import com.windowbutlers.backend.service.PaymentService;
 import com.windowbutlers.backend.dto.PaymentRequest;
 import org.springframework.http.HttpStatus;
@@ -28,7 +28,7 @@ public class PaymentController {
     @GetMapping("/get/singlePayment/{id}")
     public ResponseEntity<?> getSinglePayment(@PathVariable String ID) {
 
-        Payment payment = paymentService.getPayment(ID);
+        Payments payment = paymentService.getPayment(ID);
         return ResponseEntity.status(HttpStatus.OK).body(payment);
     }
 
@@ -36,14 +36,14 @@ public class PaymentController {
     @GetMapping("/get/allPayments")
     public ResponseEntity<?> getAllPayments() {
 
-        List<Payment> payments = paymentService.getAllPayments();
+        List<Payments> payments = paymentService.getAllPayments();
         return ResponseEntity.status(HttpStatus.OK).body(payments);
     }
 
     @GetMapping("/get/allPaymentsByClient/{clientID}")
     public ResponseEntity<?> getAllPaymentsByClientID(@PathVariable String clientID) {
 
-        List<Payment> payments = paymentService.getPaymentsByClientID(clientID);
+        List<Payments> payments = paymentService.getPaymentsByClientID(clientID);
         return ResponseEntity.status(HttpStatus.OK).body(payments);
     }
 

@@ -1,6 +1,6 @@
 package com.windowbutlers.backend.repository;
 
-import com.windowbutlers.backend.entity.Payment;
+import com.windowbutlers.backend.entity.Payments;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.data.jpa.repository.Query;
@@ -9,10 +9,10 @@ import java.util.List;
 import java.util.UUID;
 
 @Repository
-public interface PaymentRepo extends JpaRepository<Payment, UUID> {
+public interface PaymentRepo extends JpaRepository<Payments, UUID> {
     
     @Query("SELECT p FROM Payment p WHERE p.client.id = :clientID")
-    List<Payment> findByClientId(@Param("clientId") UUID clientID);
+    List<Payments> findByClientId(@Param("clientId") UUID clientID);
 }
 
 

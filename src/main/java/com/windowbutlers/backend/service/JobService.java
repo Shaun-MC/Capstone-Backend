@@ -1,8 +1,8 @@
 package com.windowbutlers.backend.service;
 
-import com.windowbutlers.backend.entity.Job;
+import com.windowbutlers.backend.entity.Jobs;
 import com.windowbutlers.backend.dto.JobRequest;
-import com.windowbutlers.backend.validation.ValidIntegerID;
+import com.windowbutlers.backend.validation.ValidUUID;
 import org.springframework.stereotype.Service;
 import jakarta.validation.Valid;
 import java.sql.Date;
@@ -11,19 +11,19 @@ import java.util.List;
 @Service
 public interface JobService {
     
-    Integer createJob(@Valid JobRequest job);
+    String createJob(@Valid JobRequest job);
     
-    Job getJob(@ValidIntegerID Integer ID);
+    Jobs getJob(@ValidUUID String ID);
 
-    List<Job> getAllJobs();
+    List<Jobs> getAllJobs();
     
     //TODO @ValidDate
-    void updateJobCompletion(@ValidIntegerID Integer ID, Date dateCompleted);
+    void updateJobCompletion(@ValidUUID String ID, Date dateCompleted);
     
-    void updateJobNotes(@ValidIntegerID Integer ID, String jobNotes);
+    void updateJobNotes(@ValidUUID String ID, String jobNotes);
     
     //TODO @ValidRating
-    void updateJobDifficulty(@ValidIntegerID Integer ID, String difficulty);
+    void updateJobDifficulty(@ValidUUID String ID, String difficulty);
 
-    void deleteJob(@ValidIntegerID Integer ID);
+    void deleteJob(@ValidUUID String ID);
 }

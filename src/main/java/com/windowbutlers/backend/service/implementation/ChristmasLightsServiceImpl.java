@@ -4,10 +4,10 @@ import com.windowbutlers.backend.dto.ChristmasLightsRequest;
 import com.windowbutlers.backend.entity.ChristmasLights;
 import com.windowbutlers.backend.service.ChristmasLightsService;
 import com.windowbutlers.backend.repository.ChristmasLightsRepo;
-import com.windowbutlers.backend.enums.LightColor;
+import com.windowbutlers.backend.enums.LightColors;
+import com.windowbutlers.backend.exceptions.DataNotFoundException;
 import com.windowbutlers.backend.validation.ValidIntegerID;
 import com.windowbutlers.backend.validation.ValidUUID;
-import com.windowbutlers.backend.exceptions.DataNotFoundException;
 import org.springframework.stereotype.Component;
 import jakarta.validation.Valid;
 import java.util.List;
@@ -28,11 +28,11 @@ public class ChristmasLightsServiceImpl implements ChristmasLightsService {
 
         cl.setStorageLocation(request.getStorageLocation());
         cl.setInUse(request.getInUse());
-        cl.setColor(LightColor.valueOf(request.getColor().toUpperCase()));
+        cl.setColor(LightColors.valueOf(request.getColor().toUpperCase()));
 
         clRepo.save(cl);
 
-        return cl.getID().toString();
+        return cl.getId().toString();
     }
 
     public String getChristmasLightsStorageLocation(@ValidUUID String ID) {

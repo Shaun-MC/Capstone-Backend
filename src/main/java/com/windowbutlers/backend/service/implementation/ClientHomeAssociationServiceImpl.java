@@ -5,14 +5,12 @@ import com.windowbutlers.backend.entity.ClientHomeAssociation;
 import com.windowbutlers.backend.service.ClientHomeAssociationService;
 import com.windowbutlers.backend.repository.ClientHomeAssociationRepo;
 import com.windowbutlers.backend.entity.ClientHomeKey;
-import com.windowbutlers.backend.enums.RelationshipToHome;
+import com.windowbutlers.backend.enums.RelationshipsToHome;
 import com.windowbutlers.backend.exceptions.DataNotFoundException;
-import com.windowbutlers.backend.validation.ValidIntegerID;
 import com.windowbutlers.backend.validation.ValidUUID;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Component;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Component
@@ -29,9 +27,9 @@ public class ClientHomeAssociationServiceImpl implements ClientHomeAssociationSe
         
         ClientHomeAssociation clientHomeAssociation = new ClientHomeAssociation();
 
-        clientHomeAssociation.setClientID(association.getClientID());
-        clientHomeAssociation.setHomeID(association.getHomeID());
-        clientHomeAssociation.setRelation(RelationshipToHome.valueOf(association.getRelation()));
+        clientHomeAssociation.setClientID(UUID.fromString(association.getClientID()));
+        clientHomeAssociation.setHomeID(UUID.fromString(association.getHomeID()));
+        clientHomeAssociation.setRelation(RelationshipsToHome.valueOf(association.getRelation()));
         
         chaRepo.save(clientHomeAssociation);
 
@@ -45,36 +43,36 @@ public class ClientHomeAssociationServiceImpl implements ClientHomeAssociationSe
     }
 
     @Override
-    public List<ClientHomeAssociation> getClientsForHome(@ValidIntegerID Integer homeID) {
-        return chaRepo.findByHomeID(homeID);
+    public List<ClientHomeAssociation> getClientsForHome(@ValidUUID String homeID) {
+        return chaRepo.findByHomeID(UUID.fromString(homeID));
     }
 
     @Override
-    public String getAssociation(@ValidUUID String clientID, @ValidIntegerID Integer homeID) {
+    public String getAssociation(@ValidUUID String clientID, @ValidUUID String homeID) {
         
-        return chaRepo.findByClientIDAndHomeID(UUID.fromString(clientID), homeID);
+        return chaRepo.findByClientIDAndHomeID(UUID.fromString(clientID), UUID.fromString(homeID));
     }
 
     @Override
-    public List<String> getAllAssociationsForHome(@ValidIntegerID Integer homeID) {
+    public List<String> getAllAssociationsForHome(@ValidUUID String homeID) {
         
-        return chaRepo.findAssociationsByHomeID(homeID);
+        return chaRepo.findAssociationsByHomeID(UUID.fromString(homeID));
     }
 
     @Override
-    public void updateAssociation(@ValidUUID String clientID, @ValidIntegerID Integer homeID, String relation) {
+    public void updateAssociation(@ValidUUID String clientID, @ValidUUID String homeID, String relation) {
         
-        ClientHomeAssociation clientHomeAssociation = chaRepo.findById(new ClientHomeKey(UUID.fromString(clientID), homeID))
+        ClientHomeAssociation clientHomeAssociation = chaRepo.findById(new ClientHomeKey(UUID.fromString(clientID), UUID.fromString(homeID)))
                 .orElseThrow(() -> new DataNotFoundException("UpdateAssociation: Association not found in the database"));
         
-        clientHomeAssociation.setRelation(RelationshipToHome.valueOf(relation));
+        clientHomeAssociation.setRelation(RelationshipsToHome.valueOf(relation));
         chaRepo.save(clientHomeAssociation);
     }
 
     @Override
-    public void deleteAssociation(@ValidUUID String clientID, @ValidIntegerID Integer homeID) {
+    public void deleteAssociation(@ValidUUID String clientID, @ValidUUID String homeID) {
         
-        chaRepo.deleteById(new ClientHomeKey(UUID.fromString(clientID), homeID));
+        chaRepo.deleteById(new ClientHomeKey(UUID.fromString(clientID), UUID.fromString(homeID)));
     }
 }
 

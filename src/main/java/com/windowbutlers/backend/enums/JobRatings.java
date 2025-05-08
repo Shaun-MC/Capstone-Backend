@@ -1,6 +1,6 @@
 package com.windowbutlers.backend.enums;
 
-public enum Rating {
+public enum JobRatings {
         
     VERY_EASY("Very Easy"),
     EASY("Easy"),
@@ -10,7 +10,7 @@ public enum Rating {
 
     private final String rating;
 
-    Rating(String rating) {
+    JobRatings(String rating) {
         this.rating = rating;
     }
 

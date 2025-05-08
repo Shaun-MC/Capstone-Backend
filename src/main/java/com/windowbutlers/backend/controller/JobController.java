@@ -1,6 +1,6 @@
 package com.windowbutlers.backend.controller;
 
-import com.windowbutlers.backend.entity.Job;
+import com.windowbutlers.backend.entity.Jobs;
 import com.windowbutlers.backend.dto.JobRequest;
 import com.windowbutlers.backend.service.JobService;
 import org.springframework.http.HttpStatus;
@@ -23,15 +23,15 @@ public class JobController {
     @PostMapping("/create")
     public ResponseEntity<?> createJob(@RequestBody JobRequest job) {
 
-        Integer ID = jobService.createJob(job);
+        String ID = jobService.createJob(job);
         return ResponseEntity.status(HttpStatus.CREATED).body(String.format("Successfully created a new job (%d)", ID));
     }
 
     // Passes Happy Path testing:
     @GetMapping("/get/singleJob/{id}")
-    public ResponseEntity<?> getSingleJob(@PathVariable Integer ID) {
+    public ResponseEntity<?> getSingleJob(@PathVariable String ID) {
 
-        Job job = jobService.getJob(ID);
+        Jobs job = jobService.getJob(ID);
         return ResponseEntity.status(HttpStatus.OK).body(job);
     }
 
@@ -39,13 +39,13 @@ public class JobController {
     @GetMapping("/get/allJobs")
     public ResponseEntity<?> getAllJobs() {
 
-        List<Job> jobs = jobService.getAllJobs();
+        List<Jobs> jobs = jobService.getAllJobs();
         return ResponseEntity.status(HttpStatus.OK).body(jobs);
     }
 
     // Passes Happy Path testing:
     @PutMapping("/update/dateCompleted/{id}")
-    public ResponseEntity<?> updateDateCompleted(@PathVariable Integer ID, @RequestBody Date dateCompleted) {
+    public ResponseEntity<?> updateDateCompleted(@PathVariable String ID, @RequestBody Date dateCompleted) {
 
         jobService.updateJobCompletion(ID, dateCompleted);
         return ResponseEntity.status(HttpStatus.OK).body(String.format("Updated Date Completed for %s to %s", ID, dateCompleted));
@@ -53,7 +53,7 @@ public class JobController {
 
     // Passes Happy Path testing:
     @PutMapping("/update/jobNotes/{id}")
-    public ResponseEntity<?> updateJobNotes(@PathVariable Integer ID, @RequestBody String jobNotes) {
+    public ResponseEntity<?> updateJobNotes(@PathVariable String ID, @RequestBody String jobNotes) {
 
         jobService.updateJobNotes(ID, jobNotes);
         return ResponseEntity.status(HttpStatus.OK).body(String.format("Updated Job Notes for %s to %s", ID, jobNotes));
@@ -61,7 +61,7 @@ public class JobController {
 
     // Passes Happy Path testing:
     @PutMapping("/update/jobDifficulty/{id}")
-    public ResponseEntity<?> updateJobDifficulty(@PathVariable Integer ID, @RequestBody String jobDifficulty) {
+    public ResponseEntity<?> updateJobDifficulty(@PathVariable String ID, @RequestBody String jobDifficulty) {
 
         jobService.updateJobDifficulty(ID, jobDifficulty);
         return ResponseEntity.status(HttpStatus.OK).body(String.format("Updated Job Difficulty for %s to %s", ID, jobDifficulty));
@@ -69,7 +69,7 @@ public class JobController {
 
     // Passes Happy Path testing:
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<String> deleteJob(@PathVariable Integer ID) {
+    public ResponseEntity<String> deleteJob(@PathVariable String ID) {
 
         jobService.deleteJob(ID);
         return ResponseEntity.status(HttpStatus.OK).body(String.format("Job %s deleted successfully", ID));

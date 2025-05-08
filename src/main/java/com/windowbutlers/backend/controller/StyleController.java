@@ -1,6 +1,6 @@
 package com.windowbutlers.backend.controller;
 
-import com.windowbutlers.backend.entity.Style;
+import com.windowbutlers.backend.entity.Styles;
 import com.windowbutlers.backend.service.StyleService;
 import com.windowbutlers.backend.dto.StyleRequest;
 import org.springframework.http.HttpStatus;
@@ -30,7 +30,7 @@ public class StyleController {;
     @GetMapping("/get/singleStyle/{id}")
     public ResponseEntity<?> getSingleStyle(@PathVariable Integer ID) {
 
-        Style style = styleService.getStyle(ID);
+        Styles style = styleService.getStyle(ID);
         return ResponseEntity.status(HttpStatus.OK).body(style);
     }
 
@@ -45,7 +45,7 @@ public class StyleController {;
     @GetMapping("/get/allStyles")
     public ResponseEntity<?> getAllStyles() {
 
-        List<Style> styles = styleService.getAllStyles();
+        List<Styles> styles = styleService.getAllStyles();
         return ResponseEntity.status(HttpStatus.OK).body(styles);
     }
 
