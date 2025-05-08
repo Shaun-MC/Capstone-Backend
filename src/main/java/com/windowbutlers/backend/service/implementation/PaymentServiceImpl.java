@@ -1,10 +1,12 @@
 package com.windowbutlers.backend.service.implementation;
 
-import com.windowbutlers.backend.entity.Payment;
+import com.windowbutlers.backend.entity.Payments;
+import com.windowbutlers.backend.exceptions.DataNotFoundException;
 import com.windowbutlers.backend.service.PaymentService;
 import com.windowbutlers.backend.repository.PaymentRepo;
 import com.windowbutlers.backend.dto.PaymentRequest;
-import com.windowbutlers.backend.exceptions.DataNotFoundException;
+import com.windowbutlers.backend.entity.Clients;
+import com.windowbutlers.backend.repository.ClientRepo;
 import com.windowbutlers.backend.validation.ValidUUID;
 import org.springframework.stereotype.Component;
 import jakarta.validation.Valid;
@@ -15,37 +17,40 @@ import java.util.UUID;
 public class PaymentServiceImpl implements PaymentService {
 
     private final PaymentRepo paymentRepo;
+    private final ClientRepo clientRepo;
 
-    public PaymentServiceImpl(PaymentRepo paymentRepo) {
+    public PaymentServiceImpl(PaymentRepo paymentRepo, ClientRepo clientRepo) {
         this.paymentRepo = paymentRepo;
+        this.clientRepo = clientRepo;
     }
 
     @Override
     public String createPayment(@Valid PaymentRequest request) {
 
-        Payment payment = new Payment();
+        Payments payment = new Payments();
+        Clients client = clientRepo.findById(request.getClientID()).orElseThrow(() -> new DataNotFoundException("Client not found"));
 
-        payment.setClientID(request.getClientID());
+        payment.setClient(client);
         payment.setCost(request.getCost());
 
         paymentRepo.save(payment);
 
-        return payment.getID().toString();
+        return payment.getId().toString();
     }
 
     @Override
-    public Payment getPayment(@ValidUUID String ID) {
+    public Payments getPayment(@ValidUUID String ID) {
 
         return paymentRepo.findById(UUID.fromString(ID)).orElseThrow(() -> new DataNotFoundException("GetPayment: Payment not found in the database"));
     }
 
     @Override
-    public List<Payment> getAllPayments() {
+    public List<Payments> getAllPayments() {
         return paymentRepo.findAll();
     }
 
     @Override
-    public List<Payment> getPaymentsByClientID(@ValidUUID String clientID) {
+    public List<Payments> getPaymentsByClientID(@ValidUUID String clientID) {
 
         return paymentRepo.findByClientId(UUID.fromString(clientID));
     }
@@ -53,7 +58,7 @@ public class PaymentServiceImpl implements PaymentService {
     @Override
     public void updateCost(@ValidUUID String ID, Double cost){
 
-        Payment existingPayment = paymentRepo.findById(UUID.fromString(ID)).orElseThrow(() -> new DataNotFoundException("UpdateCost: Payment not found in the database"));
+        Payments existingPayment = paymentRepo.findById(UUID.fromString(ID)).orElseThrow(() -> new DataNotFoundException("UpdateCost: Payment not found in the database"));
         existingPayment.setCost(cost);
         paymentRepo.save(existingPayment);
     }
@@ -61,7 +66,7 @@ public class PaymentServiceImpl implements PaymentService {
     @Override
     public boolean isPaymentFullfilled(@ValidUUID String ID) {
         
-        Payment payment = paymentRepo.findById(UUID.fromString(ID)).orElseThrow(() -> new DataNotFoundException("isPaymentFullfilled: Payment not found in the database"));
+        Payments payment = paymentRepo.findById(UUID.fromString(ID)).orElseThrow(() -> new DataNotFoundException("isPaymentFullfilled: Payment not found in the database"));
         return payment.isFullfilled();
     }
 

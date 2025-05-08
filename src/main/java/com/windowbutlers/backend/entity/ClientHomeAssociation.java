@@ -1,13 +1,14 @@
 package com.windowbutlers.backend.entity;
 
-import com.windowbutlers.backend.enums.RelationshipToHome;
+import com.windowbutlers.backend.enums.RelationshipsToHome;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
+import java.util.UUID;
 
 @Entity
-@Table(name = "client_home_association")
+@Table(name = "clients_to_homes")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -18,18 +19,33 @@ public class ClientHomeAssociation {
 
     @ManyToOne
     @MapsId("clientID")
-    @JoinColumn(name = "clientID")
+    @JoinColumn(name = "client", referencedColumnName = "id")
+    @Column(name = "client_id", nullable = false)
     @NotNull
-    private Client client;
+    private Clients client;
 
     @ManyToOne
     @MapsId("homeID")
     @JoinColumn(name = "homeID")
+    @Column(name = "home_id", nullable = false)
     @NotNull
-    private Home home;
+    private Homes home;
 
     @JsonProperty("relation")
-    @Column(name = "")
     @NotNull
-    private RelationshipToHome relation;
+    private RelationshipsToHome relation;
+
+    public void setClientID(UUID clientID) {
+        if (this.id == null) {
+            this.id = new ClientHomeKey();
+        }
+        this.id.setClientID(clientID);
+    }
+    
+    public void setHomeID(UUID homeID) {
+        if (this.id == null) {
+            this.id = new ClientHomeKey();
+        }
+        this.id.setHomeID(homeID);
+    }
 }
