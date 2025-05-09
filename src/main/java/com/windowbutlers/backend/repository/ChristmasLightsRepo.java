@@ -12,10 +12,10 @@ import java.util.List;
 public interface ChristmasLightsRepo extends JpaRepository<ChristmasLights, UUID> {
 
     // Custom query to find all Christmas lightings that are in use
-    @Query("SELECT cl FROM ChristmasLighting cl WHERE cl.in_use = true")
+    @Query("SELECT cl FROM ChristmasLights cl WHERE cl.inUse = true")
     List<ChristmasLights> findByInUse();
 
     // Custom query to find all Christmas lightings by home ID
-    @Query("SELECT cl FROM ChristmasLighting cl JOIN cl.job j JOIN j.home h WHERE h.id = :homeId")
-    List<ChristmasLights> findByHomeId(@Param("home_id") Integer home_id);
+    @Query("SELECT cl FROM ChristmasLights cl JOIN cl.job j JOIN j.home h WHERE h.id = :homeID")
+    List<ChristmasLights> findByHome_Id(@Param("homeID") UUID homeID);
 }
