@@ -39,12 +39,12 @@ public class ClientHomeAssociationServiceImpl implements ClientHomeAssociationSe
     @Override
     public List<ClientHomeAssociation> getHomesForClient(@ValidUUID String clientID) {
         
-        return chaRepo.findByClientID(UUID.fromString(clientID));
+        return chaRepo.findHomeId_ByClientID(UUID.fromString(clientID));
     }
 
     @Override
     public List<ClientHomeAssociation> getClientsForHome(@ValidUUID String homeID) {
-        return chaRepo.findByHomeID(UUID.fromString(homeID));
+        return chaRepo.findClientId_ByHomeID(UUID.fromString(homeID));
     }
 
     @Override

@@ -52,7 +52,7 @@ public class PaymentServiceImpl implements PaymentService {
     @Override
     public List<Payments> getPaymentsByClientID(@ValidUUID String clientID) {
 
-        return paymentRepo.findByClientId(UUID.fromString(clientID));
+        return paymentRepo.findByClientID(UUID.fromString(clientID));
     }
 
     @Override
