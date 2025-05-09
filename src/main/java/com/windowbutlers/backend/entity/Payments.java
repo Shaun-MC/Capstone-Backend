@@ -21,7 +21,8 @@ public class Payments {
 
     // Foreign key to the job table
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    @JoinColumn(name = "clients", referencedColumnName = "id")
+    @NotNull
+    @JoinColumn(name = "clients", referencedColumnName = "id", nullable = false)
     private Clients client;
 
     @JsonProperty("cost")

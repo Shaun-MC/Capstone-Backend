@@ -19,15 +19,13 @@ public class ClientHomeAssociation {
 
     @ManyToOne
     @MapsId("clientID")
-    @JoinColumn(name = "client", referencedColumnName = "id")
-    @Column(name = "client_id", nullable = false)
+    @JoinColumn(name = "client_id", referencedColumnName = "id", nullable = false)
     @NotNull
     private Clients client;
 
     @ManyToOne
     @MapsId("homeID")
-    @JoinColumn(name = "homeID")
-    @Column(name = "home_id", nullable = false)
+    @JoinColumn(name = "home_id", referencedColumnName = "id", nullable = false)
     @NotNull
     private Homes home;
 

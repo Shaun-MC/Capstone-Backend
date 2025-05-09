@@ -55,13 +55,13 @@ public class Jobs {
     // Foreign key to the home table
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @NotNull
-    @JoinColumn(name = "home", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "home_id", referencedColumnName = "id", nullable = false)
     private Homes home;
 
     // Foreign key to the payment table
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "payment", referencedColumnName = "id")
-    @Column(nullable = true)
+    @NotNull
+    @JoinColumn(name = "payment_id", referencedColumnName = "id", nullable = true)
     private Payments payment; // Ehh
 
     @OneToMany(mappedBy = "job", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -69,6 +69,8 @@ public class Jobs {
 
     @OneToMany(mappedBy = "job", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Styles> jobStyles;
+
+    
 
     @Transient
     public boolean isPaid() {
