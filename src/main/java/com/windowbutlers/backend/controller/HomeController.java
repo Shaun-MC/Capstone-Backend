@@ -28,9 +28,9 @@ public class HomeController {
 
     // Passes Happy Path testing:
     @GetMapping("/get/singleHome/{id}")
-    public ResponseEntity<?> getSingleHome(@PathVariable String ID) {
+    public ResponseEntity<?> getSingleHome(@PathVariable String id) {
 
-        Homes home = homeService.getHome(ID);
+        Homes home = homeService.getHome(id);
         return ResponseEntity.status(HttpStatus.OK).body(home);
     }
 
@@ -44,17 +44,17 @@ public class HomeController {
 
     // Passes Happy Path testing
     @PutMapping("/update/powerSourceLocation/{id}")
-    public ResponseEntity<?> updatePowerSourceLocation(@PathVariable String ID, @RequestBody String powerSourceLocation) {
+    public ResponseEntity<?> updatePowerSourceLocation(@PathVariable String id, @RequestBody String powerSourceLocation) {
         
-        homeService.updatePowerSourceLocation(ID, powerSourceLocation);
-        return ResponseEntity.status(HttpStatus.OK).body(String.format("Updated Power Source Location for %s to %s", ID, powerSourceLocation));
+        homeService.updatePowerSourceLocation(id, powerSourceLocation);
+        return ResponseEntity.status(HttpStatus.OK).body(String.format("Updated Power Source Location for %s to %s", id, powerSourceLocation));
     }
 
     // Passes Happy Path testing
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<String> deleteHome(@PathVariable String ID) {
+    public ResponseEntity<String> deleteHome(@PathVariable String id) {
 
-        homeService.deleteHome(ID);
-        return ResponseEntity.status(HttpStatus.OK).body(String.format("Deleted Home with ID: %s", ID));
+        homeService.deleteHome(id);
+        return ResponseEntity.status(HttpStatus.OK).body(String.format("Deleted Home with ID: %s", id));
     }
 }

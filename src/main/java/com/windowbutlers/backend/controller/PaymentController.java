@@ -26,9 +26,9 @@ public class PaymentController {
 
     // Passes Happy Path testing:
     @GetMapping("/get/singlePayment/{id}")
-    public ResponseEntity<?> getSinglePayment(@PathVariable String ID) {
+    public ResponseEntity<?> getSinglePayment(@PathVariable String id) {
 
-        Payments payment = paymentService.getPayment(ID);
+        Payments payment = paymentService.getPayment(id);
         return ResponseEntity.status(HttpStatus.OK).body(payment);
     }
 
@@ -48,24 +48,24 @@ public class PaymentController {
     }
 
     @GetMapping("/get/isPaymentComplete/{id}")
-    public ResponseEntity<?> isPaymentFullFilled(@PathVariable String ID) {
+    public ResponseEntity<?> isPaymentFullFilled(@PathVariable String id) {
 
-        boolean isComplete = paymentService.isPaymentFullfilled(ID);
+        boolean isComplete = paymentService.isPaymentFullfilled(id);
         return ResponseEntity.status(HttpStatus.OK).body(isComplete);
     }
 
     // Passes Happy Path testing:
     @PutMapping("update/cost/{id}")
-    public ResponseEntity<?> updatePaymentAmount(@PathVariable String ID, @RequestBody Double cost) {
+    public ResponseEntity<?> updatePaymentAmount(@PathVariable String id, @RequestBody Double cost) {
 
-        paymentService.updateCost(ID, cost);
-        return ResponseEntity.status(HttpStatus.OK).body(String.format("Updated Payment Amount for %s to %s", ID, cost));
+        paymentService.updateCost(id, cost);
+        return ResponseEntity.status(HttpStatus.OK).body(String.format("Updated Payment Amount for %s to %s", id, cost));
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<String> deletePayment(@PathVariable String ID) {
+    public ResponseEntity<String> deletePayment(@PathVariable String id) {
 
-        paymentService.deletePayment(ID);
-        return ResponseEntity.status(HttpStatus.OK).body(String.format("Deleted Payment with ID: %s", ID));
+        paymentService.deletePayment(id);
+        return ResponseEntity.status(HttpStatus.OK).body(String.format("Deleted Payment with ID: %s", id));
     }
 }

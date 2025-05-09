@@ -22,22 +22,22 @@ public class StyleController {;
     @PostMapping("/create")
     public ResponseEntity<?> createStyle(@RequestBody StyleRequest style) {
 
-        Integer ID = styleService.createStyle(style);
-        return ResponseEntity.status(HttpStatus.CREATED).body(String.format("Successfully created a new style (%d)", ID));
+        Integer id = styleService.createStyle(style);
+        return ResponseEntity.status(HttpStatus.CREATED).body(String.format("Successfully created a new style (%d)", id));
     }
 
     // Passes Happy Path testing:
     @GetMapping("/get/singleStyle/{id}")
-    public ResponseEntity<?> getSingleStyle(@PathVariable Integer ID) {
+    public ResponseEntity<?> getSingleStyle(@PathVariable Integer id) {
 
-        Styles style = styleService.getStyle(ID);
+        Styles style = styleService.getStyle(id);
         return ResponseEntity.status(HttpStatus.OK).body(style);
     }
 
     @GetMapping("/get/styleLabel/{id}")
-    public ResponseEntity<?> getStyleLabel(@PathVariable Integer ID) {
+    public ResponseEntity<?> getStyleLabel(@PathVariable Integer id) {
 
-        String styleLabel = styleService.getStyleLabel(ID);
+        String styleLabel = styleService.getStyleLabel(id);
         return ResponseEntity.status(HttpStatus.OK).body(styleLabel);
     }
 
@@ -51,17 +51,17 @@ public class StyleController {;
 
     // Technically states that nothing needs to be updateed
     @PutMapping("/update/counts/{id}")
-    public ResponseEntity<?> updateStyleCounts(@PathVariable Integer ID, @RequestParam(required = false) Integer large, @RequestParam(required = false) Integer small) {
+    public ResponseEntity<?> updateStyleCounts(@PathVariable Integer id, @RequestParam(required = false) Integer large, @RequestParam(required = false) Integer small) {
 
-        styleService.updateCounts(ID, large, small);
-        return ResponseEntity.status(HttpStatus.OK).body(String.format("Updated Style Large and Small Counts for %s to %s and %s", ID, large, small));
+        styleService.updateCounts(id, large, small);
+        return ResponseEntity.status(HttpStatus.OK).body(String.format("Updated Style Large and Small Counts for %s to %s and %s", id, large, small));
     }
 
     // Passes Happy Path testing:
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<String> deleteStyle(@PathVariable Integer ID) {
+    public ResponseEntity<String> deleteStyle(@PathVariable Integer id) {
 
-        styleService.deleteStyle(ID);
-        return ResponseEntity.status(HttpStatus.OK).body(String.format("Deleted Style with ID: %s", ID));
+        styleService.deleteStyle(id);
+        return ResponseEntity.status(HttpStatus.OK).body(String.format("Deleted Style with id: %s", id));
     }
 }

@@ -22,15 +22,15 @@ public class ChristmasLightsController {
     @PostMapping("/create")
     public ResponseEntity<?> createChristmasLights(@RequestBody ChristmasLightsRequest cl) {
 
-        String ID = clService.createChristmasLights(cl);
-        return ResponseEntity.status(HttpStatus.CREATED).body(String.format("Successfully created a new Christmas light (%s)", ID));
+        String id = clService.createChristmasLights(cl);
+        return ResponseEntity.status(HttpStatus.CREATED).body(String.format("Successfully created a new Christmas light (%s)", id));
     }
 
     // Passes Happy Path testing:
     @GetMapping("/get/storageLocation/{id}")
-    public ResponseEntity<?> getChristmasLightsStorageLocation(@PathVariable String ID) {
+    public ResponseEntity<?> getChristmasLightsStorageLocation(@PathVariable String id) {
 
-        String storageLocation = clService.getChristmasLightsStorageLocation(ID);
+        String storageLocation = clService.getChristmasLightsStorageLocation(id);
         return ResponseEntity.status(HttpStatus.OK).body(storageLocation);
     }
 
@@ -44,7 +44,7 @@ public class ChristmasLightsController {
 
     // Passes Happy Path testing:
     @GetMapping("/get/allChristmasLightsByHome/{homeID}")
-    public ResponseEntity<?> getAllChristmasLightsByHomeID(@PathVariable Integer homeID) {
+    public ResponseEntity<?> getAllChristmasLightsByHomeID(@PathVariable String homeID) {
 
         List<ChristmasLights> cl = clService.getAllChristmasLightsByHomeID(homeID);
         return ResponseEntity.status(HttpStatus.OK).body(cl);
@@ -60,25 +60,25 @@ public class ChristmasLightsController {
 
     // Passes Happy Path testing:
     @PutMapping("/update/storageLocation/{id}")
-    public ResponseEntity<?> updateChristmasLightsStorageLocation(@PathVariable String ID, @RequestBody String storageLocation) {
+    public ResponseEntity<?> updateChristmasLightsStorageLocation(@PathVariable String id, @RequestBody String storageLocation) {
 
-        clService.updateStorageLocation(ID, storageLocation);
-        return ResponseEntity.status(HttpStatus.OK).body(String.format("Updated Storage Location for %s to %s", ID, storageLocation));
+        clService.updateStorageLocation(id, storageLocation);
+        return ResponseEntity.status(HttpStatus.OK).body(String.format("Updated Storage Location for %s to %s", id, storageLocation));
     }
 
     // Passes Happy Path testing:
     @PutMapping("/update/inUse/{id}")
-    public ResponseEntity<?> updateChristmasLightsInUse(@PathVariable String ID, @RequestBody Boolean inUse) {
+    public ResponseEntity<?> updateChristmasLightsInUse(@PathVariable String id, @RequestBody Boolean inUse) {
 
-        clService.updateInUse(ID, inUse);
-        return ResponseEntity.status(HttpStatus.OK).body(String.format("Updated In Use for %s to %s", ID, inUse));
+        clService.updateInUse(id, inUse);
+        return ResponseEntity.status(HttpStatus.OK).body(String.format("Updated In Use for %s to %s", id, inUse));
     }
 
     // Passes Happy Path testing:
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<String> deleteChristmasLights(@PathVariable String ID) {
+    public ResponseEntity<String> deleteChristmasLights(@PathVariable String id) {
 
-        clService.deleteChristmasLights(ID);
-        return ResponseEntity.status(HttpStatus.OK).body(String.format("Christmas Lights %s deleted successfully", ID));
+        clService.deleteChristmasLights(id);
+        return ResponseEntity.status(HttpStatus.OK).body(String.format("Christmas Lights %s deleted successfully", id));
     }
 }

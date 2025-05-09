@@ -29,9 +29,9 @@ public class JobController {
 
     // Passes Happy Path testing:
     @GetMapping("/get/singleJob/{id}")
-    public ResponseEntity<?> getSingleJob(@PathVariable String ID) {
+    public ResponseEntity<?> getSingleJob(@PathVariable String id) {
 
-        Jobs job = jobService.getJob(ID);
+        Jobs job = jobService.getJob(id);
         return ResponseEntity.status(HttpStatus.OK).body(job);
     }
 
@@ -45,18 +45,18 @@ public class JobController {
 
     // Passes Happy Path testing:
     @PutMapping("/update/dateCompleted/{id}")
-    public ResponseEntity<?> updateDateCompleted(@PathVariable String ID, @RequestBody Date dateCompleted) {
+    public ResponseEntity<?> updateDateCompleted(@PathVariable String id, @RequestBody Date dateCompleted) {
 
-        jobService.updateJobCompletion(ID, dateCompleted);
-        return ResponseEntity.status(HttpStatus.OK).body(String.format("Updated Date Completed for %s to %s", ID, dateCompleted));
+        jobService.updateJobCompletion(id, dateCompleted);
+        return ResponseEntity.status(HttpStatus.OK).body(String.format("Updated Date Completed for %s to %s", id, dateCompleted));
     }
 
     // Passes Happy Path testing:
     @PutMapping("/update/jobNotes/{id}")
-    public ResponseEntity<?> updateJobNotes(@PathVariable String ID, @RequestBody String jobNotes) {
+    public ResponseEntity<?> updateJobNotes(@PathVariable String id, @RequestBody String jobNotes) {
 
-        jobService.updateJobNotes(ID, jobNotes);
-        return ResponseEntity.status(HttpStatus.OK).body(String.format("Updated Job Notes for %s to %s", ID, jobNotes));
+        jobService.updateJobNotes(id, jobNotes);
+        return ResponseEntity.status(HttpStatus.OK).body(String.format("Updated Job Notes for %s to %s", id, jobNotes));
     }
 
     // Passes Happy Path testing:

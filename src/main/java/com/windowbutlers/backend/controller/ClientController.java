@@ -23,14 +23,14 @@ public class ClientController {
     public ResponseEntity<?> createClient(@RequestBody ClientRequest client) {
 
         String id = clientService.createClient(client);
-        return ResponseEntity.status(HttpStatus.CREATED).body("Sucessfully created a new client (%s)".formatted(id));
+        return ResponseEntity.status(HttpStatus.CREATED).body(String.format("Sucessfully created a new client (%s)", id));
     }
 
     // Passes Happy Path testing:
     @GetMapping("/get/singleClient/{id}")
-    public ResponseEntity<?> getSingleClient(@PathVariable String ID) {
+    public ResponseEntity<?> getSingleClient(@PathVariable String id) {
 
-        Clients client = clientService.getClient(ID);
+        Clients client = clientService.getClient(id);
         return ResponseEntity.status(HttpStatus.OK).body(client);
     }
 
@@ -44,25 +44,25 @@ public class ClientController {
 
     // Passes Happy Path testing:
     @PutMapping("/update/email/{id}")
-    public ResponseEntity<?> updateEmail(@PathVariable String ID, @RequestBody String email) {
+    public ResponseEntity<?> updateEmail(@PathVariable String id, @RequestBody String email) {
 
-        clientService.updateEmail(ID, email);
-        return ResponseEntity.status(HttpStatus.OK).body(String.format("Updated Email for %s to %s", ID, email));
+        clientService.updateEmail(id, email);
+        return ResponseEntity.status(HttpStatus.OK).body(String.format("Updated Email for %s to %s", id, email));
     }
 
     // Passes Happy Path testing:
     @PutMapping("/update/phoneNumber/")
-    public ResponseEntity<?> updatePhoneNumber(@PathVariable String ID, @RequestBody String phoneNumber) {
+    public ResponseEntity<?> updatePhoneNumber(@PathVariable String id, @RequestBody String phoneNumber) {
 
-        clientService.updatePhoneNumber(ID, phoneNumber);
-        return ResponseEntity.status(HttpStatus.OK).body(String.format("Updated Phone Number for %s to %s", ID, phoneNumber));
+        clientService.updatePhoneNumber(id, phoneNumber);
+        return ResponseEntity.status(HttpStatus.OK).body(String.format("Updated Phone Number for %s to %s", id, phoneNumber));
     }
 
     // Passes Happy Path testing:
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<String> deleteClient(@PathVariable String ID) {
+    public ResponseEntity<String> deleteClient(@PathVariable String id) {
 
-        clientService.deleteClient(ID);
-        return ResponseEntity.status(HttpStatus.OK).body(String.format("Deleted Client with ID %s", ID));
+        clientService.deleteClient(id);
+        return ResponseEntity.status(HttpStatus.OK).body(String.format("Deleted Client with ID %s", id));
     }
 }
