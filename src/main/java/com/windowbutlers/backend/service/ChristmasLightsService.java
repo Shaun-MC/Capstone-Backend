@@ -2,7 +2,6 @@ package com.windowbutlers.backend.service;
 
 import com.windowbutlers.backend.entity.ChristmasLights;
 import com.windowbutlers.backend.dto.ChristmasLightsRequest;
-import com.windowbutlers.backend.validation.ValidIntegerID;
 import com.windowbutlers.backend.validation.ValidUUID;
 import org.springframework.stereotype.Service;
 import jakarta.validation.Valid;
@@ -15,7 +14,7 @@ public interface ChristmasLightsService {
 
     String getChristmasLightsStorageLocation(@ValidUUID String ID);
 
-    List<ChristmasLights> getAllChristmasLightsByHomeID(@ValidIntegerID Integer homeID);
+    List<ChristmasLights> getAllChristmasLightsByHomeID(@ValidUUID String homeID);
 
     List<ChristmasLights> getAllChristmasLights();
 

@@ -6,7 +6,6 @@ import com.windowbutlers.backend.service.ChristmasLightsService;
 import com.windowbutlers.backend.repository.ChristmasLightsRepo;
 import com.windowbutlers.backend.enums.LightColors;
 import com.windowbutlers.backend.exceptions.DataNotFoundException;
-import com.windowbutlers.backend.validation.ValidIntegerID;
 import com.windowbutlers.backend.validation.ValidUUID;
 import org.springframework.stereotype.Component;
 import jakarta.validation.Valid;
@@ -40,9 +39,9 @@ public class ChristmasLightsServiceImpl implements ChristmasLightsService {
         return clRepo.findById(UUID.fromString(ID)).orElseThrow(() -> new DataNotFoundException("GetChristmasLightingStorageLocation: Christmas lighting ID not found in the database")).getStorageLocation();
     }
 
-    public List<ChristmasLights> getAllChristmasLightsByHomeID(@ValidIntegerID Integer homeID) {
+    public List<ChristmasLights> getAllChristmasLightsByHomeID(@ValidUUID String homeID) {
         
-        return clRepo.findByHomeId(homeID);
+        return clRepo.findByHome_Id(UUID.fromString(homeID));
     }
 
     public List<ChristmasLights> getAllChristmasLights() {
