@@ -1,5 +1,6 @@
 package com.windowbutlers.backend.validation;
 
+import com.windowbutlers.backend.enums.RelationshipsToHome;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import java.util.stream.Collectors;
@@ -17,7 +18,7 @@ public class EnumValidator implements ConstraintValidator<ValidEnum, String> {
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {
 
-        boolean isValidString = Arrays.stream(enumClass.getEnumConstants()).anyMatch(e -> e.name().equalsIgnoreCase(value));
+        boolean isValidString = Arrays.stream(enumClass.getEnumConstants()).anyMatch(e -> e.name().equalsIgnoreCase(value) || (e instanceof RelationshipsToHome && ((RelationshipsToHome) e).getRelationship().equalsIgnoreCase(value)));
 
         if (!isValidString) {
             // Dynamically build the error message with valid enum values

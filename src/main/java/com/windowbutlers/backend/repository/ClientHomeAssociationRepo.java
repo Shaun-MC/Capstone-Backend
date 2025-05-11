@@ -12,15 +12,15 @@ import java.util.List;
 @Repository
 public interface ClientHomeAssociationRepo extends JpaRepository<ClientHomeAssociation, ClientHomeKey> {
 
-    @Query("SELECT cha.home.id FROM ClientHomeAssociation cha WHERE cha.client.id = :clientID")
-    List<ClientHomeAssociation> findHomeId_ByClientID(@Param("clientID") UUID clientID);
+    @Query("SELECT cha FROM ClientHomeAssociation cha WHERE cha.client.id = :clientID")
+    List<ClientHomeAssociation> findHomeIDByClientID(@Param("clientID") UUID clientID);
     
-    @Query("SELECT cha.client.id FROM ClientHomeAssociation cha WHERE cha.home.id = :homeID")
-    List<ClientHomeAssociation> findClientId_ByHomeID(@Param("homeID") UUID homeID);
+    @Query("SELECT cha FROM ClientHomeAssociation cha WHERE cha.home.id = :homeID")
+    List<ClientHomeAssociation> findClientIDByHomeID(@Param("homeID") UUID homeID);
     
-    @Query("SELECT cha.relation FROM ClientHomeAssociation cha WHERE cha.client.id = :clientID AND cha.home.id = :homeID")
+    @Query("SELECT cha.relationship FROM ClientHomeAssociation cha WHERE cha.client.id = :clientID AND cha.home.id = :homeID")
     String findByClientIDAndHomeID(@Param("clientID") UUID clientID, @Param("homeID") UUID homeID);
 
-    @Query("SELECT cha.relation FROM ClientHomeAssociation cha WHERE cha.home.id = :homeID")
+    @Query("SELECT cha.relationship FROM ClientHomeAssociation cha WHERE cha.home.id = :homeID")
     List<String> findAssociationsByHomeID(UUID homeID);
 }
