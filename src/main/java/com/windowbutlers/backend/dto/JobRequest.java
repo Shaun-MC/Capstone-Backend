@@ -1,33 +1,19 @@
 package com.windowbutlers.backend.dto;
 
-import com.windowbutlers.backend.enums.JobTitles;
-import com.windowbutlers.backend.enums.JobRatings;
-import com.windowbutlers.backend.validation.ValidEnum;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.windowbutlers.backend.validation.ValidDate;
 import jakarta.validation.constraints.*;
 import lombok.Data;
-import java.sql.Date;
 
 @Data
 public class JobRequest {
     
     @NotBlank(message = "Job name is required")
-    @ValidEnum(enumClass = JobTitles.class)
-    private JobTitles title;
+    private String title;
 
-    // Idrk
-    @NotBlank(message = "Job date is required")
-    @Pattern(
-        regexp = "^(0[1-9]|1[0-2])/(0[1-9]|[12][0-9]|3[01])/\\d{4}$",
-        message = "Job date must be valid"
-    )
-    private Date dateStarted;
-
-    // Idrk
-    @Pattern(
-        regexp = "^(0[1-9]|1[0-2])/(0[1-9]|[12][0-9]|3[01])/\\\\d{4}$",
-        message = "Job time must be valid"
-    )
-    private Date dateCompleted;
+    @NotNull(message = "Job date is required")
+    @ValidDate(message = "Date must be in the format MM-DD-YYYY")
+    private String dateCompleted;
 
     @Min(value=0, message = "Labor hours must be a positive integer")
     private Integer laborHours;
@@ -36,9 +22,12 @@ public class JobRequest {
     private String notes;
 
     @NotBlank(message = "Job difficulty is required")
-    @ValidEnum(enumClass = JobRatings.class)
-    private JobRatings difficulty;
+    private String difficulty;
 
-    @NotBlank(message = "Home id is required")
+    @JsonProperty("homeID")
+    @NotNull(message = "Home id is required")
     private String homeID;
+
+    @NotNull(message = "Is paid is required")
+    private Boolean isPaid;
 }
