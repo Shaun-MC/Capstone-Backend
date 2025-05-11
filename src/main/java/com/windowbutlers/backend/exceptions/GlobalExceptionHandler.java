@@ -25,7 +25,7 @@ public class GlobalExceptionHandler {
             String message = cv.getMessage();
             errors.put(path, message);
         });
-        return ResponseEntity.badRequest().body(errors);
+        return ResponseEntity.badRequest().body(Map.of("errors", errors));
     }
 
     // For @Valid on request bodies (DTOs)
@@ -36,12 +36,14 @@ public class GlobalExceptionHandler {
         
         ex.getBindingResult().getFieldErrors().forEach(error -> errors.put(error.getField(), error.getDefaultMessage()));
         
-        return ResponseEntity.badRequest().body(errors);
+        ex.printStackTrace();
+        return ResponseEntity.badRequest().body(Map.of("errors", errors));
     }
 
     @ExceptionHandler(DataNotFoundException.class)
     public ResponseEntity<?> handleDataNotFoundException(DataNotFoundException ex) {
         
+        ex.printStackTrace();
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("error", ex.getMessage()));
     }
 
@@ -49,6 +51,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<?> handleRuntimeException(RuntimeException ex) {
         
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("error", ex.getMessage()));
+        ex.printStackTrace();
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("errors:", ex.getMessage()));
     }
 }
