@@ -5,12 +5,13 @@ import jakarta.validation.Payload;
 import java.lang.annotation.*;
 
 @Documented
-@Constraint(validatedBy = EmailValidator.class)
-@Target({ ElementType.FIELD, ElementType.PARAMETER })
+@Constraint(validatedBy = StyleRequestValidator.class)
+@Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface ValidEmail {
-
-    String message() default "Invalid email";
+public @interface ValidStyleRequest {
+    String message() default "Invalid style request";
+    
     Class<?>[] groups() default {};
+    
     Class<? extends Payload>[] payload() default {};
 }
