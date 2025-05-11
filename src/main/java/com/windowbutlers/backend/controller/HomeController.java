@@ -20,7 +20,7 @@ public class HomeController {
         this.homeService = homeService;
     }
 
-    // Passes Happy Path testing:
+    // Passes Happy Path testing: 5/10/25
     @PostMapping("/create")
     public ResponseEntity<?> createHome(@RequestBody HomeRequest home) {
         
@@ -28,7 +28,7 @@ public class HomeController {
         return ResponseEntity.status(HttpStatus.CREATED).body(String.format("Successfully created a new home (%s)", id));
     }
 
-    // Passes Happy Path testing:
+    // Passes Happy Path testing: 5/10/25
     @GetMapping("/get/singleHome/{id}")
     public ResponseEntity<?> getSingleHome(@PathVariable String id) {
 
@@ -36,7 +36,7 @@ public class HomeController {
         return ResponseEntity.status(HttpStatus.OK).body(home);
     }
 
-    // Passes Happy Path testing
+    // Passes Happy Path testing: 5/10/25
     @GetMapping("/get/allHomes")
     public ResponseEntity<?> getAllHomes() {
         
@@ -44,6 +44,7 @@ public class HomeController {
         return ResponseEntity.status(HttpStatus.OK).body(homes);
     }
 
+    // Passes Happy Path testing: 5/10/25
     @PutMapping("/update/notes/{id}")
     public ResponseEntity<?> updateNotes(@PathVariable String id, @RequestBody NotesUpdateRequest req) {
         
@@ -51,7 +52,7 @@ public class HomeController {
         return ResponseEntity.status(HttpStatus.OK).body(String.format("Updated Notes for %s to %s", id, req.getNotes()));
     }
 
-    // Passes Happy Path testing
+    // Passes Happy Path testing: 5/10/25
     @PutMapping("/update/powerSourceLocation/{id}")
     public ResponseEntity<?> updatePowerSourceLocation(@PathVariable String id, @RequestBody PowerSourceLocationUpdateRequest req) {
         
@@ -59,7 +60,7 @@ public class HomeController {
         return ResponseEntity.status(HttpStatus.OK).body(String.format("Updated Power Source Location for %s to %s", id, req.getPowerSourceLocation()));
     }
 
-    // Passes Happy Path testing
+    // Passes Happy Path testing: 5/10/25
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> deleteHome(@PathVariable String id) {
 
