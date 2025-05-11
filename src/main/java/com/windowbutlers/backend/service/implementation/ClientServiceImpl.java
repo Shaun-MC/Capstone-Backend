@@ -3,6 +3,8 @@ package com.windowbutlers.backend.service.implementation;
 import com.windowbutlers.backend.entity.Clients;
 import com.windowbutlers.backend.exceptions.DataNotFoundException;
 import com.windowbutlers.backend.dto.ClientRequest;
+import com.windowbutlers.backend.dto.EmailUpdateRequest;
+import com.windowbutlers.backend.dto.PhoneNumberUpdateRequest;
 import com.windowbutlers.backend.service.ClientService;
 import com.windowbutlers.backend.repository.ClientRepo;
 import com.windowbutlers.backend.validation.*;
@@ -49,16 +51,18 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public void updateEmail(@ValidUUID String ID, @ValidEmail String email) {
+    public void updateEmail(@ValidUUID String ID, @Valid EmailUpdateRequest req) {
         
+        String email = req.getEmail();
         Clients client = clientRepo.findById(UUID.fromString(ID)).orElseThrow(() -> new DataNotFoundException("UpdateEmail: Client ID not found in the database"));
         client.setEmail(email);
         clientRepo.save(client);
     }
 
     @Override
-    public void updatePhoneNumber(@ValidUUID String ID, @ValidPhoneNumber String phoneNumber) {
+    public void updatePhoneNumber(@ValidUUID String ID, @Valid PhoneNumberUpdateRequest req) {
         
+        String phoneNumber = req.getPhoneNumber();
         Clients client = clientRepo.findById(UUID.fromString(ID)).orElseThrow(() -> new RuntimeException("UpdatePhoneNumber: Client ID not found in the database"));
         client.setPhoneNumber(phoneNumber);
         clientRepo.save(client);

@@ -2,6 +2,8 @@ package com.windowbutlers.backend.service;
 
 import com.windowbutlers.backend.entity.Clients;
 import com.windowbutlers.backend.dto.ClientRequest;
+import com.windowbutlers.backend.dto.EmailUpdateRequest;
+import com.windowbutlers.backend.dto.PhoneNumberUpdateRequest;
 import com.windowbutlers.backend.validation.*;
 import org.springframework.stereotype.Service;
 import jakarta.validation.Valid;
@@ -16,9 +18,9 @@ public interface ClientService {
 
     List<Clients> getAllClients();
 
-    void updateEmail(@ValidUUID String ID, @ValidEmail String email);
+    void updateEmail(@ValidUUID String ID, @Valid EmailUpdateRequest email);
 
-    void updatePhoneNumber(@ValidUUID String ID, @ValidPhoneNumber String phoneNumber);
+    void updatePhoneNumber(@ValidUUID String ID, @Valid PhoneNumberUpdateRequest phoneNumber);
 
     void deleteClient(@ValidUUID String ID);
 }

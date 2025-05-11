@@ -48,7 +48,7 @@ public class ClientController {
     @PutMapping("/update/email/{id}")
     public ResponseEntity<?> updateEmail(@PathVariable String id, @RequestBody EmailUpdateRequest email) {
 
-        clientService.updateEmail(id, email.getEmail());
+        clientService.updateEmail(id, email);
         return ResponseEntity.status(HttpStatus.OK).body(String.format("Updated Email for %s to %s", id, email.getEmail()));
     }
 
@@ -56,7 +56,7 @@ public class ClientController {
     @PutMapping("/update/phoneNumber/{id}")
     public ResponseEntity<?> updatePhoneNumber(@PathVariable String id, @RequestBody PhoneNumberUpdateRequest phoneNumber) {
 
-        clientService.updatePhoneNumber(id, phoneNumber.getPhoneNumber());
+        clientService.updatePhoneNumber(id, phoneNumber);
         return ResponseEntity.status(HttpStatus.OK).body(String.format("Updated Phone Number for %s to %s", id, phoneNumber.getPhoneNumber()));
     }
 
