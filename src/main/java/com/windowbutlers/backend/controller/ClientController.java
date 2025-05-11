@@ -2,6 +2,8 @@ package com.windowbutlers.backend.controller;
 
 import com.windowbutlers.backend.entity.Clients;
 import com.windowbutlers.backend.dto.ClientRequest;
+import com.windowbutlers.backend.dto.EmailUpdateRequest;
+import com.windowbutlers.backend.dto.PhoneNumberUpdateRequest;
 import com.windowbutlers.backend.service.ClientService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -44,18 +46,18 @@ public class ClientController {
 
     // Passes Happy Path testing:
     @PutMapping("/update/email/{id}")
-    public ResponseEntity<?> updateEmail(@PathVariable String id, @RequestBody String email) {
+    public ResponseEntity<?> updateEmail(@PathVariable String id, @RequestBody EmailUpdateRequest email) {
 
-        clientService.updateEmail(id, email);
-        return ResponseEntity.status(HttpStatus.OK).body(String.format("Updated Email for %s to %s", id, email));
+        clientService.updateEmail(id, email.getEmail());
+        return ResponseEntity.status(HttpStatus.OK).body(String.format("Updated Email for %s to %s", id, email.getEmail()));
     }
 
     // Passes Happy Path testing:
-    @PutMapping("/update/phoneNumber/")
-    public ResponseEntity<?> updatePhoneNumber(@PathVariable String id, @RequestBody String phoneNumber) {
+    @PutMapping("/update/phoneNumber/{id}")
+    public ResponseEntity<?> updatePhoneNumber(@PathVariable String id, @RequestBody PhoneNumberUpdateRequest phoneNumber) {
 
-        clientService.updatePhoneNumber(id, phoneNumber);
-        return ResponseEntity.status(HttpStatus.OK).body(String.format("Updated Phone Number for %s to %s", id, phoneNumber));
+        clientService.updatePhoneNumber(id, phoneNumber.getPhoneNumber());
+        return ResponseEntity.status(HttpStatus.OK).body(String.format("Updated Phone Number for %s to %s", id, phoneNumber.getPhoneNumber()));
     }
 
     // Passes Happy Path testing:
