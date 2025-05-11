@@ -18,9 +18,9 @@ public interface ClientService {
 
     List<Clients> getAllClients();
 
-    void updateEmail(@ValidUUID String ID, @Valid EmailUpdateRequest email);
+    String updateEmail(@ValidUUID String ID, @Valid EmailUpdateRequest email);
 
-    void updatePhoneNumber(@ValidUUID String ID, @Valid PhoneNumberUpdateRequest phoneNumber);
+    String updatePhoneNumber(@ValidUUID String ID, @Valid PhoneNumberUpdateRequest phoneNumber);
 
     void deleteClient(@ValidUUID String ID);
 }

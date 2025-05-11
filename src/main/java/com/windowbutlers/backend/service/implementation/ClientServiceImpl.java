@@ -51,21 +51,25 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public void updateEmail(@ValidUUID String ID, @Valid EmailUpdateRequest req) {
+    public String updateEmail(@ValidUUID String ID, @Valid EmailUpdateRequest req) {
         
         String email = req.getEmail();
         Clients client = clientRepo.findById(UUID.fromString(ID)).orElseThrow(() -> new DataNotFoundException("UpdateEmail: Client ID not found in the database"));
         client.setEmail(email);
         clientRepo.save(client);
+
+        return client.getEmail();
     }
 
     @Override
-    public void updatePhoneNumber(@ValidUUID String ID, @Valid PhoneNumberUpdateRequest req) {
+    public String updatePhoneNumber(@ValidUUID String ID, @Valid PhoneNumberUpdateRequest req) {
         
         String phoneNumber = req.getPhoneNumber();
         Clients client = clientRepo.findById(UUID.fromString(ID)).orElseThrow(() -> new RuntimeException("UpdatePhoneNumber: Client ID not found in the database"));
         client.setPhoneNumber(phoneNumber);
         clientRepo.save(client);
+
+        return client.getPhoneNumber();
     }
 
     @Override

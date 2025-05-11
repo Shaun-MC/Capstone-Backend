@@ -46,18 +46,18 @@ public class ClientController {
 
     // Passes Happy Path testing:
     @PutMapping("/update/email/{id}")
-    public ResponseEntity<?> updateEmail(@PathVariable String id, @RequestBody EmailUpdateRequest email) {
+    public ResponseEntity<?> updateEmail(@PathVariable String id, @RequestBody EmailUpdateRequest req) {
 
-        clientService.updateEmail(id, email);
-        return ResponseEntity.status(HttpStatus.OK).body(String.format("Updated Email for %s to %s", id, email.getEmail()));
+        String validEmail = clientService.updateEmail(id, req);
+        return ResponseEntity.status(HttpStatus.OK).body(String.format("Updated Email for %s to %s", id, validEmail));
     }
 
     // Passes Happy Path testing:
     @PutMapping("/update/phoneNumber/{id}")
-    public ResponseEntity<?> updatePhoneNumber(@PathVariable String id, @RequestBody PhoneNumberUpdateRequest phoneNumber) {
+    public ResponseEntity<?> updatePhoneNumber(@PathVariable String id, @RequestBody PhoneNumberUpdateRequest req) {
 
-        clientService.updatePhoneNumber(id, phoneNumber);
-        return ResponseEntity.status(HttpStatus.OK).body(String.format("Updated Phone Number for %s to %s", id, phoneNumber.getPhoneNumber()));
+        String validNumber = clientService.updatePhoneNumber(id, req);
+        return ResponseEntity.status(HttpStatus.OK).body(String.format("Updated Phone Number for %s to %s", id, validNumber));
     }
 
     // Passes Happy Path testing:
