@@ -1,6 +1,7 @@
 package com.windowbutlers.backend.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -37,10 +38,11 @@ public class Payments {
     @Column(nullable = false)
     private Double cost;
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "payment")
     private List<Jobs> jobs;
 
     public boolean isFullfilled() {
-        return jobs != null && !jobs.isEmpty() && jobs.stream().allMatch(Jobs::isPaid);
+        return jobs != null && !jobs.isEmpty() && jobs.stream().allMatch(Jobs::getIsPaid);
     }
 }

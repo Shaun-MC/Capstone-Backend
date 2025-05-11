@@ -1,9 +1,11 @@
 package com.windowbutlers.backend.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
+import java.util.List;
 import java.util.UUID;
 
 @AllArgsConstructor
@@ -48,4 +50,8 @@ public class Homes {
     @JsonProperty("powerSourceLocation")
     @Column(name="power_source_location", nullable = true)
     private String powerSourceLocation;
+
+    @JsonManagedReference
+    @OneToMany(mappedBy = "home", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Jobs> jobs;
 }

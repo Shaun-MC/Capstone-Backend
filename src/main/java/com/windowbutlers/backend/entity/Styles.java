@@ -1,5 +1,6 @@
 package com.windowbutlers.backend.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.windowbutlers.backend.enums.StyleLabels;
 import jakarta.persistence.*;
@@ -17,9 +18,10 @@ public class Styles {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonBackReference
     @NotNull
-    @JoinColumn(name = "jobs", referencedColumnName = "id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "job_id", referencedColumnName = "id", nullable = false)
     private Jobs job;
 
     @JsonProperty("label")
