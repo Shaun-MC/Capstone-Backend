@@ -5,6 +5,7 @@ import com.windowbutlers.backend.exceptions.DataNotFoundException;
 import com.windowbutlers.backend.service.PaymentService;
 import com.windowbutlers.backend.repository.PaymentRepo;
 import com.windowbutlers.backend.dto.PaymentRequest;
+import com.windowbutlers.backend.dto.CostUpdateRequest;
 import com.windowbutlers.backend.entity.Clients;
 import com.windowbutlers.backend.repository.ClientRepo;
 import com.windowbutlers.backend.validation.ValidUUID;
@@ -52,27 +53,35 @@ public class PaymentServiceImpl implements PaymentService {
     @Override
     public List<Payments> getPaymentsByClientID(@ValidUUID String clientID) {
 
-        return paymentRepo.findByClientID(UUID.fromString(clientID));
-    }
-
-    @Override
-    public void updateCost(@ValidUUID String ID, Double cost){
-
-        Payments existingPayment = paymentRepo.findById(UUID.fromString(ID)).orElseThrow(() -> new DataNotFoundException("UpdateCost: Payment not found in the database"));
-        existingPayment.setCost(cost);
-        paymentRepo.save(existingPayment);
+        List<Payments> payments = paymentRepo.findByClientID(UUID.fromString(clientID));
+        if (payments.isEmpty()) {
+            throw new DataNotFoundException("No payments found for client ID: " + clientID);
+        }
+        return payments;
     }
 
     @Override
     public boolean isPaymentFullfilled(@ValidUUID String ID) {
-        
+
         Payments payment = paymentRepo.findById(UUID.fromString(ID)).orElseThrow(() -> new DataNotFoundException("isPaymentFullfilled: Payment not found in the database"));
         return payment.isFullfilled();
     }
 
     @Override
+    public Double updateCost(@ValidUUID String ID, @Valid CostUpdateRequest req) {
+
+        Double newCost = req.getCost();
+
+        Payments existingPayment = paymentRepo.findById(UUID.fromString(ID)).orElseThrow(() -> new DataNotFoundException("UpdateCost: Payment not found in the database"));
+        existingPayment.setCost(newCost);
+        paymentRepo.save(existingPayment);
+
+        return existingPayment.getCost();
+    }
+
+    @Override
     public void deletePayment(@ValidUUID String ID) {
-        
+
         paymentRepo.deleteById(UUID.fromString(ID));
     }
 }

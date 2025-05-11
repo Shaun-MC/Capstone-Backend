@@ -1,6 +1,7 @@
 package com.windowbutlers.backend.service;
 
 import com.windowbutlers.backend.dto.PaymentRequest;
+import com.windowbutlers.backend.dto.CostUpdateRequest;
 import com.windowbutlers.backend.entity.Payments;
 import com.windowbutlers.backend.validation.ValidUUID;
 import org.springframework.stereotype.Service;
@@ -18,7 +19,7 @@ public interface PaymentService {
 
     List<Payments> getPaymentsByClientID(@ValidUUID String clientID);
 
-    void updateCost(@ValidUUID String ID, Double cost);
+    Double updateCost(@ValidUUID String ID, @Valid CostUpdateRequest req);
 
     boolean isPaymentFullfilled(@ValidUUID String ID);
 
