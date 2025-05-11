@@ -82,4 +82,11 @@ public class GlobalExceptionHandler {
         ex.printStackTrace();
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("errors:", ex.getMessage()));
     }
+
+    @ExceptionHandler(InvalidRequestException.class)
+    public ResponseEntity<?> handleInvalidRequestException(InvalidRequestException ex) {
+
+        ex.printStackTrace();
+        return ResponseEntity.badRequest().body(Map.of("error", ex.getMessage()));
+    }
 }
