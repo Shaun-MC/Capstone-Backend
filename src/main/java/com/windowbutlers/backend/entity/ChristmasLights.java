@@ -7,6 +7,10 @@ import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import java.util.UUID;
 
+/**
+ * TODO:
+ * Doesn't really make sense for inUse to be true and not associated with a job.
+ */
 @Entity
 @Table(name = "christmas_lights")
 @Data
@@ -19,7 +23,6 @@ public class ChristmasLights {
     @Column(columnDefinition = "uuid", updatable = false, nullable = false)
     private UUID id;
 
-    // Default: 'On location'
     @JsonProperty("storageLocation")
     @NotNull
     @Column(name = "storage_location", nullable = false)
@@ -36,6 +39,7 @@ public class ChristmasLights {
     @Column(nullable = false)
     private LightColors color;
 
+    @JsonProperty("jobID")
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "job_id", nullable = true)
     private Jobs job;

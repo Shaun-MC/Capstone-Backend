@@ -3,6 +3,8 @@ package com.windowbutlers.backend.controller;
 import com.windowbutlers.backend.entity.ChristmasLights;
 import com.windowbutlers.backend.service.ChristmasLightsService;
 import com.windowbutlers.backend.dto.ChristmasLightsRequest;
+import com.windowbutlers.backend.dto.StorageLocationUpdateRequest;
+import com.windowbutlers.backend.dto.BooleanUpdateRequest;
 import com.windowbutlers.backend.validation.ValidUUID;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,7 +14,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/christmas-lighting")
+@RequestMapping("/api/christmas-lights")
 public class ChristmasLightsController {
 
     private final ChristmasLightsService clService;
@@ -63,18 +65,18 @@ public class ChristmasLightsController {
 
     // Passes Happy Path testing:
     @PutMapping("/update/storageLocation/{id}")
-    public ResponseEntity<?> updateChristmasLightsStorageLocation(@PathVariable @ValidUUID String id, @RequestBody String storageLocation) {
+    public ResponseEntity<?> updateChristmasLightsStorageLocation(@PathVariable @ValidUUID String id, @RequestBody @Valid StorageLocationUpdateRequest storageLocation) {
 
-        clService.updateStorageLocation(UUID.fromString(id), storageLocation);
-        return ResponseEntity.status(HttpStatus.OK).body(String.format("Updated Storage Location for %s to %s", id, storageLocation));
+        String location = clService.updateStorageLocation(UUID.fromString(id), storageLocation);
+        return ResponseEntity.status(HttpStatus.OK).body(String.format("Updated Storage Location for %s to %s", id, location));
     }
 
     // Passes Happy Path testing:
     @PutMapping("/update/inUse/{id}")
-    public ResponseEntity<?> updateChristmasLightsInUse(@PathVariable @ValidUUID String id, @RequestBody Boolean inUse) {
+    public ResponseEntity<?> updateChristmasLightsInUse(@PathVariable @ValidUUID String id, @RequestBody @Valid BooleanUpdateRequest req) {
 
-        clService.updateInUse(UUID.fromString(id), inUse);
-        return ResponseEntity.status(HttpStatus.OK).body(String.format("Updated In Use for %s to %s", id, inUse));
+        boolean useStatus = clService.updateInUse(UUID.fromString(id), req);
+        return ResponseEntity.status(HttpStatus.OK).body(String.format("Updated In Use for %s to %s", id, useStatus));
     }
 
     // Passes Happy Path testing:

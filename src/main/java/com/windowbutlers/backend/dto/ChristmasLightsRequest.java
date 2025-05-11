@@ -10,7 +10,7 @@ import lombok.Data;
 @Data
 public class ChristmasLightsRequest {
     
-    @Size(max = 255, message = "Name must be less then 255 characters")
+    @Size(max = 255, message = "Storage location must be less then 255 characters")
     private String storageLocation;
 
     @NotNull(message = "In use is required")

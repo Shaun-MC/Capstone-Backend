@@ -1,6 +1,8 @@
 package com.windowbutlers.backend.service.implementation;
 
+import com.windowbutlers.backend.dto.BooleanUpdateRequest;
 import com.windowbutlers.backend.dto.ChristmasLightsRequest;
+import com.windowbutlers.backend.dto.StorageLocationUpdateRequest;
 import com.windowbutlers.backend.entity.ChristmasLights;
 import com.windowbutlers.backend.service.ChristmasLightsService;
 import com.windowbutlers.backend.repository.ChristmasLightsRepo;
@@ -52,18 +54,26 @@ public class ChristmasLightsServiceImpl implements ChristmasLightsService {
         return clRepo.findByInUse();
     }
 
-    public void updateStorageLocation(UUID id, String storageLocation) {
-
+    public String updateStorageLocation(UUID id, StorageLocationUpdateRequest req) {
+        
+        String storageLocation = req.getStorageLocation();
         ChristmasLights cl = clRepo.findById(id).orElseThrow(() -> new DataNotFoundException("UpdateStorageLocation: Christmas lighting ID not found in the database"));
+        
         cl.setStorageLocation(storageLocation);
         clRepo.save(cl);
+
+        return cl.getStorageLocation();
     }
 
-    public void updateInUse(UUID id, boolean inUse) {
+    public boolean updateInUse(UUID id, BooleanUpdateRequest req) {
         
+        Boolean inUse = req.getValue();
         ChristmasLights cl = clRepo.findById(id).orElseThrow(() -> new DataNotFoundException("UpdateInUse: Christmas lighting ID not found in the database"));
+        
         cl.setInUse(inUse);
         clRepo.save(cl);
+
+        return cl.getInUse();
     }
 
     public void deleteChristmasLights(UUID id) {
