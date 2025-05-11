@@ -7,9 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.PathVariable;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/clientHomeAssociation")
@@ -31,21 +29,21 @@ public class ClientHomeAssociationController {
     @GetMapping("/get/homes/{clientID}")
     public ResponseEntity<?> getHomesForClient(@PathVariable String clientID) {
         
-        List<ClientHomeAssociation> homes = chaService.getHomesForClient(clientID);
+        List<ClientHomeAssociation> homes = chaService.getHomesForClient(UUID.fromString(clientID));
         return ResponseEntity.status(HttpStatus.OK).body(homes);
     }
 
     @GetMapping("/get/clients/{homeID}")
     public ResponseEntity<?> getClientsForHome(@PathVariable String homeID) {
         
-        List<ClientHomeAssociation> clients = chaService.getClientsForHome(homeID);
+        List<ClientHomeAssociation> clients = chaService.getClientsForHome(UUID.fromString(homeID));
         return ResponseEntity.status(HttpStatus.OK).body(clients);
     }
 
     @GetMapping("/get/association/{clientID}/{homeID}")
     public ResponseEntity<?> getAssociation(@PathVariable String clientID, @PathVariable String homeID) {
         
-        String association = chaService.getAssociation(clientID, homeID);
+        String association = chaService.getAssociation(UUID.fromString(clientID), UUID.fromString(homeID));
         return ResponseEntity.status(HttpStatus.OK).body(association);
     }
 
@@ -53,21 +51,21 @@ public class ClientHomeAssociationController {
     @GetMapping("/get/allAssociationsForHome/{homeID}")
     public ResponseEntity<?> getAllAssociationsForHome(@PathVariable String homeID) {
         
-        List<String> associations = chaService.getAllAssociationsForHome(homeID);
+        List<String> associations = chaService.getAllAssociationsForHome(UUID.fromString(homeID));
         return ResponseEntity.status(HttpStatus.OK).body(associations);
     }
 
     @PutMapping("update/association/{clientID}/{homeID}")
     public ResponseEntity<?> updateAssociation(@PathVariable String clientID, @PathVariable String homeID, @RequestBody String association) {
         
-        chaService.updateAssociation(clientID, homeID, association);
+        chaService.updateAssociation(UUID.fromString(clientID), UUID.fromString(homeID), association);
         return ResponseEntity.status(HttpStatus.OK).body(String.format("Updated association to %s successfully", association));
     }
 
     @DeleteMapping("/delete/association/{clientID}/{homeID}")
     public ResponseEntity<?> deleteAssociation(@PathVariable String clientID, @PathVariable String homeID) {
         
-        chaService.deleteAssociation(clientID, homeID);
+        chaService.deleteAssociation(UUID.fromString(clientID), UUID.fromString(homeID));
         return ResponseEntity.status(HttpStatus.OK).body("Association deleted successfully");
     }
 }

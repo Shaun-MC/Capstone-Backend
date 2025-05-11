@@ -3,9 +3,11 @@ package com.windowbutlers.backend.controller;
 import com.windowbutlers.backend.entity.Styles;
 import com.windowbutlers.backend.service.StyleService;
 import com.windowbutlers.backend.dto.StyleRequest;
+import com.windowbutlers.backend.validation.ValidIntegerID;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import jakarta.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -20,7 +22,7 @@ public class StyleController {;
 
     // Passes Happy Path testing:
     @PostMapping("/create")
-    public ResponseEntity<?> createStyle(@RequestBody StyleRequest style) {
+    public ResponseEntity<?> createStyle(@RequestBody @Valid StyleRequest style) {
 
         Integer id = styleService.createStyle(style);
         return ResponseEntity.status(HttpStatus.CREATED).body(String.format("Successfully created a new style (%d)", id));
@@ -28,14 +30,14 @@ public class StyleController {;
 
     // Passes Happy Path testing:
     @GetMapping("/get/singleStyle/{id}")
-    public ResponseEntity<?> getSingleStyle(@PathVariable Integer id) {
+    public ResponseEntity<?> getSingleStyle(@PathVariable @ValidIntegerID Integer id) {
 
         Styles style = styleService.getStyle(id);
         return ResponseEntity.status(HttpStatus.OK).body(style);
     }
 
     @GetMapping("/get/styleLabel/{id}")
-    public ResponseEntity<?> getStyleLabel(@PathVariable Integer id) {
+    public ResponseEntity<?> getStyleLabel(@PathVariable @ValidIntegerID Integer id) {
 
         String styleLabel = styleService.getStyleLabel(id);
         return ResponseEntity.status(HttpStatus.OK).body(styleLabel);
@@ -51,15 +53,15 @@ public class StyleController {;
 
     // Technically states that nothing needs to be updateed
     @PutMapping("/update/counts/{id}")
-    public ResponseEntity<?> updateStyleCounts(@PathVariable Integer id, @RequestParam(required = false) Integer large, @RequestParam(required = false) Integer small) {
+    public ResponseEntity<?> updateStyleCounts(@PathVariable @ValidIntegerID Integer id, @RequestBody @Valid StyleRequest req) {
 
-        styleService.updateCounts(id, large, small);
-        return ResponseEntity.status(HttpStatus.OK).body(String.format("Updated Style Large and Small Counts for %s to %s and %s", id, large, small));
+        List<Integer> counts = styleService.updateCounts(id, req);
+        return ResponseEntity.status(HttpStatus.OK).body(String.format("Updated Style Large and Small Counts for %s to %d and %d", id, counts.get(0), counts.get(1)));
     }
 
     // Passes Happy Path testing:
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<String> deleteStyle(@PathVariable Integer id) {
+    public ResponseEntity<String> deleteStyle(@PathVariable @ValidIntegerID Integer id) {
 
         styleService.deleteStyle(id);
         return ResponseEntity.status(HttpStatus.OK).body(String.format("Deleted Style with id: %s", id));
