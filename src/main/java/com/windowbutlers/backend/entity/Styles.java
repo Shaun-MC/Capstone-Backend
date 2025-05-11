@@ -20,7 +20,7 @@ public class Styles {
 
     @JsonBackReference
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "job_id", referencedColumnName = "id", nullable = false)
     private Jobs job;
 

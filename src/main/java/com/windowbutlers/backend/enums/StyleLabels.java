@@ -1,5 +1,8 @@
 package com.windowbutlers.backend.enums;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
+
 public enum StyleLabels {
     
     FRONT("Front"),
@@ -23,7 +26,18 @@ public enum StyleLabels {
         this.label = label;
     }
 
+    @JsonValue
     public String getLabel() {
         return label;
+    }
+
+    @JsonCreator
+    public static StyleLabels fromString(String value) {
+        for (StyleLabels style : StyleLabels.values()) {
+            if (style.label.equalsIgnoreCase(value) || style.name().equalsIgnoreCase(value)) {
+                return style;
+            }
+        }
+        throw new IllegalArgumentException("Invalid StyleLabel: " + value);
     }
 }

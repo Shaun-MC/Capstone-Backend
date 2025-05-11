@@ -2,6 +2,7 @@ package com.windowbutlers.backend.controller;
 
 import com.windowbutlers.backend.entity.Styles;
 import com.windowbutlers.backend.service.StyleService;
+import com.windowbutlers.backend.dto.CountsUpdateRequest;
 import com.windowbutlers.backend.dto.StyleRequest;
 import com.windowbutlers.backend.validation.ValidIntegerID;
 import org.springframework.http.HttpStatus;
@@ -12,7 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/style")
-public class StyleController {;
+public class StyleController {
     
     private final StyleService styleService;
 
@@ -36,13 +37,6 @@ public class StyleController {;
         return ResponseEntity.status(HttpStatus.OK).body(style);
     }
 
-    @GetMapping("/get/styleLabel/{id}")
-    public ResponseEntity<?> getStyleLabel(@PathVariable @ValidIntegerID Integer id) {
-
-        String styleLabel = styleService.getStyleLabel(id);
-        return ResponseEntity.status(HttpStatus.OK).body(styleLabel);
-    }
-
     // Passes Happy Path testing:
     @GetMapping("/get/allStyles")
     public ResponseEntity<?> getAllStyles() {
@@ -51,12 +45,19 @@ public class StyleController {;
         return ResponseEntity.status(HttpStatus.OK).body(styles);
     }
 
+    @GetMapping("/get/styleLabel/{id}")
+    public ResponseEntity<?> getStyleLabel(@PathVariable @ValidIntegerID Integer id) {
+
+        String styleLabel = styleService.getStyleLabel(id);
+        return ResponseEntity.status(HttpStatus.OK).body(styleLabel);
+    }
+
     // Technically states that nothing needs to be updateed
     @PutMapping("/update/counts/{id}")
-    public ResponseEntity<?> updateStyleCounts(@PathVariable @ValidIntegerID Integer id, @RequestBody @Valid StyleRequest req) {
+    public ResponseEntity<?> updateStyleCounts(@PathVariable @ValidIntegerID Integer id, @RequestBody @Valid CountsUpdateRequest req) {
 
         List<Integer> counts = styleService.updateCounts(id, req);
-        return ResponseEntity.status(HttpStatus.OK).body(String.format("Updated Style Large and Small Counts for %s to %d and %d", id, counts.get(0), counts.get(1)));
+        return ResponseEntity.status(HttpStatus.OK).body(String.format("Updated Style Large and Small Counts for Style (%s) to %d and %d", id, counts.get(0), counts.get(1)));
     }
 
     // Passes Happy Path testing:

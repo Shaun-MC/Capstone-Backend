@@ -2,6 +2,7 @@ package com.windowbutlers.backend.service;
 
 import com.windowbutlers.backend.entity.Styles;
 import org.springframework.stereotype.Service;
+import com.windowbutlers.backend.dto.CountsUpdateRequest;
 import com.windowbutlers.backend.dto.StyleRequest;
 import java.util.List;
 
@@ -16,7 +17,7 @@ public interface StyleService {
 
     List<Styles> getAllStyles();
 
-    List<Integer> updateCounts(Integer ID, StyleRequest req);
+    List<Integer> updateCounts(Integer ID, CountsUpdateRequest req);
 
     void deleteStyle(Integer ID);
 }
