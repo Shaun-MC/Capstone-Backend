@@ -8,11 +8,13 @@ import com.windowbutlers.backend.dto.PaymentRequest;
 import com.windowbutlers.backend.dto.CostUpdateRequest;
 import com.windowbutlers.backend.entity.Clients;
 import com.windowbutlers.backend.repository.ClientRepo;
-import com.windowbutlers.backend.validation.ValidUUID;
+import com.windowbutlers.backend.dto.PaymentFullfilledResponse;
+import com.windowbutlers.backend.dto.PaymentFullfilledResponse.JobSummary;
+import com.windowbutlers.backend.entity.Jobs;
 import org.springframework.stereotype.Component;
-import jakarta.validation.Valid;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Component
 public class PaymentServiceImpl implements PaymentService {
@@ -26,10 +28,12 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
-    public String createPayment(@Valid PaymentRequest request) {
+    public String createPayment(PaymentRequest request) {
 
+        UUID clientID = UUID.fromString(request.getClientID());
+        
         Payments payment = new Payments();
-        Clients client = clientRepo.findById(request.getClientID()).orElseThrow(() -> new DataNotFoundException("Client not found"));
+        Clients client = clientRepo.findById(clientID).orElseThrow(() -> new DataNotFoundException("Client not found"));
 
         payment.setClient(client);
         payment.setCost(request.getCost());
@@ -40,9 +44,9 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
-    public Payments getPayment(@ValidUUID String ID) {
+    public Payments getPayment(UUID id) {
 
-        return paymentRepo.findById(UUID.fromString(ID)).orElseThrow(() -> new DataNotFoundException("GetPayment: Payment not found in the database"));
+        return paymentRepo.findById(id).orElseThrow(() -> new DataNotFoundException("GetPayment: Payment not found in the database"));
     }
 
     @Override
@@ -51,9 +55,9 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
-    public List<Payments> getPaymentsByClientID(@ValidUUID String clientID) {
+    public List<Payments> getPaymentsByClientID(UUID clientID) {
 
-        List<Payments> payments = paymentRepo.findByClientID(UUID.fromString(clientID));
+        List<Payments> payments = paymentRepo.findByClientID(clientID);
         if (payments.isEmpty()) {
             throw new DataNotFoundException("No payments found for client ID: " + clientID);
         }
@@ -61,18 +65,41 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
-    public boolean isPaymentFullfilled(@ValidUUID String ID) {
+    public PaymentFullfilledResponse isPaymentFullfilled(UUID id) {
+        
+        Payments payment = paymentRepo.findById(id)
+                .orElseThrow(() -> new DataNotFoundException("isPaymentFullfilled: Payment not found in the database"));
 
-        Payments payment = paymentRepo.findById(UUID.fromString(ID)).orElseThrow(() -> new DataNotFoundException("isPaymentFullfilled: Payment not found in the database"));
-        return payment.isFullfilled();
+        List<Jobs> jobs = payment.getJobs();
+
+        // Early exit if no jobs are associated with the payment
+        if (jobs == null || jobs.isEmpty()) {
+            return new PaymentFullfilledResponse(false, null);
+        }
+
+        List<Jobs> unpaidJobs = jobs.stream().filter(j -> !j.getIsPaid()).collect(Collectors.toList());
+
+        if (unpaidJobs.isEmpty()) {
+            return new PaymentFullfilledResponse(true, null);
+        } else {
+
+            // Map the unpaid jobs and their details to a list of JobSummary objects
+            List<JobSummary> summaries = unpaidJobs.stream().map(j -> new JobSummary(
+                    j.getId().toString(),
+                    j.getTitle() != null ? j.getTitle().name() : null,
+                    j.getDateCompleted() != null ? j.getDateCompleted().toString() : null
+
+            )).collect(Collectors.toList());
+            return new PaymentFullfilledResponse(false, summaries);
+        }
     }
 
     @Override
-    public Double updateCost(@ValidUUID String ID, @Valid CostUpdateRequest req) {
+    public Double updateCost(UUID id, CostUpdateRequest req) {
 
         Double newCost = req.getCost();
 
-        Payments existingPayment = paymentRepo.findById(UUID.fromString(ID)).orElseThrow(() -> new DataNotFoundException("UpdateCost: Payment not found in the database"));
+        Payments existingPayment = paymentRepo.findById(id).orElseThrow(() -> new DataNotFoundException("UpdateCost: Payment not found in the database"));
         existingPayment.setCost(newCost);
         paymentRepo.save(existingPayment);
 
@@ -80,8 +107,11 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
-    public void deletePayment(@ValidUUID String ID) {
+    public void deletePayment(UUID id) {
 
-        paymentRepo.deleteById(UUID.fromString(ID));
+        if (!paymentRepo.existsById(id)) {
+            throw new DataNotFoundException("DeletePayment: Payment not found in the database");
+        }
+        paymentRepo.deleteById(id);
     }
 }
