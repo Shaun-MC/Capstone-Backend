@@ -6,9 +6,7 @@ import com.windowbutlers.backend.service.ChristmasLightsService;
 import com.windowbutlers.backend.repository.ChristmasLightsRepo;
 import com.windowbutlers.backend.enums.LightColors;
 import com.windowbutlers.backend.exceptions.DataNotFoundException;
-import com.windowbutlers.backend.validation.ValidUUID;
 import org.springframework.stereotype.Component;
-import jakarta.validation.Valid;
 import java.util.List;
 import java.util.UUID;
 
@@ -21,7 +19,7 @@ public class ChristmasLightsServiceImpl implements ChristmasLightsService {
         this.clRepo = clRepo;
     }
 
-    public String createChristmasLights(@Valid ChristmasLightsRequest request) {
+    public String createChristmasLights(ChristmasLightsRequest request) {
         
         ChristmasLights cl = new ChristmasLights();
 
@@ -34,14 +32,14 @@ public class ChristmasLightsServiceImpl implements ChristmasLightsService {
         return cl.getId().toString();
     }
 
-    public String getChristmasLightsStorageLocation(@ValidUUID String ID) {
+    public String getChristmasLightsStorageLocation(UUID id) {
         
-        return clRepo.findById(UUID.fromString(ID)).orElseThrow(() -> new DataNotFoundException("GetChristmasLightingStorageLocation: Christmas lighting ID not found in the database")).getStorageLocation();
+        return clRepo.findById(id).orElseThrow(() -> new DataNotFoundException("GetChristmasLightingStorageLocation: Christmas lighting ID not found in the database")).getStorageLocation();
     }
 
-    public List<ChristmasLights> getAllChristmasLightsByHomeID(@ValidUUID String homeID) {
+    public List<ChristmasLights> getAllChristmasLightsByHomeID(UUID homeID) {
         
-        return clRepo.findByHome_Id(UUID.fromString(homeID));
+        return clRepo.findByHome_Id(homeID);
     }
 
     public List<ChristmasLights> getAllChristmasLights() {
@@ -54,22 +52,25 @@ public class ChristmasLightsServiceImpl implements ChristmasLightsService {
         return clRepo.findByInUse();
     }
 
-    public void updateStorageLocation(@ValidUUID String ID, String storageLocation) {
+    public void updateStorageLocation(UUID id, String storageLocation) {
 
-        ChristmasLights cl = clRepo.findById(UUID.fromString(ID)).orElseThrow(() -> new DataNotFoundException("UpdateStorageLocation: Christmas lighting ID not found in the database"));
+        ChristmasLights cl = clRepo.findById(id).orElseThrow(() -> new DataNotFoundException("UpdateStorageLocation: Christmas lighting ID not found in the database"));
         cl.setStorageLocation(storageLocation);
         clRepo.save(cl);
     }
 
-    public void updateInUse(@ValidUUID String ID, boolean inUse) {
+    public void updateInUse(UUID id, boolean inUse) {
         
-        ChristmasLights cl = clRepo.findById(UUID.fromString(ID)).orElseThrow(() -> new DataNotFoundException("UpdateInUse: Christmas lighting ID not found in the database"));
+        ChristmasLights cl = clRepo.findById(id).orElseThrow(() -> new DataNotFoundException("UpdateInUse: Christmas lighting ID not found in the database"));
         cl.setInUse(inUse);
         clRepo.save(cl);
     }
 
-    public void deleteChristmasLights(@ValidUUID String ID) {
+    public void deleteChristmasLights(UUID id) {
 
-        clRepo.deleteById(UUID.fromString(ID));
+        if (!clRepo.existsById(id)) {
+            throw new DataNotFoundException("DeleteChristmasLights: Christmas lighting ID not found in the database");
+        }
+        clRepo.deleteById(id);
     }
 }

@@ -4,23 +4,22 @@ import com.windowbutlers.backend.entity.Homes;
 import com.windowbutlers.backend.dto.HomeRequest;
 import com.windowbutlers.backend.dto.NotesUpdateRequest;
 import com.windowbutlers.backend.dto.PowerSourceLocationUpdateRequest;
-import com.windowbutlers.backend.validation.ValidUUID;
 import org.springframework.stereotype.Service;
-import jakarta.validation.Valid;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public interface HomeService {
     
-    String createHome(@Valid HomeRequest home);
+    String createHome(HomeRequest home);
 
-    Homes getHome(@ValidUUID String ID);
+    Homes getHome(UUID id);
 
     List<Homes> getAllHomes();
 
-    String updateNotes(@ValidUUID String ID, @Valid NotesUpdateRequest req);
+    String updateNotes(UUID id, NotesUpdateRequest req);
 
-    String updatePowerSourceLocation(@ValidUUID String ID, @Valid PowerSourceLocationUpdateRequest req);
+    String updatePowerSourceLocation(UUID id, PowerSourceLocationUpdateRequest req);
 
-    void deleteHome(@ValidUUID String ID);
+    void deleteHome(UUID id);
 }

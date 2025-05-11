@@ -2,28 +2,32 @@ package com.windowbutlers.backend.service;
 
 import com.windowbutlers.backend.entity.Jobs;
 import com.windowbutlers.backend.dto.JobRequest;
-import com.windowbutlers.backend.validation.ValidUUID;
+import com.windowbutlers.backend.dto.NotesUpdateRequest;
+import com.windowbutlers.backend.dto.LaborHoursUpdateRequest;
+import com.windowbutlers.backend.dto.BooleanUpdateRequest;
+import com.windowbutlers.backend.dto.DifficultyUpdateRequest;
 import org.springframework.stereotype.Service;
-import jakarta.validation.Valid;
-import java.sql.Date;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public interface JobService {
     
-    String createJob(@Valid JobRequest job);
+    String createJob(JobRequest job);
     
-    Jobs getJob(@ValidUUID String ID);
+    Jobs getJob(UUID id);
 
     List<Jobs> getAllJobs();
-    
-    //TODO @ValidDate
-    void updateJobCompletion(@ValidUUID String ID, Date dateCompleted);
-    
-    void updateJobNotes(@ValidUUID String ID, String jobNotes);
-    
-    //TODO @ValidRating
-    void updateJobDifficulty(@ValidUUID String ID, String difficulty);
 
-    void deleteJob(@ValidUUID String ID);
+    Integer updateLaborHours(UUID id, LaborHoursUpdateRequest req);
+    
+    String updateJobNotes(UUID id, NotesUpdateRequest req);
+    
+    String updateJobDifficulty(UUID id, DifficultyUpdateRequest req);
+
+    boolean updateIsPaid(UUID id, BooleanUpdateRequest req);
+
+    void addJobToPayment(UUID jobID, UUID paymentID);
+
+    void deleteJob(UUID id);
 }

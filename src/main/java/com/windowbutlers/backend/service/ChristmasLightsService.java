@@ -2,27 +2,26 @@ package com.windowbutlers.backend.service;
 
 import com.windowbutlers.backend.entity.ChristmasLights;
 import com.windowbutlers.backend.dto.ChristmasLightsRequest;
-import com.windowbutlers.backend.validation.ValidUUID;
 import org.springframework.stereotype.Service;
-import jakarta.validation.Valid;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public interface ChristmasLightsService {
     
-    String createChristmasLights(@Valid ChristmasLightsRequest cl);
+    String createChristmasLights(ChristmasLightsRequest cl);
 
-    String getChristmasLightsStorageLocation(@ValidUUID String ID);
+    String getChristmasLightsStorageLocation(UUID id);
 
-    List<ChristmasLights> getAllChristmasLightsByHomeID(@ValidUUID String homeID);
+    List<ChristmasLights> getAllChristmasLightsByHomeID(UUID homeID);
 
     List<ChristmasLights> getAllChristmasLights();
 
     List<ChristmasLights> getAllInUseChristmasLights();
 
-    void updateStorageLocation(@ValidUUID String ID, String storageLocation);
+    void updateStorageLocation(UUID id, String storageLocation);
 
-    void updateInUse(@ValidUUID String ID, boolean inUse);
+    void updateInUse(UUID id, boolean inUse);
 
-    void deleteChristmasLights(@ValidUUID String id);    
+    void deleteChristmasLights(UUID id);    
 }

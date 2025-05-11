@@ -7,10 +7,8 @@ import com.windowbutlers.backend.dto.EmailUpdateRequest;
 import com.windowbutlers.backend.dto.PhoneNumberUpdateRequest;
 import com.windowbutlers.backend.service.ClientService;
 import com.windowbutlers.backend.repository.ClientRepo;
-import com.windowbutlers.backend.validation.*;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.annotation.Validated;
-import jakarta.validation.Valid;
 import java.util.List;
 import java.util.UUID;
 
@@ -25,7 +23,7 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public String createClient(@Valid ClientRequest request) {
+    public String createClient(ClientRequest request) {
         
         Clients client = new Clients();
         client.setFirstName(request.getFirstName());
@@ -40,9 +38,9 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public Clients getClient(@ValidUUID String ID) {
+    public Clients getClient(UUID id) {
         
-        return clientRepo.findById(UUID.fromString(ID)).orElseThrow(() -> new DataNotFoundException("GetClient: Client ID not found in the database"));
+        return clientRepo.findById(id).orElseThrow(() -> new DataNotFoundException("GetClient: Client ID not found in the database"));
     }
 
     @Override
@@ -51,10 +49,10 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public String updateEmail(@ValidUUID String ID, @Valid EmailUpdateRequest req) {
+    public String updateEmail(UUID id, EmailUpdateRequest req) {
         
         String email = req.getEmail();
-        Clients client = clientRepo.findById(UUID.fromString(ID)).orElseThrow(() -> new DataNotFoundException("UpdateEmail: Client ID not found in the database"));
+        Clients client = clientRepo.findById(id).orElseThrow(() -> new DataNotFoundException("UpdateEmail: Client ID not found in the database"));
         client.setEmail(email);
         clientRepo.save(client);
 
@@ -62,10 +60,10 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public String updatePhoneNumber(@ValidUUID String ID, @Valid PhoneNumberUpdateRequest req) {
+    public String updatePhoneNumber(UUID id, PhoneNumberUpdateRequest req) {
         
         String phoneNumber = req.getPhoneNumber();
-        Clients client = clientRepo.findById(UUID.fromString(ID)).orElseThrow(() -> new RuntimeException("UpdatePhoneNumber: Client ID not found in the database"));
+        Clients client = clientRepo.findById(id).orElseThrow(() -> new RuntimeException("UpdatePhoneNumber: Client ID not found in the database"));
         client.setPhoneNumber(phoneNumber);
         clientRepo.save(client);
 
@@ -73,8 +71,11 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public void deleteClient(String ID) {
+    public void deleteClient(UUID id) {
 
-        clientRepo.deleteById(UUID.fromString(ID));
+        if (!clientRepo.existsById(id)) {
+            throw new DataNotFoundException("DeleteClient: Client ID not found in the database");
+        }
+        clientRepo.deleteById(id);
     }
 }

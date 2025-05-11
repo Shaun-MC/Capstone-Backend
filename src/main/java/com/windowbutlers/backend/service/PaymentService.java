@@ -2,26 +2,26 @@ package com.windowbutlers.backend.service;
 
 import com.windowbutlers.backend.dto.PaymentRequest;
 import com.windowbutlers.backend.dto.CostUpdateRequest;
+import com.windowbutlers.backend.dto.PaymentFullfilledResponse;
 import com.windowbutlers.backend.entity.Payments;
-import com.windowbutlers.backend.validation.ValidUUID;
 import org.springframework.stereotype.Service;
-import jakarta.validation.Valid;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public interface PaymentService {
 
-    String createPayment(@Valid PaymentRequest payment);
+    String createPayment(PaymentRequest payment);
 
-    Payments getPayment(@ValidUUID String ID);
+    Payments getPayment(UUID id);
 
     List<Payments> getAllPayments();
 
-    List<Payments> getPaymentsByClientID(@ValidUUID String clientID);
+    List<Payments> getPaymentsByClientID(UUID clientID);
 
-    Double updateCost(@ValidUUID String ID, @Valid CostUpdateRequest req);
+    Double updateCost(UUID id, CostUpdateRequest req);
 
-    boolean isPaymentFullfilled(@ValidUUID String ID);
+    PaymentFullfilledResponse isPaymentFullfilled(UUID id);
 
-    void deletePayment(@ValidUUID String ID);
+    void deletePayment(UUID id);
 }

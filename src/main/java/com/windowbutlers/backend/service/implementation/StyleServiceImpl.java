@@ -7,9 +7,7 @@ import com.windowbutlers.backend.repository.StyleRepo;
 import com.windowbutlers.backend.dto.StyleRequest;
 import com.windowbutlers.backend.entity.Jobs;
 import com.windowbutlers.backend.repository.JobRepo;
-import com.windowbutlers.backend.validation.ValidIntegerID;
 import org.springframework.stereotype.Component;
-import jakarta.validation.Valid;
 import java.util.List;
 
 @Component
@@ -23,7 +21,7 @@ public class StyleServiceImpl implements StyleService {
         this.jobs = job;
     }
 
-    public Integer createStyle(@Valid StyleRequest request) {
+    public Integer createStyle(StyleRequest request) {
 
         Styles style = new Styles();
         Jobs job = jobs.findById(request.getJobID()).orElseThrow(() -> new DataNotFoundException("Job not found"));
@@ -36,12 +34,12 @@ public class StyleServiceImpl implements StyleService {
         return style.getId();
     }
 
-    public Styles getStyle(@ValidIntegerID Integer ID) {
+    public Styles getStyle(Integer ID) {
         
         return styleRepo.findById(ID).orElseThrow(() -> new DataNotFoundException("GetJobStyle: Job style ID not found in the database"));
     }
 
-    public String getStyleLabel(@ValidIntegerID Integer ID) {
+    public String getStyleLabel(Integer ID) {
         
         return styleRepo.findById(ID).orElseThrow(() -> new DataNotFoundException("GetJobStyleLabel: Job style ID not found in the database")).getLabel().toString();
     }
@@ -51,17 +49,26 @@ public class StyleServiceImpl implements StyleService {
         return styleRepo.findAll();
     }
 
-    public void updateCounts(@ValidIntegerID Integer ID, Integer large, Integer small) {
+    public List<Integer> updateCounts(Integer ID, StyleRequest req) {
+        
+        Integer large = req.getLarge();
+        Integer small = req.getSmall();
 
         Styles existingJobStyle = styleRepo.findById(ID).orElseThrow(() -> new RuntimeException("UpdateLargeCount: Job style not found in the database"));
+        
         existingJobStyle.setLarge(large);
         existingJobStyle.setSmall(small);
 
         styleRepo.save(existingJobStyle);
+
+        return List.of(existingJobStyle.getLarge(), existingJobStyle.getSmall());
     }
 
-    public void deleteStyle(@ValidIntegerID Integer id) {
+    public void deleteStyle(Integer id) {
 
+        if (!styleRepo.existsById(id)) {
+            throw new DataNotFoundException("DeleteStyle: Style ID not found in the database");
+        }
         styleRepo.deleteById(id);
     }
 }

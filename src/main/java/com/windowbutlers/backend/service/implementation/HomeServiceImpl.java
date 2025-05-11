@@ -7,9 +7,7 @@ import com.windowbutlers.backend.repository.HomeRepo;
 import com.windowbutlers.backend.dto.HomeRequest;
 import com.windowbutlers.backend.dto.NotesUpdateRequest;
 import com.windowbutlers.backend.dto.PowerSourceLocationUpdateRequest;
-import com.windowbutlers.backend.validation.ValidUUID;
 import org.springframework.stereotype.Component;
-import jakarta.validation.Valid;
 import java.util.List;
 import java.util.UUID;
 
@@ -23,7 +21,7 @@ public class HomeServiceImpl implements HomeService {
     }
 
     @Override
-    public String createHome(@Valid HomeRequest req) {
+    public String createHome(HomeRequest req) {
         
         Homes home = new Homes();
         home.setNotes(req.getNotes());
@@ -40,9 +38,9 @@ public class HomeServiceImpl implements HomeService {
     }
 
     @Override
-    public Homes getHome(@ValidUUID String ID) {
+    public Homes getHome(UUID id) {
 
-        return homeRepo.findById(UUID.fromString(ID)).orElseThrow(() -> new DataNotFoundException("GetHome: Home ID not found in the database"));
+        return homeRepo.findById(id).orElseThrow(() -> new DataNotFoundException("GetHome: Home ID not found in the database"));
     }
 
     @Override
@@ -51,11 +49,11 @@ public class HomeServiceImpl implements HomeService {
     }
 
     @Override
-    public String updateNotes(@ValidUUID String ID, @Valid NotesUpdateRequest req) {
+    public String updateNotes(UUID id, NotesUpdateRequest req) {
         
         String notes = req.getNotes();
 
-        Homes home = homeRepo.findById(UUID.fromString(ID)).orElseThrow(() -> new DataNotFoundException("UpdateNotes: Home ID not found in the database"));
+        Homes home = homeRepo.findById(id).orElseThrow(() -> new DataNotFoundException("UpdateNotes: Home ID not found in the database"));
         home.setNotes(notes);
         homeRepo.save(home);
 
@@ -63,11 +61,11 @@ public class HomeServiceImpl implements HomeService {
     }
 
     @Override
-    public String updatePowerSourceLocation(@ValidUUID String ID, PowerSourceLocationUpdateRequest req) {
+    public String updatePowerSourceLocation(UUID id, PowerSourceLocationUpdateRequest req) {
 
         String location = req.getPowerSourceLocation();
 
-        Homes home = homeRepo.findById(UUID.fromString(ID)).orElseThrow(() -> new DataNotFoundException("UpdatePowerSourceLocation: Home ID not found in the database"));
+        Homes home = homeRepo.findById(id).orElseThrow(() -> new DataNotFoundException("UpdatePowerSourceLocation: Home ID not found in the database"));
         home.setPowerSourceLocation(location);
         homeRepo.save(home);
 
@@ -75,8 +73,11 @@ public class HomeServiceImpl implements HomeService {
     }
 
     @Override
-    public void deleteHome(@ValidUUID String ID) {
+    public void deleteHome(UUID id) {
 
-        homeRepo.deleteById(UUID.fromString(ID));
+        if (!homeRepo.existsById(id)) {
+            throw new DataNotFoundException("DeleteHome: Home ID not found in the database");
+        }
+        homeRepo.deleteById(id);
     }
 }
