@@ -9,7 +9,6 @@ import com.windowbutlers.backend.dto.NotesUpdateRequest;
 import com.windowbutlers.backend.dto.PowerSourceLocationUpdateRequest;
 import com.windowbutlers.backend.validation.ValidUUID;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 import jakarta.validation.Valid;
 import java.util.List;
 import java.util.UUID;
