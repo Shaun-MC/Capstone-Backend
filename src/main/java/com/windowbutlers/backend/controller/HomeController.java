@@ -3,6 +3,8 @@ package com.windowbutlers.backend.controller;
 import com.windowbutlers.backend.entity.Homes;
 import com.windowbutlers.backend.service.HomeService;
 import com.windowbutlers.backend.dto.HomeRequest;
+import com.windowbutlers.backend.dto.NotesUpdateRequest;
+import com.windowbutlers.backend.dto.PowerSourceLocationUpdateRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,8 +24,8 @@ public class HomeController {
     @PostMapping("/create")
     public ResponseEntity<?> createHome(@RequestBody HomeRequest home) {
         
-        String ID = homeService.createHome(home);
-        return ResponseEntity.status(HttpStatus.CREATED).body(String.format("Successfully created a new home (%d)", ID));
+        String id = homeService.createHome(home);
+        return ResponseEntity.status(HttpStatus.CREATED).body(String.format("Successfully created a new home (%s)", id));
     }
 
     // Passes Happy Path testing:
@@ -42,12 +44,19 @@ public class HomeController {
         return ResponseEntity.status(HttpStatus.OK).body(homes);
     }
 
+    @PutMapping("/update/notes/{id}")
+    public ResponseEntity<?> updateNotes(@PathVariable String id, @RequestBody NotesUpdateRequest req) {
+        
+        homeService.updateNotes(id, req);
+        return ResponseEntity.status(HttpStatus.OK).body(String.format("Updated Notes for %s to %s", id, req.getNotes()));
+    }
+
     // Passes Happy Path testing
     @PutMapping("/update/powerSourceLocation/{id}")
-    public ResponseEntity<?> updatePowerSourceLocation(@PathVariable String id, @RequestBody String powerSourceLocation) {
+    public ResponseEntity<?> updatePowerSourceLocation(@PathVariable String id, @RequestBody PowerSourceLocationUpdateRequest req) {
         
-        homeService.updatePowerSourceLocation(id, powerSourceLocation);
-        return ResponseEntity.status(HttpStatus.OK).body(String.format("Updated Power Source Location for %s to %s", id, powerSourceLocation));
+        homeService.updatePowerSourceLocation(id, req);
+        return ResponseEntity.status(HttpStatus.OK).body(String.format("Updated Power Source Location for %s to %s", id, req.getPowerSourceLocation()));
     }
 
     // Passes Happy Path testing

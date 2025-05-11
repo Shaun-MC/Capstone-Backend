@@ -27,6 +27,6 @@ public class HomeRequest {
     @Size(max = 10, message = "Zip code must be less then 10 characters")
     private String zipCode;
 
-    @Size(max = 100, message = "Power source location must be less then 255 characters")
+    @Size(max = 100, message = "Power source location must be less then 100 characters")
     private String powerSourceLocation;
 }

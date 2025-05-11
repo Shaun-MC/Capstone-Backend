@@ -23,7 +23,7 @@ public class Homes {
     private String notes;
 
     @JsonProperty("pictureDirectoryURL")
-    @Column(name="picture_directory_url", nullable=true, unique=true)
+    @Column(name = "picture_directory_url", nullable = true, unique = true)
     private String pictureDirectoryURL;
 
     @JsonProperty("addressLine1")
@@ -42,7 +42,7 @@ public class Homes {
 
     @JsonProperty("zipCode")
     @NotNull
-    @Column(name="zip_code")
+    @Column(name="zip_code", nullable = false)
     private String zipCode;
 
     @JsonProperty("powerSourceLocation")
