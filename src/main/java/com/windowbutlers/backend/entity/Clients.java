@@ -1,5 +1,6 @@
 package com.windowbutlers.backend.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -41,6 +42,7 @@ public class Clients {
     @Column(name="has_own_lights", nullable=true)
     private Boolean hasOwnLights;
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "client", fetch = FetchType.LAZY)
     @Column(nullable=true)
     private List<Payments> payments;
