@@ -11,7 +11,7 @@ public class DateConverter {
     public static Date convertStringToSqlDate(String dateString) {
         
         if (dateString == null || dateString.isEmpty()) {
-            return null; // or throw an exception, depending on your use case
+            return null; // Fine - should probably throw an exception
         }
 
         LocalDate localDate = LocalDate.parse(dateString, FORMATTER);

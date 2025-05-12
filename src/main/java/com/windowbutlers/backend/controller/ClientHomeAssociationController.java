@@ -10,9 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.UUID;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.PathVariable;
 import jakarta.validation.Valid;
 
 @RestController
@@ -25,6 +22,7 @@ public class ClientHomeAssociationController {
         this.chaService = chaService;
     }
 
+    // Passes Happy Path testing: 5/11/25
     @PostMapping("/create")
     public ResponseEntity<?> createAssociation(@RequestBody @Valid ClientHomeAssociationRequest cha) {
         
@@ -32,6 +30,7 @@ public class ClientHomeAssociationController {
         return ResponseEntity.status(HttpStatus.CREATED).body("Successfully created a new association (%s)".formatted(ID));
     }
 
+    // Passes Happy Path testing: 5/11/25
     @GetMapping("/get/allAssociations")
     public ResponseEntity<?> getAllAssociations() {
         
@@ -39,18 +38,21 @@ public class ClientHomeAssociationController {
         return ResponseEntity.status(HttpStatus.OK).body(associations);
     }
 
+    // Passes Happy Path testing: 5/11/25
     @GetMapping("/get/homes/{clientID}")
     public ResponseEntity<?> getHomesForClient(@PathVariable @ValidUUID String clientID) {
         List<ClientHomeAssociationDTO> homes = chaService.getHomesForClient(UUID.fromString(clientID));
         return ResponseEntity.status(HttpStatus.OK).body(homes);
     }
 
+    // Passes Happy Path testing: 5/11/25
     @GetMapping("/get/clients/{homeID}")
     public ResponseEntity<?> getClientsForHome(@PathVariable @ValidUUID String homeID) {
         List<ClientHomeAssociationDTO> clients = chaService.getClientsForHome(UUID.fromString(homeID));
         return ResponseEntity.status(HttpStatus.OK).body(clients);
     }
 
+    // Passes Happy Path testing: 5/11/25
     @GetMapping("/get/association/{clientID}/{homeID}")
     public ResponseEntity<?> getAssociation(@PathVariable String clientID, @PathVariable String homeID) {
         
@@ -58,6 +60,7 @@ public class ClientHomeAssociationController {
         return ResponseEntity.status(HttpStatus.OK).body(association);
     }
 
+    // Passes Happy Path testing: 5/11/25
     @PutMapping("update/association/{clientID}/{homeID}")
     public ResponseEntity<?> updateAssociation(@PathVariable @ValidUUID String clientID, @PathVariable @ValidUUID String homeID, @RequestBody @Valid RelationshipUpdateRequest req) {
         
@@ -65,6 +68,7 @@ public class ClientHomeAssociationController {
         return ResponseEntity.status(HttpStatus.OK).body(String.format("Updated association (%s, %s) to %s successfully", clientID, homeID, association));
     }
 
+    // Passes Happy Path testing: 5/11/25
     @DeleteMapping("/delete/association/{clientID}/{homeID}")
     public ResponseEntity<?> deleteAssociation(@PathVariable @ValidUUID String clientID, @PathVariable @ValidUUID String homeID) {
         

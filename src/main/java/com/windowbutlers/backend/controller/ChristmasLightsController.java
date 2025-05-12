@@ -23,7 +23,7 @@ public class ChristmasLightsController {
         this.clService = clService;
     }
 
-    // Passes Happy Path testing:
+    // Passes Happy Path testing: 5/11/2025
     @PostMapping("/create")
     public ResponseEntity<?> createChristmasLights(@RequestBody @Valid ChristmasLightsRequest cl) {
 
@@ -31,7 +31,7 @@ public class ChristmasLightsController {
         return ResponseEntity.status(HttpStatus.CREATED).body(String.format("Successfully created a new Christmas light (%s)", id));
     }
 
-    // Passes Happy Path testing:
+    // Passes Happy Path testing: 5/11/2025
     @GetMapping("/get/storageLocation/{id}")
     public ResponseEntity<?> getChristmasLightsStorageLocation(@PathVariable @ValidUUID String id) {
 
@@ -39,7 +39,7 @@ public class ChristmasLightsController {
         return ResponseEntity.status(HttpStatus.OK).body(storageLocation);
     }
 
-    // Passes Happy Path testing:
+    // Passes Happy Path testing: 5/11/2025
     @GetMapping("/get/allChristmasLights")
     public ResponseEntity<?> getAllChristmasLights() {
 
@@ -47,7 +47,7 @@ public class ChristmasLightsController {
         return ResponseEntity.status(HttpStatus.OK).body(cls);
     }
 
-    // Passes Happy Path testing:
+    // Passes Happy Path testing: 5/11/2025
     @GetMapping("/get/allChristmasLightsByHome/{homeID}")
     public ResponseEntity<?> getAllChristmasLightsByHomeID(@PathVariable @ValidUUID String homeID) {
 
@@ -55,7 +55,7 @@ public class ChristmasLightsController {
         return ResponseEntity.status(HttpStatus.OK).body(cl);
     }
 
-    // Passes Happy Path testing:
+    // Passes Happy Path testing: 5/11/2025 5/11/2025
     @GetMapping("/get/allInUse")
     public ResponseEntity<?> getAllInUseChristmasLights() {
 
@@ -63,7 +63,7 @@ public class ChristmasLightsController {
         return ResponseEntity.status(HttpStatus.OK).body(cl);
     }
 
-    // Passes Happy Path testing:
+    // Passes Happy Path testing: 5/11/2025 5/11/2025
     @PutMapping("/update/storageLocation/{id}")
     public ResponseEntity<?> updateChristmasLightsStorageLocation(@PathVariable @ValidUUID String id, @RequestBody @Valid StorageLocationUpdateRequest storageLocation) {
 
@@ -71,7 +71,7 @@ public class ChristmasLightsController {
         return ResponseEntity.status(HttpStatus.OK).body(String.format("Updated Storage Location for %s to %s", id, location));
     }
 
-    // Passes Happy Path testing:
+    // Passes Happy Path testing: 5/11/2025
     @PutMapping("/update/inUse/{id}")
     public ResponseEntity<?> updateChristmasLightsInUse(@PathVariable @ValidUUID String id, @RequestBody @Valid BooleanUpdateRequest req) {
 
@@ -79,7 +79,7 @@ public class ChristmasLightsController {
         return ResponseEntity.status(HttpStatus.OK).body(String.format("Updated In Use for %s to %s", id, useStatus));
     }
 
-    // Passes Happy Path testing:
+    // Passes Happy Path testing: 5/11/2025
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> deleteChristmasLights(@PathVariable @ValidUUID String id) {
 

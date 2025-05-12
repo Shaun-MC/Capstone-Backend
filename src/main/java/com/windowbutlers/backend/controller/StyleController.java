@@ -21,7 +21,7 @@ public class StyleController {
         this.styleService = styleService;
     }
 
-    // Passes Happy Path testing:
+    // Passes Happy Path testing: 5/11/25
     @PostMapping("/create")
     public ResponseEntity<?> createStyle(@RequestBody @Valid StyleRequest style) {
 
@@ -29,7 +29,7 @@ public class StyleController {
         return ResponseEntity.status(HttpStatus.CREATED).body(String.format("Successfully created a new style (%d)", id));
     }
 
-    // Passes Happy Path testing:
+    // Passes Happy Path testing: 5/11/25
     @GetMapping("/get/singleStyle/{id}")
     public ResponseEntity<?> getSingleStyle(@PathVariable @ValidIntegerID Integer id) {
 
@@ -37,7 +37,7 @@ public class StyleController {
         return ResponseEntity.status(HttpStatus.OK).body(style);
     }
 
-    // Passes Happy Path testing:
+    // Passes Happy Path testing: 5/11/25
     @GetMapping("/get/allStyles")
     public ResponseEntity<?> getAllStyles() {
 
@@ -60,7 +60,7 @@ public class StyleController {
         return ResponseEntity.status(HttpStatus.OK).body(String.format("Updated Style Large and Small Counts for Style (%s) to %d and %d", id, counts.get(0), counts.get(1)));
     }
 
-    // Passes Happy Path testing:
+    // Passes Happy Path testing: 5/11/25
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> deleteStyle(@PathVariable @ValidIntegerID Integer id) {
 
