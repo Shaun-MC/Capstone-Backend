@@ -27,8 +27,8 @@ public class HomeController {
     @PostMapping("/create")
     public ResponseEntity<?> createHome(@RequestBody @Valid HomeRequest home) {
         
-        String id = homeService.createHome(home);
-        return ResponseEntity.status(HttpStatus.CREATED).body(String.format("Successfully created a new home (%s)", id));
+        IDResponce id = homeService.createHome(home);
+        return ResponseEntity.status(HttpStatus.CREATED).body(id);
     }
 
     // Passes Happy Path testing: 5/11/25
@@ -51,8 +51,8 @@ public class HomeController {
     @PutMapping("/update/notes/{id}")
     public ResponseEntity<?> updateNotes(@PathVariable @ValidUUID String id, @RequestBody @Valid NotesUpdateRequest req) {
         
-        homeService.updateNotes(UUID.fromString(id), req);
-        return ResponseEntity.status(HttpStatus.OK).body(String.format("Updated Notes for %s to %s", id, req.getNotes()));
+        NotesResponce note = homeService.updateNotes(UUID.fromString(id), req);
+        return ResponseEntity.status(HttpStatus.OK).body(note);
     }
 
     // Passes Happy Path testing: 5/11/25

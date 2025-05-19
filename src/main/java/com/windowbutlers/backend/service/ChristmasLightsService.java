@@ -2,8 +2,12 @@ package com.windowbutlers.backend.service;
 
 import com.windowbutlers.backend.entity.ChristmasLights;
 import com.windowbutlers.backend.dto.BooleanUpdateRequest;
+import com.windowbutlers.backend.dto.BooleanResponce;
 import com.windowbutlers.backend.dto.ChristmasLightsRequest;
+import com.windowbutlers.backend.dto.DeleteMessageResponce;
 import com.windowbutlers.backend.dto.StorageLocationUpdateRequest;
+import com.windowbutlers.backend.dto.IDResponce;
+import com.windowbutlers.backend.dto.LocationResponce;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.UUID;
@@ -11,9 +15,9 @@ import java.util.UUID;
 @Service
 public interface ChristmasLightsService {
     
-    String createChristmasLights(ChristmasLightsRequest cl);
+    IDResponce createChristmasLights(ChristmasLightsRequest cl);
 
-    String getChristmasLightsStorageLocation(UUID id);
+    LocationResponce getChristmasLightsStorageLocation(UUID id);
 
     List<ChristmasLights> getAllChristmasLightsByHomeID(UUID homeID);
 
@@ -21,9 +25,9 @@ public interface ChristmasLightsService {
 
     List<ChristmasLights> getAllInUseChristmasLights();
 
-    String updateStorageLocation(UUID id, StorageLocationUpdateRequest req);
+    LocationResponce updateStorageLocation(UUID id, StorageLocationUpdateRequest req);
 
-    boolean updateInUse(UUID id, BooleanUpdateRequest req);
+    BooleanResponce updateInUse(UUID id, BooleanUpdateRequest req);
 
-    void deleteChristmasLights(UUID id);    
+    DeleteMessageResponce deleteChristmasLights(UUID id);    
 }

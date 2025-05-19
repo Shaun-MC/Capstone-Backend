@@ -3,8 +3,12 @@ package com.windowbutlers.backend.controller;
 import com.windowbutlers.backend.entity.ChristmasLights;
 import com.windowbutlers.backend.service.ChristmasLightsService;
 import com.windowbutlers.backend.dto.ChristmasLightsRequest;
+import com.windowbutlers.backend.dto.DeleteMessageResponce;
 import com.windowbutlers.backend.dto.StorageLocationUpdateRequest;
+import com.windowbutlers.backend.dto.BooleanResponce;
 import com.windowbutlers.backend.dto.BooleanUpdateRequest;
+import com.windowbutlers.backend.dto.IDResponce;
+import com.windowbutlers.backend.dto.LocationResponce;
 import com.windowbutlers.backend.validation.ValidUUID;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,15 +31,15 @@ public class ChristmasLightsController {
     @PostMapping("/create")
     public ResponseEntity<?> createChristmasLights(@RequestBody @Valid ChristmasLightsRequest cl) {
 
-        String id = clService.createChristmasLights(cl);
-        return ResponseEntity.status(HttpStatus.CREATED).body(String.format("Successfully created a new Christmas light (%s)", id));
+        IDResponce id = clService.createChristmasLights(cl);
+        return ResponseEntity.status(HttpStatus.CREATED).body(id);
     }
 
     // Passes Happy Path testing: 5/11/2025
     @GetMapping("/get/storageLocation/{id}")
     public ResponseEntity<?> getChristmasLightsStorageLocation(@PathVariable @ValidUUID String id) {
 
-        String storageLocation = clService.getChristmasLightsStorageLocation(UUID.fromString(id));
+        LocationResponce storageLocation = clService.getChristmasLightsStorageLocation(UUID.fromString(id));
         return ResponseEntity.status(HttpStatus.OK).body(storageLocation);
     }
 
@@ -67,23 +71,23 @@ public class ChristmasLightsController {
     @PutMapping("/update/storageLocation/{id}")
     public ResponseEntity<?> updateChristmasLightsStorageLocation(@PathVariable @ValidUUID String id, @RequestBody @Valid StorageLocationUpdateRequest storageLocation) {
 
-        String location = clService.updateStorageLocation(UUID.fromString(id), storageLocation);
-        return ResponseEntity.status(HttpStatus.OK).body(String.format("Updated Storage Location for %s to %s", id, location));
+        LocationResponce location = clService.updateStorageLocation(UUID.fromString(id), storageLocation);
+        return ResponseEntity.status(HttpStatus.OK).body(location);
     }
 
     // Passes Happy Path testing: 5/11/2025
     @PutMapping("/update/inUse/{id}")
     public ResponseEntity<?> updateChristmasLightsInUse(@PathVariable @ValidUUID String id, @RequestBody @Valid BooleanUpdateRequest req) {
 
-        boolean useStatus = clService.updateInUse(UUID.fromString(id), req);
-        return ResponseEntity.status(HttpStatus.OK).body(String.format("Updated In Use for %s to %s", id, useStatus));
+        BooleanResponce responce = clService.updateInUse(UUID.fromString(id), req);
+        return ResponseEntity.status(HttpStatus.OK).body(responce);
     }
 
     // Passes Happy Path testing: 5/11/2025
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<String> deleteChristmasLights(@PathVariable @ValidUUID String id) {
+    public ResponseEntity<?> deleteChristmasLights(@PathVariable @ValidUUID String id) {
 
-        clService.deleteChristmasLights(UUID.fromString(id));
-        return ResponseEntity.status(HttpStatus.OK).body(String.format("Christmas Lights %s deleted successfully", id));
+        DeleteMessageResponce responce = clService.deleteChristmasLights(UUID.fromString(id));
+        return ResponseEntity.status(HttpStatus.OK).body(responce);
     }
 }

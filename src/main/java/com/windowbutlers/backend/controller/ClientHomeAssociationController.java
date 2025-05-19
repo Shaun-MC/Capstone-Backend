@@ -26,8 +26,8 @@ public class ClientHomeAssociationController {
     @PostMapping("/create")
     public ResponseEntity<?> createAssociation(@RequestBody @Valid ClientHomeAssociationRequest cha) {
         
-        String ID = chaService.createAssociation(cha);
-        return ResponseEntity.status(HttpStatus.CREATED).body("Successfully created a new association (%s)".formatted(ID));
+        IDResponce id = chaService.createAssociation(cha);
+        return ResponseEntity.status(HttpStatus.CREATED).body(id);
     }
 
     // Passes Happy Path testing: 5/11/25
@@ -55,8 +55,7 @@ public class ClientHomeAssociationController {
     // Passes Happy Path testing: 5/11/25
     @GetMapping("/get/association/{clientID}/{homeID}")
     public ResponseEntity<?> getAssociation(@PathVariable String clientID, @PathVariable String homeID) {
-        
-        String association = chaService.getAssociation(UUID.fromString(clientID), UUID.fromString(homeID));
+        AssociationResponce association = chaService.getAssociation(UUID.fromString(clientID), UUID.fromString(homeID));
         return ResponseEntity.status(HttpStatus.OK).body(association);
     }
 
@@ -64,15 +63,15 @@ public class ClientHomeAssociationController {
     @PutMapping("update/association/{clientID}/{homeID}")
     public ResponseEntity<?> updateAssociation(@PathVariable @ValidUUID String clientID, @PathVariable @ValidUUID String homeID, @RequestBody @Valid RelationshipUpdateRequest req) {
         
-        String association = chaService.updateAssociation(UUID.fromString(clientID), UUID.fromString(homeID), req);
-        return ResponseEntity.status(HttpStatus.OK).body(String.format("Updated association (%s, %s) to %s successfully", clientID, homeID, association));
+        AssociationResponce association = chaService.updateAssociation(UUID.fromString(clientID), UUID.fromString(homeID), req);
+        return ResponseEntity.status(HttpStatus.OK).body(String.format(association));
     }
 
     // Passes Happy Path testing: 5/11/25
     @DeleteMapping("/delete/association/{clientID}/{homeID}")
     public ResponseEntity<?> deleteAssociation(@PathVariable @ValidUUID String clientID, @PathVariable @ValidUUID String homeID) {
         
-        chaService.deleteAssociation(UUID.fromString(clientID), UUID.fromString(homeID));
-        return ResponseEntity.status(HttpStatus.OK).body("Association deleted successfully");
+        DeleteMessageResponce responce = chaService.deleteAssociation(UUID.fromString(clientID), UUID.fromString(homeID));
+        return ResponseEntity.status(HttpStatus.OK).body(responce);
     }
 }

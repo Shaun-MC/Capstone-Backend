@@ -3,6 +3,7 @@ package com.windowbutlers.backend.controller;
 import com.windowbutlers.backend.entity.Clients;
 import com.windowbutlers.backend.dto.ClientRequest;
 import com.windowbutlers.backend.dto.EmailUpdateRequest;
+import com.windowbutlers.backend.dto.IDResponce;
 import com.windowbutlers.backend.dto.PhoneNumberUpdateRequest;
 import com.windowbutlers.backend.service.ClientService;
 import com.windowbutlers.backend.validation.ValidUUID;
@@ -27,8 +28,8 @@ public class ClientController {
     @PostMapping("/create")
     public ResponseEntity<?> createClient(@RequestBody @Valid ClientRequest client) {
 
-        String id = clientService.createClient(client);
-        return ResponseEntity.status(HttpStatus.CREATED).body(String.format("Sucessfully created a new client (%s)", id));
+        IDResponce id = clientService.createClient(client);
+        return ResponseEntity.status(HttpStatus.CREATED).body(id);
     }
 
     // Passes Happy Path testing: 5/11/25
@@ -51,23 +52,23 @@ public class ClientController {
     @PutMapping("/update/email/{id}")
     public ResponseEntity<?> updateEmail(@PathVariable @ValidUUID String id, @RequestBody @Valid EmailUpdateRequest req) {
 
-        String validEmail = clientService.updateEmail(UUID.fromString(id), req);
-        return ResponseEntity.status(HttpStatus.OK).body(String.format("Updated Email for %s to %s", id, validEmail));
+        EmailResponce responce = clientService.updateEmail(UUID.fromString(id), req);
+        return ResponseEntity.status(HttpStatus.OK).body(responce);
     }
 
     // Passes Happy Path testing: 5/11/25
     @PutMapping("/update/phoneNumber/{id}")
     public ResponseEntity<?> updatePhoneNumber(@PathVariable @ValidUUID String id, @RequestBody @Valid PhoneNumberUpdateRequest req) {
 
-        String validNumber = clientService.updatePhoneNumber(UUID.fromString(id), req);
-        return ResponseEntity.status(HttpStatus.OK).body(String.format("Updated Phone Number for %s to %s", id, validNumber));
+        PhoneNumberResponce responce = clientService.updatePhoneNumber(UUID.fromString(id), req);
+        return ResponseEntity.status(HttpStatus.OK).body(responce);
     }
 
     // Passes Happy Path testing: 5/11/25
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> deleteClient(@PathVariable @ValidUUID String id) {
 
-        clientService.deleteClient(UUID.fromString(id));
-        return ResponseEntity.status(HttpStatus.OK).body(String.format("Deleted Client with ID %s", id));
+        DeleteMessageResponce responce = clientService.deleteClient(UUID.fromString(id));
+        return ResponseEntity.status(HttpStatus.OK).body(responce);
     }
 }

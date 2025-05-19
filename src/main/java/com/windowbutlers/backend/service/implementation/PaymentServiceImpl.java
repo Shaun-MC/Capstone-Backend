@@ -90,6 +90,7 @@ public class PaymentServiceImpl implements PaymentService {
                     j.getDateCompleted() != null ? j.getDateCompleted().toString() : null
 
             )).collect(Collectors.toList());
+            
             return new PaymentFullfilledResponse(false, summaries);
         }
     }
