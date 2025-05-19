@@ -1,13 +1,14 @@
 package com.windowbutlers.backend.service;
 
 import com.windowbutlers.backend.entity.ChristmasLights;
-import com.windowbutlers.backend.dto.BooleanUpdateRequest;
-import com.windowbutlers.backend.dto.BooleanResponce;
-import com.windowbutlers.backend.dto.ChristmasLightsRequest;
-import com.windowbutlers.backend.dto.DeleteMessageResponce;
-import com.windowbutlers.backend.dto.StorageLocationUpdateRequest;
-import com.windowbutlers.backend.dto.IDResponce;
-import com.windowbutlers.backend.dto.LocationResponce;
+import com.windowbutlers.backend.dto.requests.BooleanUpdateRequest;
+import com.windowbutlers.backend.dto.requests.ChristmasLightsRequest;
+import com.windowbutlers.backend.dto.requests.StorageLocationUpdateRequest;
+import com.windowbutlers.backend.dto.responses.DeleteMessageResponse;
+import com.windowbutlers.backend.dto.responses.IDResponse;
+import com.windowbutlers.backend.dto.responses.LocationResponse;
+import com.windowbutlers.backend.dto.responses.SuccessfulUpdateResponse;
+
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.UUID;
@@ -15,9 +16,9 @@ import java.util.UUID;
 @Service
 public interface ChristmasLightsService {
     
-    IDResponce createChristmasLights(ChristmasLightsRequest cl);
+    IDResponse createChristmasLights(ChristmasLightsRequest cl);
 
-    LocationResponce getChristmasLightsStorageLocation(UUID id);
+    LocationResponse getChristmasLightsStorageLocation(UUID id);
 
     List<ChristmasLights> getAllChristmasLightsByHomeID(UUID homeID);
 
@@ -25,9 +26,9 @@ public interface ChristmasLightsService {
 
     List<ChristmasLights> getAllInUseChristmasLights();
 
-    LocationResponce updateStorageLocation(UUID id, StorageLocationUpdateRequest req);
+    SuccessfulUpdateResponse updateStorageLocation(UUID id, StorageLocationUpdateRequest req);
 
-    BooleanResponce updateInUse(UUID id, BooleanUpdateRequest req);
+    SuccessfulUpdateResponse updateInUse(UUID id, BooleanUpdateRequest req);
 
-    DeleteMessageResponce deleteChristmasLights(UUID id);    
+    DeleteMessageResponse deleteChristmasLights(UUID id);    
 }

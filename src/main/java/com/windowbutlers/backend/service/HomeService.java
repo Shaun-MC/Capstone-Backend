@@ -1,9 +1,12 @@
 package com.windowbutlers.backend.service;
 
 import com.windowbutlers.backend.entity.Homes;
-import com.windowbutlers.backend.dto.HomeRequest;
-import com.windowbutlers.backend.dto.NotesUpdateRequest;
-import com.windowbutlers.backend.dto.PowerSourceLocationUpdateRequest;
+import com.windowbutlers.backend.dto.requests.HomeRequest;
+import com.windowbutlers.backend.dto.requests.NotesUpdateRequest;
+import com.windowbutlers.backend.dto.requests.PowerSourceLocationUpdateRequest;
+import com.windowbutlers.backend.dto.responses.DeleteMessageResponse;
+import com.windowbutlers.backend.dto.responses.IDResponse;
+import com.windowbutlers.backend.dto.responses.SuccessfulUpdateResponse;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.UUID;
@@ -11,15 +14,15 @@ import java.util.UUID;
 @Service
 public interface HomeService {
     
-    String createHome(HomeRequest home);
+    IDResponse createHome(HomeRequest home);
 
     Homes getHome(UUID id);
 
     List<Homes> getAllHomes();
 
-    String updateNotes(UUID id, NotesUpdateRequest req);
+    SuccessfulUpdateResponse updateNotes(UUID id, NotesUpdateRequest req);
 
-    String updatePowerSourceLocation(UUID id, PowerSourceLocationUpdateRequest req);
+    SuccessfulUpdateResponse updatePowerSourceLocation(UUID id, PowerSourceLocationUpdateRequest req);
 
-    void deleteHome(UUID id);
+    DeleteMessageResponse deleteHome(UUID id);
 }

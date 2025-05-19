@@ -3,9 +3,12 @@ package com.windowbutlers.backend.controller;
 import com.windowbutlers.backend.entity.Homes;
 import com.windowbutlers.backend.service.HomeService;
 import com.windowbutlers.backend.validation.ValidUUID;
-import com.windowbutlers.backend.dto.HomeRequest;
-import com.windowbutlers.backend.dto.NotesUpdateRequest;
-import com.windowbutlers.backend.dto.PowerSourceLocationUpdateRequest;
+import com.windowbutlers.backend.dto.requests.HomeRequest;
+import com.windowbutlers.backend.dto.requests.NotesUpdateRequest;
+import com.windowbutlers.backend.dto.requests.PowerSourceLocationUpdateRequest;
+import com.windowbutlers.backend.dto.responses.DeleteMessageResponse;
+import com.windowbutlers.backend.dto.responses.IDResponse;
+import com.windowbutlers.backend.dto.responses.SuccessfulUpdateResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -27,8 +30,8 @@ public class HomeController {
     @PostMapping("/create")
     public ResponseEntity<?> createHome(@RequestBody @Valid HomeRequest home) {
         
-        IDResponce id = homeService.createHome(home);
-        return ResponseEntity.status(HttpStatus.CREATED).body(id);
+        IDResponse response = homeService.createHome(home);
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     // Passes Happy Path testing: 5/11/25
@@ -51,23 +54,23 @@ public class HomeController {
     @PutMapping("/update/notes/{id}")
     public ResponseEntity<?> updateNotes(@PathVariable @ValidUUID String id, @RequestBody @Valid NotesUpdateRequest req) {
         
-        NotesResponce note = homeService.updateNotes(UUID.fromString(id), req);
-        return ResponseEntity.status(HttpStatus.OK).body(note);
+        SuccessfulUpdateResponse response = homeService.updateNotes(UUID.fromString(id), req);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
     // Passes Happy Path testing: 5/11/25
     @PutMapping("/update/powerSourceLocation/{id}")
     public ResponseEntity<?> updatePowerSourceLocation(@PathVariable @ValidUUID String id, @RequestBody @Valid PowerSourceLocationUpdateRequest req) {
         
-        homeService.updatePowerSourceLocation(UUID.fromString(id), req);
-        return ResponseEntity.status(HttpStatus.OK).body(String.format("Updated Power Source Location for %s to %s", id, req.getPowerSourceLocation()));
+        SuccessfulUpdateResponse response = homeService.updatePowerSourceLocation(UUID.fromString(id), req);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
     // Passes Happy Path testing: 5/11/25
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<String> deleteHome(@PathVariable @ValidUUID String id) {
+    public ResponseEntity<?> deleteHome(@PathVariable @ValidUUID String id) {
 
-        homeService.deleteHome(UUID.fromString(id));
-        return ResponseEntity.status(HttpStatus.OK).body(String.format("Deleted Home with ID: %s", id));
+        DeleteMessageResponse response = homeService.deleteHome(UUID.fromString(id));
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 }

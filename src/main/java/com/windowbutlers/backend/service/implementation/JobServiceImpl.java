@@ -3,11 +3,14 @@ package com.windowbutlers.backend.service.implementation;
 import com.windowbutlers.backend.exceptions.DataNotFoundException;
 import com.windowbutlers.backend.enums.JobRatings;
 import com.windowbutlers.backend.enums.JobTitles;
-import com.windowbutlers.backend.dto.DifficultyUpdateRequest;
-import com.windowbutlers.backend.dto.JobRequest;
-import com.windowbutlers.backend.dto.LaborHoursUpdateRequest;
-import com.windowbutlers.backend.dto.NotesUpdateRequest;
-import com.windowbutlers.backend.dto.BooleanUpdateRequest;
+import com.windowbutlers.backend.dto.requests.BooleanUpdateRequest;
+import com.windowbutlers.backend.dto.requests.DifficultyUpdateRequest;
+import com.windowbutlers.backend.dto.requests.JobRequest;
+import com.windowbutlers.backend.dto.requests.LaborHoursUpdateRequest;
+import com.windowbutlers.backend.dto.requests.NotesUpdateRequest;
+import com.windowbutlers.backend.dto.responses.DeleteMessageResponse;
+import com.windowbutlers.backend.dto.responses.IDResponse;
+import com.windowbutlers.backend.dto.responses.SuccessfulUpdateResponse;
 import com.windowbutlers.backend.entity.Homes;
 import com.windowbutlers.backend.entity.Jobs;
 import com.windowbutlers.backend.entity.Payments;
@@ -35,7 +38,7 @@ public class JobServiceImpl implements JobService {
     }
 
     @Override
-    public String createJob(JobRequest request) {
+    public IDResponse createJob(JobRequest request) {
 
         // Format the date string to a Date object - validated by @ValidDate in request object
         Date dateCompleted = DateConverter.convertStringToSqlDate(request.getDateCompleted());
@@ -53,7 +56,7 @@ public class JobServiceImpl implements JobService {
 
         jobRepo.save(job);
 
-        return job.getId().toString();
+        return new IDResponse(job.getId());
     }
 
     @Override
@@ -68,7 +71,7 @@ public class JobServiceImpl implements JobService {
     }
 
     @Override
-    public Integer updateLaborHours(UUID id, LaborHoursUpdateRequest req) {
+    public SuccessfulUpdateResponse updateLaborHours(UUID id, LaborHoursUpdateRequest req) {
 
         Integer laborHours = req.getLaborHours();
         Jobs job = jobRepo.findById(id).orElseThrow(() -> new DataNotFoundException("UpdateJobLaborHours: Job not found in the database"));
@@ -76,11 +79,11 @@ public class JobServiceImpl implements JobService {
         job.setLaborHours(laborHours);
         jobRepo.save(job);
 
-        return job.getLaborHours();
+        return new SuccessfulUpdateResponse("labor hours");
     }
 
     @Override
-    public String updateJobNotes(UUID id, NotesUpdateRequest req) {
+    public SuccessfulUpdateResponse updateJobNotes(UUID id, NotesUpdateRequest req) {
 
         String notes = req.getNotes();
         Jobs job = jobRepo.findById(id).orElseThrow(() -> new DataNotFoundException("UpdateJobNotes: Job not found in the database"));
@@ -88,18 +91,18 @@ public class JobServiceImpl implements JobService {
         job.setNotes(notes);
         jobRepo.save(job);
 
-        return job.getNotes();
+        return new SuccessfulUpdateResponse("notes");
     }
 
     @Override
-    public String updateJobDifficulty(UUID id, DifficultyUpdateRequest req) {
+    public SuccessfulUpdateResponse updateJobDifficulty(UUID id, DifficultyUpdateRequest req) {
 
         Jobs job = jobRepo.findById(id).orElseThrow(() -> new DataNotFoundException("UpdateJobDifficulty: Job not found in the database"));
         
         job.setDifficulty(JobRatings.fromString(req.getDifficulty()));
         jobRepo.save(job);
 
-        return job.getDifficulty().toString();
+        return new SuccessfulUpdateResponse("difficulty");
     }
 
     @Override
@@ -115,7 +118,7 @@ public class JobServiceImpl implements JobService {
     }
 
     @Override
-    public boolean updateIsPaid(UUID id, BooleanUpdateRequest req) {
+    public SuccessfulUpdateResponse updateIsPaid(UUID id, BooleanUpdateRequest req) {
 
         Boolean isPaid = req.getValue();
         Jobs job = jobRepo.findById(id).orElseThrow(() -> new DataNotFoundException("UpdateJobIsPaid: Job not found in the database"));
@@ -123,15 +126,17 @@ public class JobServiceImpl implements JobService {
         job.setIsPaid(isPaid);
         jobRepo.save(job);
 
-        return job.getIsPaid();
+        return new SuccessfulUpdateResponse("isPaid");
     }
 
     @Override
-    public void deleteJob(UUID id) {
+    public DeleteMessageResponse deleteJob(UUID id) {
 
         if (!paymentRepo.findById(id).isPresent()) {
             throw new DataNotFoundException("DeleteJob: Job not found in the database");
         }
         jobRepo.deleteById(id);
+
+        return new DeleteMessageResponse("Job");
     }
 }

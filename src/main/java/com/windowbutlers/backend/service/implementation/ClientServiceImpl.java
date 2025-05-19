@@ -2,9 +2,12 @@ package com.windowbutlers.backend.service.implementation;
 
 import com.windowbutlers.backend.entity.Clients;
 import com.windowbutlers.backend.exceptions.DataNotFoundException;
-import com.windowbutlers.backend.dto.ClientRequest;
-import com.windowbutlers.backend.dto.EmailUpdateRequest;
-import com.windowbutlers.backend.dto.PhoneNumberUpdateRequest;
+import com.windowbutlers.backend.dto.requests.ClientRequest;
+import com.windowbutlers.backend.dto.requests.EmailUpdateRequest;
+import com.windowbutlers.backend.dto.requests.PhoneNumberUpdateRequest;
+import com.windowbutlers.backend.dto.responses.DeleteMessageResponse;
+import com.windowbutlers.backend.dto.responses.IDResponse;
+import com.windowbutlers.backend.dto.responses.SuccessfulUpdateResponse;
 import com.windowbutlers.backend.service.ClientService;
 import com.windowbutlers.backend.repository.ClientRepo;
 import org.springframework.stereotype.Component;
@@ -23,7 +26,7 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public String createClient(ClientRequest request) {
+    public IDResponse createClient(ClientRequest request) {
         
         Clients client = new Clients();
         client.setFirstName(request.getFirstName());
@@ -34,7 +37,7 @@ public class ClientServiceImpl implements ClientService {
 
         clientRepo.save(client);
 
-        return client.getId().toString();
+        return new IDResponse(client.getId());
     }
 
     @Override
@@ -49,33 +52,35 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public String updateEmail(UUID id, EmailUpdateRequest req) {
+    public SuccessfulUpdateResponse updateEmail(UUID id, EmailUpdateRequest req) {
         
         String email = req.getEmail();
         Clients client = clientRepo.findById(id).orElseThrow(() -> new DataNotFoundException("UpdateEmail: Client ID not found in the database"));
         client.setEmail(email);
         clientRepo.save(client);
 
-        return client.getEmail();
+        return new SuccessfulUpdateResponse("Email updated successfully");
     }
 
     @Override
-    public String updatePhoneNumber(UUID id, PhoneNumberUpdateRequest req) {
+    public SuccessfulUpdateResponse updatePhoneNumber(UUID id, PhoneNumberUpdateRequest req) {
         
         String phoneNumber = req.getPhoneNumber();
         Clients client = clientRepo.findById(id).orElseThrow(() -> new RuntimeException("UpdatePhoneNumber: Client ID not found in the database"));
         client.setPhoneNumber(phoneNumber);
         clientRepo.save(client);
 
-        return client.getPhoneNumber();
+        return new SuccessfulUpdateResponse("Phone number updated successfully");
     }
 
     @Override
-    public void deleteClient(UUID id) {
+    public DeleteMessageResponse deleteClient(UUID id) {
 
         if (!clientRepo.existsById(id)) {
             throw new DataNotFoundException("DeleteClient: Client ID not found in the database");
         }
         clientRepo.deleteById(id);
+
+        return new DeleteMessageResponse("Client deleted successfully");
     }
 }

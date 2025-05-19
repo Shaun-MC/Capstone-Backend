@@ -1,8 +1,11 @@
 package com.windowbutlers.backend.service.implementation;
 
-import com.windowbutlers.backend.dto.ClientHomeAssociationRequest;
-import com.windowbutlers.backend.dto.RelationshipUpdateRequest;
+import com.windowbutlers.backend.dto.requests.ClientHomeAssociationRequest;
+import com.windowbutlers.backend.dto.requests.RelationshipUpdateRequest;
 import com.windowbutlers.backend.dto.ClientHomeAssociationDTO;
+import com.windowbutlers.backend.dto.responses.AssociationResponse;
+import com.windowbutlers.backend.dto.responses.DeleteMessageResponse;
+import com.windowbutlers.backend.dto.responses.SuccessfulUpdateResponse;
 import com.windowbutlers.backend.entity.ClientHomeAssociation;
 import com.windowbutlers.backend.entity.Clients;
 import com.windowbutlers.backend.entity.Homes;
@@ -34,7 +37,7 @@ public class ClientHomeAssociationServiceImpl implements ClientHomeAssociationSe
 
     @Override
     // This sucks
-    public String createAssociation(ClientHomeAssociationRequest req) {
+    public AssociationResponse createAssociation(ClientHomeAssociationRequest req) {
         
         UUID clientUUID = UUID.fromString(req.getClientID());
         UUID homeUUID = UUID.fromString(req.getHomeID());
@@ -58,7 +61,7 @@ public class ClientHomeAssociationServiceImpl implements ClientHomeAssociationSe
 
         chaRepo.save(clientHomeAssociation);
 
-        return clientHomeAssociation.getId().toString();
+        return new AssociationResponse("Association created successfully");
     }
 
     @Override
@@ -95,9 +98,9 @@ public class ClientHomeAssociationServiceImpl implements ClientHomeAssociationSe
     }
 
     @Override
-    public String getAssociation(UUID clientID, UUID homeID) {
+    public AssociationResponse getAssociation(UUID clientID, UUID homeID) {
         
-        return chaRepo.findByClientIDAndHomeID(clientID, homeID);
+        return new AssociationResponse(chaRepo.findByClientIDAndHomeID(clientID, homeID));
     }
 
     @Override
@@ -107,7 +110,7 @@ public class ClientHomeAssociationServiceImpl implements ClientHomeAssociationSe
     }
 
     @Override
-    public String updateAssociation(UUID clientID, UUID homeID, RelationshipUpdateRequest req) {
+    public SuccessfulUpdateResponse updateAssociation(UUID clientID, UUID homeID, RelationshipUpdateRequest req) {
         
         ClientHomeAssociation clientHomeAssociation = chaRepo.findById(new ClientHomeKey(clientID, homeID))
                 .orElseThrow(() -> new DataNotFoundException("UpdateAssociation: Association not found in the database"));
@@ -115,16 +118,18 @@ public class ClientHomeAssociationServiceImpl implements ClientHomeAssociationSe
         clientHomeAssociation.setRelationship(RelationshipsToHome.fromString(req.getRelationship()));
         chaRepo.save(clientHomeAssociation);
 
-        return req.getRelationship();
+        return new SuccessfulUpdateResponse("association");
     }
 
     @Override
-    public void deleteAssociation(UUID clientID, UUID homeID) {
+    public DeleteMessageResponse deleteAssociation(UUID clientID, UUID homeID) {
         
         if (!chaRepo.existsById(new ClientHomeKey(clientID, homeID))) {
             throw new DataNotFoundException("DeleteAssociation: Association not found in the database");
         }
         chaRepo.deleteById(new ClientHomeKey(clientID, homeID));
+
+        return new DeleteMessageResponse("ClientHomeAssociation");
     }
 }
 

@@ -3,9 +3,13 @@ package com.windowbutlers.backend.controller;
 import com.windowbutlers.backend.entity.Payments;
 import com.windowbutlers.backend.service.PaymentService;
 import com.windowbutlers.backend.validation.ValidUUID;
-import com.windowbutlers.backend.dto.PaymentRequest;
-import com.windowbutlers.backend.dto.CostUpdateRequest;
-import com.windowbutlers.backend.dto.PaymentFullfilledResponse;
+import com.windowbutlers.backend.dto.requests.CostUpdateRequest;
+import com.windowbutlers.backend.dto.requests.PaymentRequest;
+import com.windowbutlers.backend.dto.responses.DeleteMessageResponse;
+import com.windowbutlers.backend.dto.responses.IDResponse;
+import com.windowbutlers.backend.dto.responses.PaymentFullfilledResponse;
+import com.windowbutlers.backend.dto.responses.SuccessfulUpdateResponse;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -27,8 +31,8 @@ public class PaymentController {
     @PostMapping("/create")
     public ResponseEntity<?> createPayment(@RequestBody @Valid PaymentRequest payment) {
 
-        String ID = paymentService.createPayment(payment);
-        return ResponseEntity.status(HttpStatus.CREATED).body(String.format("Successfully created a new payment (%s)", ID));
+        IDResponse response = paymentService.createPayment(payment);
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     // Passes Happy Path testing: 5/11/25
@@ -67,15 +71,15 @@ public class PaymentController {
     @PutMapping("update/cost/{id}")
     public ResponseEntity<?> updatePaymentAmount(@PathVariable @ValidUUID String id, @RequestBody @Valid CostUpdateRequest req) {
 
-        Double newCost = paymentService.updateCost(UUID.fromString(id), req);
-        return ResponseEntity.status(HttpStatus.OK).body(String.format("Updated Payment Amount for %s to %s", id, newCost));
+        SuccessfulUpdateResponse response = paymentService.updateCost(UUID.fromString(id), req);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
     // Passes Happy Path testing: 5/11/25
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<String> deletePayment(@PathVariable @ValidUUID String id) {
+    public ResponseEntity<?> deletePayment(@PathVariable @ValidUUID String id) {
 
-        paymentService.deletePayment(UUID.fromString(id));
-        return ResponseEntity.status(HttpStatus.OK).body(String.format("Deleted Payment with ID: %s", id));
+        DeleteMessageResponse response = paymentService.deletePayment(UUID.fromString(id));
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 }

@@ -4,12 +4,15 @@ import com.windowbutlers.backend.entity.Payments;
 import com.windowbutlers.backend.exceptions.DataNotFoundException;
 import com.windowbutlers.backend.service.PaymentService;
 import com.windowbutlers.backend.repository.PaymentRepo;
-import com.windowbutlers.backend.dto.PaymentRequest;
-import com.windowbutlers.backend.dto.CostUpdateRequest;
 import com.windowbutlers.backend.entity.Clients;
 import com.windowbutlers.backend.repository.ClientRepo;
-import com.windowbutlers.backend.dto.PaymentFullfilledResponse;
-import com.windowbutlers.backend.dto.PaymentFullfilledResponse.JobSummary;
+import com.windowbutlers.backend.dto.requests.CostUpdateRequest;
+import com.windowbutlers.backend.dto.requests.PaymentRequest;
+import com.windowbutlers.backend.dto.responses.DeleteMessageResponse;
+import com.windowbutlers.backend.dto.responses.IDResponse;
+import com.windowbutlers.backend.dto.responses.PaymentFullfilledResponse;
+import com.windowbutlers.backend.dto.responses.SuccessfulUpdateResponse;
+import com.windowbutlers.backend.dto.responses.PaymentFullfilledResponse.JobSummary;
 import com.windowbutlers.backend.entity.Jobs;
 import org.springframework.stereotype.Component;
 import java.util.List;
@@ -28,7 +31,7 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
-    public String createPayment(PaymentRequest request) {
+    public IDResponse createPayment(PaymentRequest request) {
 
         UUID clientID = UUID.fromString(request.getClientID());
         
@@ -40,7 +43,7 @@ public class PaymentServiceImpl implements PaymentService {
 
         paymentRepo.save(payment);
 
-        return payment.getId().toString();
+        return new IDResponse(payment.getId());
     }
 
     @Override
@@ -96,7 +99,7 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
-    public Double updateCost(UUID id, CostUpdateRequest req) {
+    public SuccessfulUpdateResponse updateCost(UUID id, CostUpdateRequest req) {
 
         Double newCost = req.getCost();
 
@@ -104,15 +107,18 @@ public class PaymentServiceImpl implements PaymentService {
         existingPayment.setCost(newCost);
         paymentRepo.save(existingPayment);
 
-        return existingPayment.getCost();
+        return new SuccessfulUpdateResponse("cost");
     }
 
     @Override
-    public void deletePayment(UUID id) {
+    public DeleteMessageResponse deletePayment(UUID id) {
 
         if (!paymentRepo.existsById(id)) {
             throw new DataNotFoundException("DeletePayment: Payment not found in the database");
         }
+        
         paymentRepo.deleteById(id);
+
+        return new DeleteMessageResponse("Payment");
     }
 }

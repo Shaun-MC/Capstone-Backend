@@ -1,11 +1,15 @@
 package com.windowbutlers.backend.service;
 
 import com.windowbutlers.backend.entity.Jobs;
-import com.windowbutlers.backend.dto.JobRequest;
-import com.windowbutlers.backend.dto.NotesUpdateRequest;
-import com.windowbutlers.backend.dto.LaborHoursUpdateRequest;
-import com.windowbutlers.backend.dto.BooleanUpdateRequest;
-import com.windowbutlers.backend.dto.DifficultyUpdateRequest;
+import com.windowbutlers.backend.dto.requests.BooleanUpdateRequest;
+import com.windowbutlers.backend.dto.requests.DifficultyUpdateRequest;
+import com.windowbutlers.backend.dto.requests.JobRequest;
+import com.windowbutlers.backend.dto.requests.LaborHoursUpdateRequest;
+import com.windowbutlers.backend.dto.requests.NotesUpdateRequest;
+import com.windowbutlers.backend.dto.responses.DeleteMessageResponse;
+import com.windowbutlers.backend.dto.responses.IDResponse;
+import com.windowbutlers.backend.dto.responses.SuccessfulUpdateResponse;
+
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.UUID;
@@ -13,21 +17,21 @@ import java.util.UUID;
 @Service
 public interface JobService {
     
-    String createJob(JobRequest job);
+    IDResponse createJob(JobRequest job);
     
     Jobs getJob(UUID id);
 
     List<Jobs> getAllJobs();
 
-    Integer updateLaborHours(UUID id, LaborHoursUpdateRequest req);
+    SuccessfulUpdateResponse updateLaborHours(UUID id, LaborHoursUpdateRequest req);
     
-    String updateJobNotes(UUID id, NotesUpdateRequest req);
+    SuccessfulUpdateResponse updateJobNotes(UUID id, NotesUpdateRequest req);
     
-    String updateJobDifficulty(UUID id, DifficultyUpdateRequest req);
+    SuccessfulUpdateResponse updateJobDifficulty(UUID id, DifficultyUpdateRequest req);
 
-    boolean updateIsPaid(UUID id, BooleanUpdateRequest req);
+    SuccessfulUpdateResponse updateIsPaid(UUID id, BooleanUpdateRequest req);
 
     void addJobToPayment(UUID jobID, UUID paymentID);
 
-    void deleteJob(UUID id);
+    DeleteMessageResponse deleteJob(UUID id);
 }

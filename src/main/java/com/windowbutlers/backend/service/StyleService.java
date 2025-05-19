@@ -1,23 +1,27 @@
 package com.windowbutlers.backend.service;
 
 import com.windowbutlers.backend.entity.Styles;
+import com.windowbutlers.backend.dto.requests.CountsUpdateRequest;
+import com.windowbutlers.backend.dto.requests.StyleRequest;
+import com.windowbutlers.backend.dto.responses.DeleteMessageResponse;
+import com.windowbutlers.backend.dto.responses.IDResponse;
+import com.windowbutlers.backend.dto.responses.SuccessfulUpdateResponse;
 import org.springframework.stereotype.Service;
-import com.windowbutlers.backend.dto.CountsUpdateRequest;
-import com.windowbutlers.backend.dto.StyleRequest;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public interface StyleService {
     
-    Integer createStyle(StyleRequest style);
+    IDResponse createStyle(StyleRequest style);
 
-    Styles getStyle(Integer ID);
+    Styles getStyle(UUID ID);
 
-    String getStyleLabel(Integer ID);
+    String getStyleLabel(UUID ID);
 
     List<Styles> getAllStyles();
 
-    List<Integer> updateCounts(Integer ID, CountsUpdateRequest req);
+    SuccessfulUpdateResponse updateCounts(UUID ID, CountsUpdateRequest req);
 
-    void deleteStyle(Integer ID);
+    DeleteMessageResponse deleteStyle(UUID ID);
 }

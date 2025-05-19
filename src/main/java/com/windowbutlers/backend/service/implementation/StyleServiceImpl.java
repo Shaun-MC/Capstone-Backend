@@ -6,8 +6,11 @@ import com.windowbutlers.backend.exceptions.DataNotFoundException;
 import com.windowbutlers.backend.exceptions.InvalidRequestException;
 import com.windowbutlers.backend.service.StyleService;
 import com.windowbutlers.backend.repository.StyleRepo;
-import com.windowbutlers.backend.dto.CountsUpdateRequest;
-import com.windowbutlers.backend.dto.StyleRequest;
+import com.windowbutlers.backend.dto.requests.CountsUpdateRequest;
+import com.windowbutlers.backend.dto.requests.StyleRequest;
+import com.windowbutlers.backend.dto.responses.DeleteMessageResponse;
+import com.windowbutlers.backend.dto.responses.IDResponse;
+import com.windowbutlers.backend.dto.responses.SuccessfulUpdateResponse;
 import com.windowbutlers.backend.entity.Jobs;
 import com.windowbutlers.backend.repository.JobRepo;
 import org.springframework.stereotype.Component;
@@ -25,7 +28,7 @@ public class StyleServiceImpl implements StyleService {
         this.jobs = job;
     }
 
-    public Integer createStyle(StyleRequest req) {
+    public IDResponse createStyle(StyleRequest req) {
 
         Styles style = new Styles();
         Jobs job = jobs.findById(UUID.fromString(req.getJobID())).orElseThrow(() -> new DataNotFoundException("Job not found"));
@@ -36,15 +39,15 @@ public class StyleServiceImpl implements StyleService {
         style.setSmall(req.getSmall());
         
         styleRepo.save(style);
-        return style.getId();
+        return new IDResponse(style.getId());
     }
 
-    public Styles getStyle(Integer ID) {
+    public Styles getStyle(UUID ID) {
         
         return styleRepo.findById(ID).orElseThrow(() -> new DataNotFoundException("GetJobStyle: Job style ID not found in the database"));
     }
 
-    public String getStyleLabel(Integer ID) {
+    public String getStyleLabel(UUID ID) {
         
         return styleRepo.findById(ID).orElseThrow(() -> new DataNotFoundException("GetJobStyleLabel: Job style ID not found in the database")).getLabel().toString();
     }
@@ -54,7 +57,7 @@ public class StyleServiceImpl implements StyleService {
         return styleRepo.findAll();
     }
 
-    public List<Integer> updateCounts(Integer ID, CountsUpdateRequest req) {
+    public SuccessfulUpdateResponse updateCounts(UUID ID, CountsUpdateRequest req) {
         
         Styles existingJobStyle = styleRepo.findById(ID).orElseThrow(() -> new DataNotFoundException("UpdateLargeCount: Job style not found in the database"));
         
@@ -70,14 +73,16 @@ public class StyleServiceImpl implements StyleService {
 
         styleRepo.save(existingJobStyle);
 
-        return List.of(large, small);
+        return new SuccessfulUpdateResponse("large and small count");
     }
 
-    public void deleteStyle(Integer id) {
+    public DeleteMessageResponse deleteStyle(UUID id) {
 
         if (!styleRepo.existsById(id)) {
             throw new DataNotFoundException("DeleteStyle: Style ID not found in the database");
         }
         styleRepo.deleteById(id);
+
+        return new DeleteMessageResponse("Style");
     }
 }

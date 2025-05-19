@@ -1,12 +1,12 @@
 package com.windowbutlers.backend.service.implementation;
 
-import com.windowbutlers.backend.dto.BooleanResponce;
-import com.windowbutlers.backend.dto.BooleanUpdateRequest;
-import com.windowbutlers.backend.dto.ChristmasLightsRequest;
-import com.windowbutlers.backend.dto.DeleteMessageResponce;
-import com.windowbutlers.backend.dto.StorageLocationUpdateRequest;
-import com.windowbutlers.backend.dto.IDResponce;
-import com.windowbutlers.backend.dto.LocationResponce;
+import com.windowbutlers.backend.dto.requests.BooleanUpdateRequest;
+import com.windowbutlers.backend.dto.requests.ChristmasLightsRequest;
+import com.windowbutlers.backend.dto.requests.StorageLocationUpdateRequest;
+import com.windowbutlers.backend.dto.responses.DeleteMessageResponse;
+import com.windowbutlers.backend.dto.responses.IDResponse;
+import com.windowbutlers.backend.dto.responses.LocationResponse;
+import com.windowbutlers.backend.dto.responses.SuccessfulUpdateResponse;
 import com.windowbutlers.backend.entity.ChristmasLights;
 import com.windowbutlers.backend.service.ChristmasLightsService;
 import com.windowbutlers.backend.repository.ChristmasLightsRepo;
@@ -25,7 +25,7 @@ public class ChristmasLightsServiceImpl implements ChristmasLightsService {
         this.clRepo = clRepo;
     }
 
-    public IDResponce createChristmasLights(ChristmasLightsRequest request) {
+    public IDResponse createChristmasLights(ChristmasLightsRequest request) {
         
         ChristmasLights cl = new ChristmasLights();
 
@@ -35,12 +35,12 @@ public class ChristmasLightsServiceImpl implements ChristmasLightsService {
 
         clRepo.save(cl);
 
-        return new IDResponce(cl.getId()); 
+        return new IDResponse(cl.getId()); 
     }
 
-    public LocationResponce getChristmasLightsStorageLocation(UUID id) {
+    public LocationResponse getChristmasLightsStorageLocation(UUID id) {
         
-        return new LocationResponce(id, clRepo.findById(id).orElseThrow(() -> new DataNotFoundException("GetChristmasLightingStorageLocation: Christmas lighting ID not found in the database")).getStorageLocation());
+        return new LocationResponse(id, clRepo.findById(id).orElseThrow(() -> new DataNotFoundException("GetChristmasLightingStorageLocation: Christmas lighting ID not found in the database")).getStorageLocation());
     }
 
     public List<ChristmasLights> getAllChristmasLightsByHomeID(UUID homeID) {
@@ -58,7 +58,7 @@ public class ChristmasLightsServiceImpl implements ChristmasLightsService {
         return clRepo.findByInUse();
     }
 
-    public LocationResponce updateStorageLocation(UUID id, StorageLocationUpdateRequest req) {
+    public SuccessfulUpdateResponse updateStorageLocation(UUID id, StorageLocationUpdateRequest req) {
         
         ChristmasLights cl = clRepo.findById(id).orElseThrow(() -> new DataNotFoundException("UpdateStorageLocation: Christmas lighting ID not found in the database"));
         String storageLocation = req.getStorageLocation();
@@ -66,10 +66,10 @@ public class ChristmasLightsServiceImpl implements ChristmasLightsService {
         cl.setStorageLocation(storageLocation);
         clRepo.save(cl);
 
-        return new LocationResponce(id, cl.getStorageLocation());
+        return new SuccessfulUpdateResponse("storageLocation");
     }
 
-    public BooleanResponce updateInUse(UUID id, BooleanUpdateRequest req) {
+    public SuccessfulUpdateResponse updateInUse(UUID id, BooleanUpdateRequest req) {
         
         Boolean inUse = req.getValue();
         ChristmasLights cl = clRepo.findById(id).orElseThrow(() -> new DataNotFoundException("UpdateInUse: Christmas lighting ID not found in the database"));
@@ -77,16 +77,16 @@ public class ChristmasLightsServiceImpl implements ChristmasLightsService {
         cl.setInUse(inUse);
         clRepo.save(cl);
 
-        return new BooleanResponce(id, cl.getInUse());
+        return new SuccessfulUpdateResponse("inUse");
     }
 
-    public DeleteMessageResponce deleteChristmasLights(UUID id) {
+    public DeleteMessageResponse deleteChristmasLights(UUID id) {
 
         if (!clRepo.existsById(id)) {
             throw new DataNotFoundException("DeleteChristmasLights: Christmas lighting ID not found in the database");
         }
         clRepo.deleteById(id);
         
-        return new DeleteMessageResponce("Christmas Lights");
+        return new DeleteMessageResponse("Christmas Lights");
     }
 }
