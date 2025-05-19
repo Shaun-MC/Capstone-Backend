@@ -1,6 +1,6 @@
-import React, {useState} from 'react'
+import React, { useState } from 'react'
 import { Navigate } from 'react-router-dom'
-import { doSignInWithEmailAndPassword, doSignInWithGoogle} from '../../../firebase/auth'
+import { doSendEmailVerification, doSignInWithEmailAndPassword, doSignInWithGoogle} from '../../../firebase/auth'
 import { useAuth } from '../../../contexts/authContext'
 
 import LoginForm from './LoginForm'
@@ -9,13 +9,15 @@ import GoogleSignInButton from './GoogleSignInButton'
 const Login = () => {
 
     const {userLoggedIn} = useAuth()
-
-    //const [email, setEmail] = useState('')
-    //const [password, setPassword] = useState('')
+    // TODO: double check assumptions
+    //const [email, setEmail] = useState('') - Assuming their set somewhere else in the code
+    //const [password, setPassword] = useState('') - Assuming their set somewhere else in the code
     const [isSigningIn, setIsSigningIn] = useState(false)
     const [errorMessage, setErrorMessage] = useState('')
 
     const handleEmailSignIn = async (e) => {
+
+        e.preventDefault()
 
         if (!isSigningIn) {
             
@@ -25,16 +27,21 @@ const Login = () => {
                 setErrorMessage(err.message)
                 setIsSigningIn(false)
             })
+
+            doSendEmailVerification()
         }
-    };
+    }
 
     const handleGoogleSignIn = async (e) => {
 
+        e.preventDefault()
+
         if (!isSigningIn) {
+            
             setIsSigningIn(true)
 
             await doSignInWithGoogle().catch(err => {
-                // setErrorMessage(err.message)
+                setErrorMessage(err.message)
                 setIsSigningIn(false)
             })
         }

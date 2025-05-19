@@ -1,7 +1,6 @@
 import React, { useContext, useState, useEffect} from "react";
-import { auth } from "../../firebase/firebase"
-import { GoogleAuthProvider } from "firebase/auth"
-import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "../../firebase/firebase";
+import { onAuthStateChanged, GoogleAuthProvider, OAuthProvider } from "firebase/auth";
 
 const AuthContext = React.createContext();
 
@@ -12,9 +11,10 @@ export function useAuth() {
 export function AuthProvider ({ children }) {
     const [currentUser, setCurrentUser] = useState(null);
     const [userLoggedIn, setUserLoggedIn] = useState(false);
+    const [loading, setLoading] = useState(true);
     const [isEmailUser, setIsEmailUser] = useState(false);
     const [isGoogleUser, setIsGoogleUser] = useState(false);
-    const [loading, setLoading] = useState(true);
+    const [isMicrosoftUser, setIsMicrosoftUser] = useState(false);
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, initializeUser);
@@ -23,9 +23,10 @@ export function AuthProvider ({ children }) {
 
     async function initializeUser(user) {
         if (user) {
-            setCurrentUser({...user});
             
-            // Why provider.providerId === "password"
+            setCurrentUser({ ...user });
+            
+            // Not very good code structure but fine for now
             const isEmail = user.providerData.some(
                 (provider) => provider.providerId === "password"
             );
@@ -35,6 +36,11 @@ export function AuthProvider ({ children }) {
                 (provider) => provider.providerId === GoogleAuthProvider.PROVIDER_ID
             );
             setIsGoogleUser(isGoogle);
+
+            const isMicrosoft = isSecureContext.providerData.some(
+                (provider) => provider.providerId === OAuthProvider.PROVIDER_ID
+            );
+            setIsMicrosoftUser(isMicrosoft);
 
             setUserLoggedIn(true);
 
@@ -46,12 +52,13 @@ export function AuthProvider ({ children }) {
         setLoading(false);
     }
     
-    // Why setCurrentUser
     const value = {  
+        currentUser,
         userLoggedIn,
+        loading,
         isEmailUser,
         isGoogleUser,
-        currentUser,
+        isMicrosoftUser,
         setCurrentUser
     };
 
