@@ -1,4 +1,4 @@
-package com.windowbutlers.backend.dto;
+package com.windowbutlers.backend.dto.requests;
 
 import com.windowbutlers.backend.enums.LightColors;
 import com.windowbutlers.backend.validation.ValidEnum;

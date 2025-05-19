@@ -1,4 +1,4 @@
-package com.windowbutlers.backend.dto;
+package com.windowbutlers.backend.dto.requests;
 
 import jakarta.validation.constraints.Size;
 import lombok.Data;

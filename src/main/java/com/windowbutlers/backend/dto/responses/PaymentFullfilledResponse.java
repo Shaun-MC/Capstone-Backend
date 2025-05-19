@@ -1,4 +1,4 @@
-package com.windowbutlers.backend.dto;
+package com.windowbutlers.backend.dto.responses;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -12,6 +12,7 @@ import java.util.List;
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class PaymentFullfilledResponse {
+    
     @JsonProperty("isFullfilled")
     private boolean isFullfilled;
 

@@ -1,4 +1,4 @@
-package com.windowbutlers.backend.dto;
+package com.windowbutlers.backend.dto.requests;
 
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotNull;

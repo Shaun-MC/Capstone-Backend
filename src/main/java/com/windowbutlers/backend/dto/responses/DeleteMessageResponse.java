@@ -1,13 +1,13 @@
-package com.windowbutlers.backend.dto;
+package com.windowbutlers.backend.dto.responses;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class DeleteMessageResponce {
+public class DeleteMessageResponse {
     
     @JsonProperty("message")
     private String message;
 
-    public DeleteMessageResponce(String className) {
+    public DeleteMessageResponse(String className) {
         this.message = String.format("%s object deleted successfully", className);
     }
 }

@@ -1,4 +1,4 @@
-package com.windowbutlers.backend.dto;
+package com.windowbutlers.backend.dto.requests;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.windowbutlers.backend.validation.ValidDate;
