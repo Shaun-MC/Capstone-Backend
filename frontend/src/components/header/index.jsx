@@ -1,17 +1,15 @@
-import Logo from '../Logo.jsx'
+import React from 'react'
+import { useNavigate } from 'react-router-dom'
+import { useAuth } from '../../contexts/authContext'
 
 const Header = () => {
-
+    
     return (
-        <header className = "relative w-full h-64 bg-gray-300">
-            <Logo className = "w-full h-full object-cover" />
-        
-            <div className = "text-textBlue">
-                <h1 className = "text-3xl sm:text-4xl font-bold"> WINDOW BUTLERS</h1>
-                <p className = "text-lg sm:text-xl italic"> More than window cleaning</p>
-            </div>
-        </header>
-    );
+        <div className='flex flex-row gap-x-2 w-full z-20 fixed top-0 left-0 h-14 border-b place-content-center items-center bg-gray-200'>
+            <div className='text-sm text-blue-600 bold' to={'/login'}>Window Butlers</div>
+            <div className='text-sm text-blue-600 italics' to={'/register'}>More Then Window Cleaning</div>
+        </div>
+    )
 }
 
-export default Header;
+export default Header
